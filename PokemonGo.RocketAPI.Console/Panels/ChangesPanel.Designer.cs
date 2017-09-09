@@ -101,6 +101,7 @@ namespace PokeMaster
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.CheckBox checkBox_UseItemAtEvolve;
         
         /// <summary>
         /// Disposes resources used by the control.
@@ -210,6 +211,7 @@ namespace PokeMaster
             this.buttonSelectLocationFile = new System.Windows.Forms.Button();
             this.textBoxSaveLocationsFile = new System.Windows.Forms.TextBox();
             this.CheckBox_SaveLocations = new System.Windows.Forms.CheckBox();
+            this.checkBox_UseItemAtEvolve = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTravelSpeed)).BeginInit();
             this.groupBox10.SuspendLayout();
@@ -382,6 +384,7 @@ namespace PokeMaster
             // 
             // groupBox10
             // 
+            this.groupBox10.Controls.Add(this.checkBox_UseItemAtEvolve);
             this.groupBox10.Controls.Add(this.checkBox_AutoTransferDoublePokemon);
             this.groupBox10.Controls.Add(this.checkBox_CollectDailyBonus);
             this.groupBox10.Controls.Add(this.label3);
@@ -1337,6 +1340,18 @@ namespace PokeMaster
             this.CheckBox_SaveLocations.Text = "Save Pokemons Location";
             this.CheckBox_SaveLocations.UseVisualStyleBackColor = true;
             this.CheckBox_SaveLocations.CheckedChanged += new System.EventHandler(this.CheckBoxes_CheckedChanged);
+            // 
+            // checkBox_UseItemAtEvolve
+            // 
+            this.checkBox_UseItemAtEvolve.Checked = true;
+            this.checkBox_UseItemAtEvolve.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_UseItemAtEvolve.Location = new System.Drawing.Point(16, 317);
+            this.checkBox_UseItemAtEvolve.Name = "checkBox_UseItemAtEvolve";
+            this.checkBox_UseItemAtEvolve.Size = new System.Drawing.Size(238, 17);
+            this.checkBox_UseItemAtEvolve.TabIndex = 60;
+            this.checkBox_UseItemAtEvolve.Text = "Try to use Item at evolve";
+            this.checkBox_UseItemAtEvolve.UseVisualStyleBackColor = true;
+            this.checkBox_UseItemAtEvolve.CheckedChanged += new System.EventHandler(this.CheckBoxes_CheckedChanged);
             // 
             // ChangesPanel
             // 

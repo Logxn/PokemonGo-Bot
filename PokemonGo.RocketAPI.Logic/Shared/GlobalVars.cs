@@ -212,6 +212,8 @@ namespace PokeMaster.Logic.Shared
         public static string DiscordUser ;
         public static string DiscordPassword;
         public static ulong DiscordServerID;
+        
+        public static bool UseItemAtEvolve = true;
 
 
         /// <summary>

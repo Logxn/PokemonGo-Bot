@@ -288,6 +288,7 @@ namespace PokeMaster
             checkBox_CollectDailyBonus.Checked = config.CollectDailyBonus;
             checkBox_ShowStats.Checked = config.ShowStats;
             checkBox_UseNanabBerry.Checked = config.UseNanabBerry;
+            checkBox_UseItemAtEvolve.Checked = config.UseItemAtEvolve;
             #endregion
 
             #region Tab 2 - Pokemons
@@ -746,6 +747,7 @@ namespace PokeMaster
             ActiveProfile.Settings.UseLuckyEggIfNotRunning = checkBox_UseLuckyEggIfNotRunning.Checked;
             ActiveProfile.Settings.CollectDailyBonus = checkBox_CollectDailyBonus.Checked;
             ActiveProfile.Settings.ShowStats = checkBox_ShowStats.Checked;
+            ActiveProfile.Settings.UseItemAtEvolve= checkBox_UseItemAtEvolve.Checked;
 
             // tab 2 - pokemons
             ActiveProfile.Settings.pokemonsToHold.Clear();

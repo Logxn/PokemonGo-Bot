@@ -192,6 +192,7 @@ namespace PokeMaster.Logic.Shared
         public bool CompleteTutorial { get; set; }
         public bool SaveLocations { get; set; }
         public string SaveLocationsFile { get; set; }
+        public bool UseItemAtEvolve { get; set; }
         #endregion
 
         #region 3rd Party

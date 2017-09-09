@@ -448,12 +448,13 @@ namespace PokeMaster
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Taking a break to evolve some pokemons!");
                 GlobalVars.PauseTheWalking = true;
             }
-            
+            var useItemAtEvolve = MessageBox.Show(th.TS("Do you want try to use Evolving Item?"), th.TS("Evolving Item Confirmation"), MessageBoxButtons.YesNo) == DialogResult.Yes;
+
             var evolveDialog = new EvolvingDialog();
             foreach (ListViewItem selectedItem in selectedItems)
             {
                 var pokemoninfo = (PokemonData)selectedItem.Tag;
-                var item = Inventory.GeteNeededItemToEvolve(pokemoninfo.PokemonId);
+                var item = useItemAtEvolve?Inventory.GeteNeededItemToEvolve(pokemoninfo.PokemonId):ItemId.ItemUnknown;
 
                 if (item != ItemId.ItemUnknown  && client.Inventory.GetItemAmountByType(item) < 1){
                     if ( pokemoninfo.PokemonId == PokemonId.Poliwhirl
@@ -975,7 +976,7 @@ namespace PokeMaster
 
             var strEvolves = "";
             var separator = "";
-            var item = Inventory.GeteNeededItemToEvolve(pokemon.PokemonId);
+            var item = GlobalVars.UseItemAtEvolve?Inventory.GeteNeededItemToEvolve(pokemon.PokemonId):ItemId.ItemUnknown;
             var amountItems =  -1 ;
             if (item != ItemId.ItemUnknown ){
                 var itemData = client.Inventory.GetItemData(item);

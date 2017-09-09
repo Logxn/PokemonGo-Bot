@@ -195,8 +195,8 @@ namespace PokeMaster.Logic.Functions
             foreach (var pokemon in pokemonToEvolve)
             {
 
-                var item = Inventory.GeteNeededItemToEvolve(pokemon.PokemonId);
-                if (item != ItemId.ItemUnknown && Logic.objClient.Inventory.GetItemAmountByType(item) < 1){
+                var item = GlobalVars.UseItemAtEvolve?Inventory.GeteNeededItemToEvolve(pokemon.PokemonId):ItemId.ItemUnknown;
+                if ( item != ItemId.ItemUnknown && Logic.objClient.Inventory.GetItemAmountByType(item) < 1){
                     if ( pokemon.PokemonId == PokemonId.Poliwhirl
                         || pokemon.PokemonId == PokemonId.Gloom
                         || pokemon.PokemonId == PokemonId.Slowpoke
