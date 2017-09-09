@@ -30,6 +30,7 @@ namespace PokemonGo.RocketAPI.Helpers
         private int _token2 = TRandomDevice.Next(1, 59);
         public byte[] sessionhash_array = null;
         public bool setupdevicedone = false;
+        private static readonly Uk27IdGenerator Uk27Random = new Uk27IdGenerator();
 
         private RandomRequestID _requestBuilderID = new RandomRequestID();
         
@@ -65,7 +66,10 @@ namespace PokemonGo.RocketAPI.Helpers
             return ByteString.CopyFrom(hashBytes);
         }
 
-
+        public int GetNextUk27()
+        {
+            return Uk27Random.Next();
+        }
 
         //private RequestEnvelope.Types.PlatformRequest GenerateSignature(IEnumerable<IMessage> requests)
         /// <summary>
@@ -109,7 +113,7 @@ namespace PokemonGo.RocketAPI.Helpers
                         RotationRateZ = GenRandom(0.94571763277053833),
                         AttitudePitch = GenRandom(-47.149471283, 61.8397789001),
                         AttitudeYaw = GenRandom(-47.149471283, 61.8397789001),
-                        AttitudeRoll = GenRandom(-47.149471283, 5),                        
+                        AttitudeRoll = GenRandom(-47.149471283, 5),
                         GravityZ = GenRandom(9.8),
                         GravityX = GenRandom(0.02),
                         GravityY = GenRandom(0.3),
@@ -123,7 +127,7 @@ namespace PokemonGo.RocketAPI.Helpers
                 DeviceInfo = _DeviceInfo,// dInfo,
                 LocationFix = { locationFixes },
                 ActivityStatus = at,
-                Unknown27 = (int) GenRandom(1000,60000)
+                Unknown27 = GetNextUk27()
             };
             #endregion
 
