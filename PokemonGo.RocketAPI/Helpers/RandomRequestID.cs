@@ -71,4 +71,22 @@ namespace PokemonGo.RocketAPI.Helpers
             return NextSinceAPI0691();
         }
     }
+
+    public class Uk27IdGenerator
+    {
+        private static int min = 1000;
+        private static int max = 60000;
+        private static readonly Random _random = new Random();
+
+        public void Init(int _min, int _max)
+        {
+            min = _min;
+            max = _max;
+        }
+
+        public int Next()
+        {
+            return _random.Next(min, max);
+        }
+    }
 }
