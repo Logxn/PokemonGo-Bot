@@ -445,12 +445,18 @@ namespace PokeMaster
             {
                 BreakGridView.Visible = true;
                 BreakGridView.Enabled = true;
+
+                BindingSource BreakSettingsBindingSource = new BindingSource();
+
+                BreakSettingsBindingSource.DataSource = config.Breaks;
+                BreakGridView.DataSource = BreakSettingsBindingSource;
+                BreakSettingsBindingSource.Sort = "BreakSequenceId";
+                BreakGridView.Columns["BreakSequenceId"].HeaderText = "ID";
+                BreakGridView.Columns["BreakWalkTime"].HeaderText = "Walking Time";
+                BreakGridView.Columns["BreakIdleTime"].HeaderText = "Idle Time";
+                BreakGridView.Columns["BreakEnabled"].HeaderText = "Enabled";
             }
             if (config.Breaks == null) config.Breaks = new List<BreakSettings>();
-
-            var BreakSettingsBindingSource = new BindingSource();
-            BreakSettingsBindingSource.DataSource = config.Breaks;
-            BreakGridView.DataSource = BreakSettingsBindingSource;
             #endregion
 
             #region Tab 7 - Telegram and Logs
@@ -858,7 +864,12 @@ namespace PokeMaster
 
             // tab 6 - Walk
             ret &= textBoxToActiveProfDouble(text_Speed, "WalkingSpeedInKilometerPerHour");
-            
+            if (text_Speed.Text != String.Empty)
+            {
+                toolTip1.SetToolTip(text_Speed, Convert.ToDouble(text_Speed.Text) * 1000 / 3600 + " m/s");
+                ActiveProfile.Settings.WalkingSpeedInKilometerPerHour = double.Parse(text_Speed.Text);
+            }
+
             if ((makePrompts) && (ActiveProfile.Settings.WalkingSpeedInKilometerPerHour > 15)) {
                 var speed = ActiveProfile.Settings.WalkingSpeedInKilometerPerHour;
                 var message = th.TS("The risk of being banned is significantly greater when using higher than human jogging speeds (e.g. > 15km/hr) Click 'No' to use ~10km/hr instead");
@@ -868,9 +879,11 @@ namespace PokeMaster
                     ActiveProfile.Settings.WalkingSpeedInKilometerPerHour = double.Parse("9.5", cords, CultureInfo.InvariantCulture);
             }
 
-            var value = text_MinWalkSpeed.Text;
-            if (value != String.Empty)
-                ActiveProfile.Settings.MinWalkSpeed = int.Parse(value);
+            if (text_MinWalkSpeed.Text != String.Empty)
+            {
+                toolTip1.SetToolTip(text_MinWalkSpeed, Convert.ToDouble(text_MinWalkSpeed.Text) * 1000 / 3600 + " m/s");
+                ActiveProfile.Settings.MinWalkSpeed = double.Parse(text_MinWalkSpeed.Text);
+            }
 
             ret &= textBoxToActiveProfInt(text_MoveRadius, "MaxWalkingRadiusInMeters");
 
@@ -883,27 +896,22 @@ namespace PokeMaster
             ActiveProfile.Settings.RestartAfterRun = int.Parse(text_RestartAfterRun.Text);
 
 
-            value = text_PokemonCatchLimit.Text;
-            if (value != String.Empty)
-                ActiveProfile.Settings.PokemonCatchLimit = int.Parse(value);
+            if (text_PokemonCatchLimit.Text != String.Empty)
+                ActiveProfile.Settings.PokemonCatchLimit = int.Parse(text_PokemonCatchLimit.Text);
 
-            value = text_PokestopFarmLimit.Text;
-            if (value != String.Empty)
-                ActiveProfile.Settings.PokestopFarmLimit = int.Parse(value);
+            if (text_PokestopFarmLimit.Text != String.Empty)
+                ActiveProfile.Settings.PokestopFarmLimit = int.Parse(text_PokestopFarmLimit.Text);
 
-            value = text_XPFarmedLimit.Text;
-            if (value != String.Empty)
-                ActiveProfile.Settings.XPFarmedLimit = int.Parse(value);
+            if (text_XPFarmedLimit.Text != String.Empty)
+                ActiveProfile.Settings.XPFarmedLimit = int.Parse(text_XPFarmedLimit.Text);
 
             ActiveProfile.Settings.UseBreakFields = checkBox_UseBreakIntervalAndLength.Checked;
             
-            value = text_BreakInterval.Text;
-            if (value != String.Empty)
-                ActiveProfile.Settings.BreakInterval = int.Parse(value);
+            if (text_BreakInterval.Text != String.Empty)
+                ActiveProfile.Settings.BreakInterval = int.Parse(text_BreakInterval.Text);
 
-            value = text_BreakLength.Text;
-            if (value != String.Empty)
-                ActiveProfile.Settings.BreakLength = int.Parse(value);
+            if (text_BreakLength.Text != String.Empty)
+                ActiveProfile.Settings.BreakLength = int.Parse(text_BreakLength.Text);
             
             if (ActiveProfile.Settings.UseBreakFields){
                 if (ActiveProfile.Settings.BreakInterval <= 0){
@@ -1580,12 +1588,14 @@ namespace PokeMaster
 
         private void text_Speed_TextChanged(object sender, EventArgs e)
         {
-            if (text_Speed.Text.Length >= 1 && text_Speed.Text.All(char.IsDigit)) this.toolTip1.SetToolTip(this.text_Speed, Convert.ToInt32(text_Speed.Text) * 1000 / 3600 + " m/s");
+            if (text_Speed.Text.Length >= 1 && text_Speed.Text.All(char.IsDigit))
+                toolTip1.SetToolTip(text_Speed, Convert.ToDouble(text_Speed.Text) * 1000 / 3600 + " m/s");
         }
 
         private void text_MinWalkSpeed_TextChanged(object sender, EventArgs e)
         {
-            if (text_MinWalkSpeed.Text.Length >= 1 && text_MinWalkSpeed.Text.All(char.IsDigit)) this.toolTip1.SetToolTip(this.text_MinWalkSpeed, Convert.ToInt32(text_MinWalkSpeed.Text) * 1000 / 3600 + " m/s");
+            if (text_MinWalkSpeed.Text.Length >= 1 && text_MinWalkSpeed.Text.All(char.IsDigit))
+                toolTip1.SetToolTip(text_MinWalkSpeed, Convert.ToDouble(text_MinWalkSpeed.Text) * 1000 / 3600 + " m/s");
         }
     }
 }

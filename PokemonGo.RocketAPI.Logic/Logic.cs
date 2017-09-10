@@ -312,7 +312,7 @@ namespace PokeMaster.Logic
             var randomWalkSpeed = new Random();
             if ((int)BotSettings.WalkingSpeedInKilometerPerHour - BotSettings.MinWalkSpeed > 1)
             {
-                walkspeed = randomWalkSpeed.Next(BotSettings.MinWalkSpeed,
+                walkspeed = randomWalkSpeed.Next((int)BotSettings.MinWalkSpeed,
                     (int)BotSettings.WalkingSpeedInKilometerPerHour + 1);
             }
             Logger.Debug($"WalkingSpeedInKilometerPerHour: {BotSettings.WalkingSpeedInKilometerPerHour}, MinWalkSpeed: {BotSettings.MinWalkSpeed}, walkspeed: {walkspeed}");
@@ -826,7 +826,7 @@ namespace PokeMaster.Logic
                                 //use client settings value for min speed if set.
                                 if (BotSettings.MinWalkSpeed != 0)
                                 {
-                                    lowestspeed = BotSettings.MinWalkSpeed;
+                                    lowestspeed = (int)BotSettings.MinWalkSpeed;
                                 }
                                 Logger.ColoredConsoleWrite(ConsoleColor.Green, "As close as google can take us, going off-road at walking speed (" + lowestspeed + ")");
                                 navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchandFarm);

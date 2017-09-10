@@ -26,6 +26,9 @@ v1.3.6.8 Changes (by @Xelwon & @Quarthy)
 = Fixed some excessive logs between Pokestops (@Zederia)
 = Fixed Egg Km bug (@Zederia)
 + Ready for v0.73.1
++ Added UK27
 + Now changes navigation before arriving to exact pokestation and after farming it, saving few meters
+= Few visual arrangements in AdvancedBreaks grid view
++ ToolTip for speed in m/s
 
 =========== ISSUES ============
