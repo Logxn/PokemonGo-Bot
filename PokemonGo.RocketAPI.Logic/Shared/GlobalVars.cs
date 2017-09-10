@@ -48,7 +48,7 @@ namespace PokeMaster.Logic.Shared
         public static string LocaleTimeZone ="";
 
         public static double WalkingSpeedInKilometerPerHour = 5;
-        public static int MinWalkSpeed = 3;
+        public static double MinWalkSpeed = 3;
         public static int radius = 5000;
         public static bool TransferDoublePokemons = true;
         public static int HoldMaxDoublePokemons = 3;

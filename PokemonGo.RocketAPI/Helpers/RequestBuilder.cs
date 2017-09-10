@@ -66,10 +66,10 @@ namespace PokemonGo.RocketAPI.Helpers
             return ByteString.CopyFrom(hashBytes);
         }
 
-        public int GetNextUk27()
-        {
-            return Uk27Random.Next();
-        }
+        //public int GetNextUk27()
+        //{
+        //    return Uk27Random.Next();
+        //}
 
         //private RequestEnvelope.Types.PlatformRequest GenerateSignature(IEnumerable<IMessage> requests)
         /// <summary>
@@ -88,13 +88,15 @@ namespace PokemonGo.RocketAPI.Helpers
                 requestEnvelope.Accuracy = locationFixes[0].Altitude;
                 requestEnvelope.MsSinceLastLocationfix = (long)locationFixes[0].TimestampSnapshot;
             }
-            var  at = new Signature.Types.ActivityStatus(){
-                Stationary = true
+
+            var  _activityStatus = new Signature.Types.ActivityStatus(){
+                Stationary = true,
+                Tilting = (TRandomDevice.Next(1, 2) == 1)
             };
 
             
-            if (_client.Platform == Platform.Ios)
-                at.Tilting = (TRandomDevice.Next(1,2)==1);
+            //if (_client.Platform == Platform.Ios)
+            //    _activityStatus.Tilting = (TRandomDevice.Next(1,2)==1);
 
             #region GenerateSignature
             var signature = new Signature {
@@ -126,16 +128,18 @@ namespace PokemonGo.RocketAPI.Helpers
                 },
                 DeviceInfo = _DeviceInfo,// dInfo,
                 LocationFix = { locationFixes },
-                ActivityStatus = at,
-                Unknown27 = GetNextUk27()
+                ActivityStatus = _activityStatus,
+                SessionHash = _sessionHash,
+                Unknown25 = Resources.Api.IOSUnknown25,
+                Unknown27 = Uk27Random.Next()
             };
             #endregion
 
-            signature.SessionHash = _sessionHash;
+            //signature.SessionHash = _sessionHash;
             
             //signature.Unknown25 = Resources.Api.AndroidUnknown25;
             //if (_client.Platform == Platform.Ios)
-            signature.Unknown25 = Resources.Api.IOSUnknown25;
+            //signature.Unknown25 = Resources.Api.IOSUnknown25;
 
             var serializedTicket = requestEnvelope.AuthTicket != null ? requestEnvelope.AuthTicket.ToByteArray() : requestEnvelope.AuthInfo.ToByteArray();
 

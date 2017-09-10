@@ -158,6 +158,7 @@ namespace PokeMaster
             this.text_Latidude = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.checkBox_UseItemAtEvolve = new System.Windows.Forms.CheckBox();
             this.checkBox_ShowStats = new System.Windows.Forms.CheckBox();
             this.checkBox_ConsoleInTab = new System.Windows.Forms.CheckBox();
             this.checkBox_CollectDailyBonus = new System.Windows.Forms.CheckBox();
@@ -373,7 +374,6 @@ namespace PokeMaster
             this.MinimizeButton = new System.Windows.Forms.Button();
             this.buttonSaveStart = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.checkBox_UseItemAtEvolve = new System.Windows.Forms.CheckBox();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBoxItems.SuspendLayout();
@@ -2092,6 +2092,17 @@ namespace PokeMaster
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Other Settings";
             // 
+            // checkBox_UseItemAtEvolve
+            // 
+            this.checkBox_UseItemAtEvolve.Checked = true;
+            this.checkBox_UseItemAtEvolve.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_UseItemAtEvolve.Location = new System.Drawing.Point(19, 245);
+            this.checkBox_UseItemAtEvolve.Name = "checkBox_UseItemAtEvolve";
+            this.checkBox_UseItemAtEvolve.Size = new System.Drawing.Size(277, 17);
+            this.checkBox_UseItemAtEvolve.TabIndex = 55;
+            this.checkBox_UseItemAtEvolve.Text = "Try to use Item at evolve";
+            this.checkBox_UseItemAtEvolve.UseVisualStyleBackColor = true;
+            // 
             // checkBox_ShowStats
             // 
             this.checkBox_ShowStats.Checked = true;
@@ -2116,6 +2127,7 @@ namespace PokeMaster
             // 
             this.checkBox_CollectDailyBonus.Checked = true;
             this.checkBox_CollectDailyBonus.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_CollectDailyBonus.Enabled = false;
             this.checkBox_CollectDailyBonus.Location = new System.Drawing.Point(19, 200);
             this.checkBox_CollectDailyBonus.Name = "checkBox_CollectDailyBonus";
             this.checkBox_CollectDailyBonus.Size = new System.Drawing.Size(277, 17);
@@ -2276,7 +2288,7 @@ namespace PokeMaster
             this.BreakGridView.DefaultCellStyle = dataGridViewCellStyle2;
             this.BreakGridView.Location = new System.Drawing.Point(28, 289);
             this.BreakGridView.Name = "BreakGridView";
-            this.BreakGridView.Size = new System.Drawing.Size(436, 135);
+            this.BreakGridView.Size = new System.Drawing.Size(326, 242);
             this.BreakGridView.TabIndex = 75;
             // 
             // groupBoxForts
@@ -4627,17 +4639,6 @@ namespace PokeMaster
             this.pictureBox2.TabIndex = 49;
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
-            // 
-            // checkBox_UseItemAtEvolve
-            // 
-            this.checkBox_UseItemAtEvolve.Checked = true;
-            this.checkBox_UseItemAtEvolve.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_UseItemAtEvolve.Location = new System.Drawing.Point(19, 245);
-            this.checkBox_UseItemAtEvolve.Name = "checkBox_UseItemAtEvolve";
-            this.checkBox_UseItemAtEvolve.Size = new System.Drawing.Size(277, 17);
-            this.checkBox_UseItemAtEvolve.TabIndex = 55;
-            this.checkBox_UseItemAtEvolve.Text = "Try to use Item at evolve";
-            this.checkBox_UseItemAtEvolve.UseVisualStyleBackColor = true;
             // 
             // ConfigWindow
             // 

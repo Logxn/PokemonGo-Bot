@@ -119,7 +119,7 @@ namespace PokeMaster
             get { return GlobalVars.WalkingSpeedInKilometerPerHour; }
             set { GlobalVars.WalkingSpeedInKilometerPerHour = value; }
         }
-        public int MinWalkSpeed
+        public double MinWalkSpeed
         {
             get { return GlobalVars.MinWalkSpeed; }
             set { GlobalVars.MinWalkSpeed = value; }

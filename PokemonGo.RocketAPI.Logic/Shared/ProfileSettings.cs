@@ -51,7 +51,7 @@ namespace PokeMaster.Logic.Shared
         public int MaxWalkingRadiusInMeters { get; set; }
         public int BreakInterval { get; set; }
         public int BreakLength { get; set; }
-        public int MinWalkSpeed { get; set; }
+        public double MinWalkSpeed { get; set; }
         public bool UseBreakFields { get; set; }
         public bool Espiral { get; set; }
         public bool RepeatUserRoute { get; set; }
