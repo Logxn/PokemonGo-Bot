@@ -462,9 +462,11 @@ namespace PokeMaster
             var str = "";
             var pokeGymMaker = new GMarkerGoogle(new PointLatLng(pokeGym.Latitude, pokeGym.Longitude), bitmap);
             if (pokeGym.RaidInfo!=null)
-                str = string.Format("Raid Info: {0}, level: {1}, starts: {2}, ends: {3}",pokeGym.RaidInfo.RaidPokemon.PokemonId,pokeGym.RaidInfo.RaidLevel,
-                                         StringUtils.TimeMStoString(pokeGym.RaidInfo.RaidBattleMs, @"mm\:ss"),
-                                         StringUtils.TimeMStoString(pokeGym.RaidInfo.RaidEndMs, @"mm\:ss"));
+                str = string.Format("Raid Info: {0}, level: {1}, starts: {2}, ends: {3}"
+                                    ,pokeGym.RaidInfo.RaidPokemon.PokemonId
+                                    ,pokeGym.RaidInfo.RaidLevel
+                                    ,StringUtils.TimeMStoString(pokeGym.RaidInfo.RaidBattleMs, @"mm\:ss")
+                                    ,StringUtils.TimeMStoString(pokeGym.RaidInfo.RaidEndMs, @"mm\:ss"));
             pokeGymMaker.ToolTipText = string.Format("{0}\n{1}, {2}\n{3}\nID: {4}", LocationUtils.FindAddress(pokeGym.Latitude, pokeGym.Longitude), pokeGym.Latitude, pokeGym.Longitude, str, pokeGym.Id);
             pokeGymMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
             pokeGymMaker.ToolTipMode = MarkerTooltipMode.OnMouseOver;

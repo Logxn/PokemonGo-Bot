@@ -85,7 +85,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
             message.AttackActions.AddRange(battleActions);
 
-            return PostProtoPayloadCommonR<Request, AttackGymResponse>(RequestType.AttackGym, message).Result;
+            return PostProtoPayloadCommonR<Request, AttackGymResponse>(RequestType.GymBattleAttack, message).Result;
         }
 
         public GymDeployResponse GymDeployPokemon(string fortId, ulong pokemonId)
@@ -145,7 +145,7 @@ namespace PokemonGo.RocketAPI.Rpc
         {
             var request = new Request
             {
-                RequestType = RequestType.StartGymBattle,
+                RequestType = RequestType.GymStartSession,
                 RequestMessage = ((IMessage)new StartGymBattleMessage
                 {
                     GymId = gymId,
