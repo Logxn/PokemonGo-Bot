@@ -155,6 +155,11 @@ namespace PokeMaster
             if (!GlobalVars.BypassCheckCompatibilityVersion)
             {
                 var currentAPIVersion =new CurrentAPIVersion();
+                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "------------------------------------------------------------");
+                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "-                                                          -");
+                Logger.ColoredConsoleWrite(ConsoleColor.Red,    "!!!! BOTTING IS NOT SAFE - YOUR ACCOUNT WILL BE FLAGGED !!!!");
+                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "----- You have been warned => Your decision, your risk -----");
+                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "____________________________________________________________");
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Current version: {Resources.BotVersion}");
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Supported API version: {Resources.BotApiSupportedVersion}");
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Current API version: {currentAPIVersion.GetNianticAPIVersion()}");
