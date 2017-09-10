@@ -122,7 +122,7 @@ namespace PokeMaster.Logic.Functions
             var mapObjectsResponse = Logic.objClient.Map.GetMapObjects().Result;
             
             var pokeGyms1 = mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
-                .Where(i => i.Type == FortType.Gym);
+                .Where(i => (i.Type == FortType.Gym) && (i.RaidInfo!=null) );
 
             var pokeGyms2 = pokeGyms1
                 .OrderBy(i => LocationUtils.CalculateDistanceInMeters(Logic.objClient.CurrentLatitude, Logic.objClient.CurrentLongitude, i.Latitude, i.Longitude));
@@ -471,11 +471,10 @@ namespace PokeMaster.Logic.Functions
                                     Logger.Info("(Gym) - Gym points: " + element.BattleResults.GymPointsDelta);
                                     Logger.Info("(Gym) - Experience Awarded: " + element.BattleResults.PlayerXpAwarded);
                                     Logger.Debug("(Gym) - Next Pokemon: " + element.BattleResults.NextDefenderPokemonId);
-                                    if (element.BattleResults.NextDefenderPokemonId != -1)
-                                        nextDefenderID = element.BattleResults.NextDefenderPokemonId;
+                                    nextDefenderID = element.BattleResults.NextDefenderPokemonId;
                                 }
                             }
-                            if (numDefenders > 1) {
+                            if (nextDefenderID != -1) {
                                 Logger.Debug("(Gym) - Leaving Battle");
                                 var times = 3;
                                 do {
