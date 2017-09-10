@@ -1,2 +1,2 @@
-enabled=false;
+enabled=true;
 Sorry, there is a new update that bans almost all accounts. Please wait for a fix ... meanwhile join our discord https://discord.gg/rsG87s8
