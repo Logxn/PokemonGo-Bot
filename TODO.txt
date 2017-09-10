@@ -30,5 +30,6 @@ v1.3.6.8 Changes (by @Xelwon & @Quarthy)
 + Now changes navigation before arriving to exact pokestation and after farming it, saving few meters
 = Few visual arrangements in AdvancedBreaks grid view
 + ToolTip for speed in m/s
++ Test new implementation of gym battle (beta)
 
 =========== ISSUES ============
