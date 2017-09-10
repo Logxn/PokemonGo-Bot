@@ -30,8 +30,8 @@ namespace PokeMaster
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigWindow));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabProxies = new System.Windows.Forms.TabPage();
             this.buttonTest = new System.Windows.Forms.Button();
             this.labelPrxPass = new System.Windows.Forms.Label();
@@ -2269,23 +2269,23 @@ namespace PokeMaster
             this.BreakGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
             this.BreakGridView.BackgroundColor = System.Drawing.SystemColors.InactiveCaption;
             this.BreakGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.BreakGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.BreakGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.BreakGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.BreakGridView.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.BreakGridView.DefaultCellStyle = dataGridViewCellStyle4;
             this.BreakGridView.Location = new System.Drawing.Point(28, 289);
             this.BreakGridView.Name = "BreakGridView";
             this.BreakGridView.Size = new System.Drawing.Size(326, 242);
@@ -3652,7 +3652,6 @@ namespace PokeMaster
             // 
             // numericUpDownMaxAttacks
             // 
-            this.numericUpDownMaxAttacks.Enabled = false;
             this.numericUpDownMaxAttacks.Location = new System.Drawing.Point(215, 144);
             this.numericUpDownMaxAttacks.Minimum = new decimal(new int[] {
             1,
@@ -3680,7 +3679,6 @@ namespace PokeMaster
             // comboBoxAttackers
             // 
             this.comboBoxAttackers.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxAttackers.Enabled = false;
             this.comboBoxAttackers.FormattingEnabled = true;
             this.comboBoxAttackers.Location = new System.Drawing.Point(215, 108);
             this.comboBoxAttackers.Name = "comboBoxAttackers";
@@ -3698,7 +3696,6 @@ namespace PokeMaster
             // 
             // nudNumDefenders
             // 
-            this.nudNumDefenders.Enabled = false;
             this.nudNumDefenders.Location = new System.Drawing.Point(215, 73);
             this.nudNumDefenders.Maximum = new decimal(new int[] {
             10,
@@ -3722,7 +3719,6 @@ namespace PokeMaster
             // checkBoxAttackGyms
             // 
             this.checkBoxAttackGyms.AutoSize = true;
-            this.checkBoxAttackGyms.Enabled = false;
             this.checkBoxAttackGyms.Location = new System.Drawing.Point(16, 74);
             this.checkBoxAttackGyms.Name = "checkBoxAttackGyms";
             this.checkBoxAttackGyms.Size = new System.Drawing.Size(125, 17);

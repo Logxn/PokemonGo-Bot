@@ -1,18 +1,8 @@
-﻿/*
- * Created by SharpDevelop.
- * User: Xelwon
- * Date: 28/01/2017
- * Time: 18:45
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;
 using System.Device.Location;
 using System.Threading.Tasks;
 using POGOProtos.Data.Gym;
-using POGOProtos.Settings.Master;
 using PokeMaster.Logic.Shared;
-
 using System.Collections.Generic;
 using System.Linq;
 using PokemonGo.RocketAPI.Helpers;
@@ -22,8 +12,6 @@ using POGOProtos.Inventory.Item;
 using POGOProtos.Map.Fort;
 using POGOProtos.Networking.Responses;
 using PokemonGo.RocketAPI;
-using PokeMaster.Logic;
-using PokeMaster.Logic.Functions;
 using POGOProtos.Data;
 using POGOProtos.Data.Battle;
 
@@ -78,10 +66,9 @@ namespace PokeMaster.Logic.Functions
             //narrow map data to gyms within walking distance
             var gyms = GetNearbyGyms();
             
-            Logger.Debug("gyms: " + gyms.Count());
             var gymsWithinRangeStanding = gyms.Where(i => LocationUtils.CalculateDistanceInMeters(Logic.objClient.CurrentLatitude, Logic.objClient.CurrentLongitude, i.Latitude, i.Longitude) <= 40);
             var inRange = gymsWithinRangeStanding.Count();
-            Logger.Debug("gymsWithinRangeStanding: " + inRange);
+            Logger.Debug("gymsWithinRangeStanding: " + inRange + " (of " + gyms.Count() + ")");
 
             if (gymsWithinRangeStanding.Any()) {
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, $"(Gym) - {inRange} gyms are within range of the user");
@@ -120,9 +107,9 @@ namespace PokeMaster.Logic.Functions
         {
             LocationUtils.updatePlayerLocation(Logic.objClient, Logic.objClient.CurrentLatitude, Logic.objClient.CurrentLongitude, Logic.objClient.CurrentAltitude);
             var mapObjectsResponse = Logic.objClient.Map.GetMapObjects().Result;
-            
+
             var pokeGyms1 = mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
-                .Where(i => (i.Type == FortType.Gym) && (i.RaidInfo!=null) );
+                .Where(i => (i.Type == FortType.Gym) && (i.RaidInfo == null) );
 
             var pokeGyms2 = pokeGyms1
                 .OrderBy(i => LocationUtils.CalculateDistanceInMeters(Logic.objClient.CurrentLatitude, Logic.objClient.CurrentLongitude, i.Latitude, i.Longitude));
@@ -130,7 +117,7 @@ namespace PokeMaster.Logic.Functions
             var pokeGyms = pokeGyms2
                     .ToArray();
 
-            Logger.Debug("pokeGyms: " + pokeGyms.Length);
+            //Logger.Debug("pokeGyms: " + pokeGyms.Length);
 
             Task.Factory.StartNew(() => RefreshGymsInMap(pokeGyms));
             return pokeGyms;
@@ -292,7 +279,7 @@ namespace PokeMaster.Logic.Functions
                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There are not enouth pokemons to fight");
                         return false;
                     }
-                    Logger.ColoredConsoleWrite(gymColorLog, "(Gym) Let's go to fight");
+                    Logger.ColoredConsoleWrite(gymColorLog, "(Gym) Let's go to fight !!");
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Selected Atackers:");
                     ShowPokemons(pokeAttackers);
                     var attResp = AttackGym(gym, client, pokeAttackers, defender.MotivatedPokemon.Pokemon.Id, gymDetails.GymStatusAndDefenders.GymDefender.Count, buddyID);
@@ -517,6 +504,7 @@ namespace PokeMaster.Logic.Functions
             }
             return null;
         }
+
         private static void ShowBattleActions(IEnumerable<BattleAction> actions)
         {
             Logger.Debug("Actions: " + actions.Count());
