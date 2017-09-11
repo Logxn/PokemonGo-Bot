@@ -23,6 +23,8 @@ using PokeMaster.Logic.Shared;
 using PokeMaster.Logic.Utils;
 using Google.Protobuf.Collections;
 using PokemonGo.RocketAPI.Shared;
+using System.Net.Http;
+using System.Text;
 
 namespace PokeMaster.Logic
 {
@@ -112,6 +114,8 @@ namespace PokeMaster.Logic
                 Logger.SelectedLevel = LogLevel.Debug;
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, $"LogLevel set to {Logger.SelectedLevel}. Many logs will be generated.");
             }
+
+            StringUtils.PidToFile(BotSettings);
 
             #region Log Logger
 

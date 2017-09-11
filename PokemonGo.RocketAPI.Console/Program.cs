@@ -10,7 +10,6 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -152,18 +151,21 @@ namespace PokeMaster
             #endregion
 
             // Checking if current BOT API implementation supports NIANTIC current API (unless there's an override command line switch)
+            var currentAPIVersion = new CurrentAPIVersion();
+            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "------------------------------------------------------------");
+            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "-                                                          -");
+            Logger.ColoredConsoleWrite(ConsoleColor.Red, "!!!! BOTTING IS NOT SAFE - YOUR ACCOUNT WILL BE FLAGGED !!!!");
+            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "----- You have been warned => Your decision, your risk -----");
+            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "____________________________________________________________");
+            Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Current version: {Resources.BotVersion}");
+            Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Supported API version: {Resources.BotApiSupportedVersion}");
+            Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Current API version: {currentAPIVersion.GetNianticAPIVersion()}");
+
+            // Check if a new version of BOT is available
+            CheckForNewBotVersion();
+
             if (!GlobalVars.BypassCheckCompatibilityVersion)
             {
-                var currentAPIVersion =new CurrentAPIVersion();
-                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "------------------------------------------------------------");
-                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "-                                                          -");
-                Logger.ColoredConsoleWrite(ConsoleColor.Red,    "!!!! BOTTING IS NOT SAFE - YOUR ACCOUNT WILL BE FLAGGED !!!!");
-                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "----- You have been warned => Your decision, your risk -----");
-                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "____________________________________________________________");
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Current version: {Resources.BotVersion}");
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Supported API version: {Resources.BotApiSupportedVersion}");
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Current API version: {currentAPIVersion.GetNianticAPIVersion()}");
-
                 bool CurrentVersionsOK = currentAPIVersion.CheckAPIVersionCompatibility(GlobalVars.BotApiSupportedVersion);
                 if (!CurrentVersionsOK)
                 {
@@ -175,9 +177,6 @@ namespace PokeMaster
                     Environment.Exit(-1);
                 }
             }
-
-            // Check if a new version of BOT is available
-            CheckVersion();
 
              // Check if Bot is deactivated at server level
             if (!GlobalVars.BypassKillSwitch) StringUtils.CheckKillSwitch();
@@ -254,7 +253,7 @@ namespace PokeMaster
             File.AppendAllText(huntstats, newHuntStat);
         }
 
-        public static void CheckVersion()
+        public static void CheckForNewBotVersion()
         {
             try
             {

@@ -143,6 +143,5 @@ namespace PokemonGo.RocketAPI.Helpers
         {
             return HashBuilder.Hash64Salt64(requestBytes, HashBuilder.Hash64(authTicket));
         }
-
     }
 }
