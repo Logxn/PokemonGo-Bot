@@ -31,5 +31,6 @@ v1.3.6.8 Changes (by @Xelwon & @Quarthy)
 = Few visual arrangements in AdvancedBreaks grid view
 + ToolTip for speed in m/s
 + Test new implementation of gym battle (beta)
++ Bot now checks first if it exists a new version, and then for compatibility (@suljo)
 
 =========== ISSUES ============
