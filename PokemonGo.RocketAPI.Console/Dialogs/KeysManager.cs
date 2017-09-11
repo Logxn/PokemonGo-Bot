@@ -22,16 +22,14 @@ namespace PokeMaster.Dialogs
     /// </summary>
     public partial class KeysManager : Form
     {
-        private static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
-        private static string filename = Path.Combine(path, "keys.json");
         public KeysManager()
         {
             //
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
             InitializeComponent();
-            if (File.Exists(filename)){
-                var strJSON = File.ReadAllText(filename);
+            if (File.Exists(GlobalVars.FileForKeys)){
+                var strJSON = File.ReadAllText(GlobalVars.FileForKeys);
                 var keys1 = JsonConvert.DeserializeObject<List<string>>(strJSON);
                 listView.Items.Clear();
                 foreach ( var element in keys1) {
@@ -39,6 +37,7 @@ namespace PokeMaster.Dialogs
                 }
             }
         }
+
         void buttonAcept_Click(object sender, EventArgs e)
         {
             var strings = new List<string>();
@@ -46,14 +45,16 @@ namespace PokeMaster.Dialogs
                 strings.Add(element.Text);
             }
           string strJSON = JsonConvert.SerializeObject(strings,Formatting.Indented);
-          File.WriteAllText(filename,strJSON);
+          File.WriteAllText(GlobalVars.FileForKeys, strJSON);
           Close();
         }
+
         void buttonDelete_Click(object sender, EventArgs e)
         {
             for (var i = listView.SelectedItems.Count -1;i>=0;i--)
                 listView.Items.Remove(listView.SelectedItems[i]);
         }
+
         void AddKey(string key){
             var listItem = listView.Items.Add(key);
             var hashInfo = PokeHashHasher.GetInformation(key);
@@ -61,31 +62,37 @@ namespace PokeMaster.Dialogs
             listItem.SubItems.Add( hashInfo[1]);
             Task.Delay(300).Wait();
         }
+
         void buttonAdd_Click(object sender, EventArgs e)
         {
             AddKey(textBox1.Text);
             textBox1.Text ="";
         }
+
         void listView_ColumnClick(object sender, ColumnClickEventArgs e)
         {
             var order = (sender as ListView).Sorting;
             listView.ListViewItemSorter = new Components.ListViewItemComparer(e.Column, order);
             (sender as ListView).Sorting = order == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
         }
+
         void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             buttonDelete_Click(sender,e);
         }
+
         void setAsDefaultToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (listView.SelectedItems.Count > 0){
                 GlobalVars.pFHashKey = listView.SelectedItems[0].Text;
             }
         }
+
         void listView_DoubleClick(object sender, EventArgs e)
         {
                 textBox1.Text = listView.SelectedItems[0].Text;
         }
+
         void refreshInfoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var i = 0;

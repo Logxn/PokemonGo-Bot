@@ -298,8 +298,8 @@ namespace PokeMaster
             var botSettings = GlobalVars.GetSettings();
             if (botSettings.UsePwdEncryption)
                 botSettings.Password = Encryption.Encrypt(botSettings.Password);
-            var ConfigsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
-            var filenameProf= Path.Combine(ConfigsPath, GlobalVars.ProfileName +".json" );
+
+            var filenameProf= Path.Combine(GlobalVars.PathToConfigs, GlobalVars.ProfileName +".json" );
 
             botSettings.SaveToFile(filenameProf);
             
@@ -374,7 +374,7 @@ namespace PokeMaster
 
             if (lang !="")
             {
-                Helper.TranslatorHelper.DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", GlobalVars.TranslationsPath, lang);
+                Helper.TranslatorHelper.DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", GlobalVars.PathToTranslations, lang);
                 th.SelectLanguage(lang);
                 th.Translate(this);
                 if (OnChangeLanguage != null)

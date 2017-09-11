@@ -39,7 +39,7 @@ namespace PokeMaster.Logic
         {
             try{
                 string latlngalt = lat.ToString(CultureInfo.InvariantCulture) + ":" + lng.ToString(CultureInfo.InvariantCulture) + ":" + alt.ToString(CultureInfo.InvariantCulture);
-                File.WriteAllText(Directory.GetCurrentDirectory() + "\\Configs\\LastCoords.txt", latlngalt);
+                File.WriteAllText(GlobalVars.FileForCoordinates, latlngalt);
             }catch (Exception ex){
                 Logger.ExceptionInfo(ex.ToString());
             }

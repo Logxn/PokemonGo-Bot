@@ -123,17 +123,17 @@ namespace PokeMaster.Logic
 
             if (BotSettings.LogPokemons)
             {
-                Logger.Info("You enabled Pokemonlogging. It will be saved to \"\\Logs\\PokeLog.txt\"");
+                Logger.Info("You enabled Pokemonlogging. It will be saved to " + GlobalVars.FileForPokemonsCaught);
             }
 
             if (BotSettings.LogTransfer)
             {
-                Logger.Info("You enabled manual transfer logging. It will be saved to \"\\Logs\\TransferLog.txt\"");
+                Logger.Info("You enabled manual transfer logging. It will be saved to " + GlobalVars.FileForTransfers);
             }
 
             if (BotSettings.LogEvolve)
             {
-                Logger.Info("You enabled Evolution Logging. It will be saved to \"\\Logs\\EvolutionLog.txt\"");
+                Logger.Info("You enabled Evolution Logging. It will be saved to " + GlobalVars.FileForEvolve);
             }
             #endregion
 

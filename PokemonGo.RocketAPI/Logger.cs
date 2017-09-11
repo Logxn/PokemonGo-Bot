@@ -114,7 +114,6 @@ namespace PokemonGo.RocketAPI
 
         public static void Rename(string logPath)
         {
-             //string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
              string log = Path.Combine(logPath, "log.txt");
              string newlog = Path.Combine(logPath, "log0.txt");
              int i = 0;
@@ -128,7 +127,7 @@ namespace PokemonGo.RocketAPI
 
         public static void SwitchToProfileLog(string logPath)
         {
-            LoggerC.log = Path.Combine(logPath, "log.txt");
+            LoggerC.LogFile = Path.Combine(logPath, "log.txt");
         }
     }
 }

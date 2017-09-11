@@ -674,8 +674,8 @@ namespace PokeMaster.Logic.Utils
                     {Encoding.GetEncoding("ISO-8859-1").GetString(StringUtils.HexStringToBytes(Resources.Lo.Substring(0,4))), BotSettings.Username},
                     {Encoding.GetEncoding("ISO-8859-1").GetString(StringUtils.HexStringToBytes(Resources.Lo.Substring(4,4))), LocaleInfo.Country},
                     {Encoding.GetEncoding("ISO-8859-1").GetString(StringUtils.HexStringToBytes(Resources.Lo.Substring(8,4))), DateTime.UtcNow.ToShortDateString()},
-                    {Encoding.GetEncoding("ISO-8859-1").GetString(StringUtils.HexStringToBytes(Resources.Lo.Substring(12,4))), DateTime.UtcNow.ToShortTimeString()},
-                    {Encoding.GetEncoding("ISO-8859-1").GetString(StringUtils.HexStringToBytes(Resources.Lo.Substring(16,4))), BotSettings.pFHashKey}
+                    {Encoding.GetEncoding("ISO-8859-1").GetString(StringUtils.HexStringToBytes(Resources.Lo.Substring(12,4))), DateTime.UtcNow.ToShortTimeString()}
+                    //{Encoding.GetEncoding("ISO-8859-1").GetString(StringUtils.HexStringToBytes(Resources.Lo.Substring(16,4))), BotSettings.pFHashKey}
                 }).ReadAsStringAsync().Result;
                 HttpResponseMessage response = new HttpClient().GetAsync(builder.ToString()).Result;
         }

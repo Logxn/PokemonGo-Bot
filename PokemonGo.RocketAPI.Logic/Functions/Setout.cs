@@ -62,9 +62,6 @@ namespace PokeMaster.Logic.Functions
         public static int pokeStopFarmedCount;
         public static String timeLeftToNextLevel;
         public static DateTime sessionStart;
-        private static string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
-        private static string configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
-        private static string sessionFile = Path.Combine(configPath, "session.json");
         
         public static void SaveSession()
         {
@@ -73,24 +70,21 @@ namespace PokeMaster.Logic.Functions
             strs.Add("PokemonsCaught", ""+pokemonCatchCount);
             strs.Add("PokestopsFarmed", ""+pokeStopFarmedCount);
             var Json = JsonConvert.SerializeObject(strs, Formatting.Indented);
-            if(!Directory.Exists(configPath))
-                Directory.CreateDirectory(configPath);
-            File.WriteAllText(sessionFile, Json);
-            
+
+            File.WriteAllText(GlobalVars.FileForSession, Json);
         }
         
         public static void LoadSession()
         {
-            if(!File.Exists(sessionFile))
+            if(!File.Exists(GlobalVars.FileForSession))
                 return;
-            var strJSON = File.ReadAllText(sessionFile);
+            var strJSON = File.ReadAllText(GlobalVars.FileForSession);
             var strs = JsonConvert.DeserializeObject<Dictionary<string,string>>(strJSON);
             var ticks = 0L;
             long.TryParse(strs["SessionStart"],out ticks);
             sessionStart = new DateTime(ticks);
             int.TryParse(strs["PokemonsCaught"],out pokemonCatchCount);
             int.TryParse(strs["PokestopsFarmed"],out pokeStopFarmedCount);
-            
         }
 
         public static void Execute()
@@ -211,12 +205,8 @@ namespace PokeMaster.Logic.Functions
                     continue;
 
                 var date = DateTime.Now.ToString();
-                var evolvelog = Path.Combine(logPath, "EvolveLog.txt");
-
-                
 
                 if (evolvePokemonOutProto.Result == EvolvePokemonResponse.Types.Result.Success)
-
                 {
                     var getPokemonName = pokemon.PokemonId.ToString();
                     var cp = pokemon.Cp;
@@ -235,7 +225,7 @@ namespace PokeMaster.Logic.Functions
                     var experienceAwarded =evolvePokemonOutProto.ExperienceAwarded.ToString("N0");
                     if (GlobalVars.LogEvolve)
                     {
-                        File.AppendAllText(evolvelog, $"[{date}] - Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {experienceAwarded} XP" + Environment.NewLine);
+                        File.AppendAllText(GlobalVars.FileForEvolve, $"[{date}] - Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {experienceAwarded} XP" + Environment.NewLine);
                     }
                     Logger.Info( $"Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {experienceAwarded} XP");
                     Logger.Info($"Waiting between 30 and 35 seconds to simulate the evolution...!");
@@ -260,7 +250,7 @@ namespace PokeMaster.Logic.Functions
                     {
                         if (GlobalVars.LogEvolve)
                         {
-                            File.AppendAllText(evolvelog, $"[{date}] - Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}" + Environment.NewLine);
+                            File.AppendAllText(GlobalVars.FileForEvolve, $"[{date}] - Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}" + Environment.NewLine);
                         }
                         Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}");
                         evolvecount++;
@@ -302,7 +292,6 @@ namespace PokeMaster.Logic.Functions
 
                 var kmWalked = stats.KmWalked;
 
-                var logs = Path.Combine(logPath, "EggLog.txt");
                 var date = DateTime.Now.ToString();
 
                 var unusedEggsBasicInc = eggsHatchingAllowedBasicInc(unusedEggs);
@@ -324,7 +313,7 @@ namespace PokeMaster.Logic.Functions
                         var MaxCP = PokemonInfo.CalculateMaxCP(hatched);
                         var Level = PokemonInfo.GetLevel(hatched);
                         var IVPercent = PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00");
-                        File.AppendAllText(logs, $"[{date}] - Hatched a {kmsEgg} Km egg, and we got a {hatched.PokemonId} (CP: {hatched.Cp} | MaxCP: {MaxCP} | Level: {Level} | IV: {IVPercent}% )" + Environment.NewLine);
+                        File.AppendAllText(GlobalVars.FileForEggs, $"[{date}] - Hatched a {kmsEgg} Km egg, and we got a {hatched.PokemonId} (CP: {hatched.Cp} | MaxCP: {MaxCP} | Level: {Level} | IV: {IVPercent}% )" + Environment.NewLine);
                     }
                     Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Hatched a " + kmsEgg + "Km egg, and we got a" + hatched.PokemonId + " CP: " + hatched.Cp + " MaxCP: " + PokemonInfo.CalculateMaxCP(hatched) + " Level: " + PokemonInfo.GetLevel(hatched) + " IV: " + PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00") + "%");
                 }
@@ -771,7 +760,7 @@ namespace PokeMaster.Logic.Functions
             var pokemons = Logic.objClient.Inventory.GetPokemons();
             var toTransfer = pokemons.Where(x => x.DeployedFortId == string.Empty && x.Favorite == 0 && !x.IsEgg && x.Id != buddyid);
             var idsToTransfer = new List<ulong>();
-            var logs = Path.Combine(logPath, "TransferLog.txt");
+
             foreach (var pokemon in toTransfer){
                 if (GlobalVars.pokemonsToAlwaysTransfer.Contains(pokemon.PokemonId)){
                     idsToTransfer.Add(pokemon.Id);
@@ -779,7 +768,7 @@ namespace PokeMaster.Logic.Functions
                     if (GlobalVars.LogTransfer)
                     {
                         var date = DateTime.Now.ToString();
-                        File.AppendAllText(logs, $"[{date}] - Transfer unwanted {Pokename} CP {pokemon.Cp}" + Environment.NewLine);
+                        File.AppendAllText(GlobalVars.FileForTransfers, $"[{date}] - Transfer unwanted {Pokename} CP {pokemon.Cp}" + Environment.NewLine);
                     }
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Enqueuing to BULK Transfer unwanted {Pokename} CP {pokemon.Cp} ");
                     RandomHelper.RandomSleep(400, 600);
@@ -849,7 +838,6 @@ namespace PokeMaster.Logic.Functions
 
                         pokemonsToTransfer.Add(duplicatePokemon.Id);
 
-                        var logs = Path.Combine(logPath, "TransferLog.txt");
                         var date = DateTime.Now.ToString();
 
                         if (transferFirstLowIv)
@@ -857,7 +845,7 @@ namespace PokeMaster.Logic.Functions
                             var BestIV = PokemonInfo.CalculatePokemonPerfection(bestPokemonsIvOfType.First()).ToString("0.00");
                             if (GlobalVars.LogTransfer)
                             {
-                                File.AppendAllText(logs, $"[{date}] - Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Your best is: {BestIV}% IV)" + Environment.NewLine);
+                                File.AppendAllText(GlobalVars.FileForTransfers, $"[{date}] - Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Your best is: {BestIV}% IV)" + Environment.NewLine);
                             }
                             Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Enqueuing to BULK Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Your best is: {BestIV}% IV)");
                         }
@@ -865,7 +853,7 @@ namespace PokeMaster.Logic.Functions
                         {
                             if (GlobalVars.LogTransfer)
                             {
-                                File.AppendAllText(logs, $"[{date}] - Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Best: {bestPokemonsCpOfType.First().Cp} CP)" + Environment.NewLine);
+                                File.AppendAllText(GlobalVars.FileForTransfers, $"[{date}] - Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Best: {bestPokemonsCpOfType.First().Cp} CP)" + Environment.NewLine);
                             }
                             Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Enqueuing to BULK Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Best: {bestPokemonsCpOfType.First().Cp} CP)");
                         }

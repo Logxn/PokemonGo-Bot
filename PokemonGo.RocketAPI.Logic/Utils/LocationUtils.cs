@@ -165,7 +165,7 @@ namespace PokeMaster.Logic.Utils
             client.Player.SetCoordinates(latitude, longitude, altitude);
             if (updateFile) {
                 string latlngalt = latitude.ToString(CultureInfo.InvariantCulture) + ":" + longitude.ToString(CultureInfo.InvariantCulture) + ":" + altitude.ToString(CultureInfo.InvariantCulture);
-                File.WriteAllText(Directory.GetCurrentDirectory() + "\\Configs\\LastCoords.txt", latlngalt);
+                File.WriteAllText(GlobalVars.FileForCoordinates, latlngalt);
             }
         }
         public static double GetAltitudeWithKEY(double lat, double lng, string key)

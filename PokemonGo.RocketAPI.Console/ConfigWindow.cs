@@ -40,16 +40,9 @@ namespace PokeMaster
             3, 6, 9, 12, 15, 18, 20, 22, 24, 26, 28, 31, 34, 36, 38, 40, 42, 45, 47, 49, 51, 53, 55, 57, 59, 62, 65, 68, 71, 73, 76, 78, 80, 82, 83, 85, 87, 89, 91, 94, 95, 97, 99, 101, 103, 105, 106, 107, 108, 110, 112, 113, 114, 115, 117, 119, 121, 122, 123, 124, 125, 126, 127, 128, 130, 131, 132, 134, 135, 136, 137, 139, 141, 142, 143, 144, 145, 146, 149, 150, 151
         };
 
-        /* PATHS */
-        static string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-        static string devicePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Device");
-        static string deviceinfo = Path.Combine(devicePath, "DeviceInfo.txt");
-        static string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
-        static string logs = Path.Combine(logPath, "PokeLog.txt");
-        static string logmanualtransfer = Path.Combine(logPath, "TransferLog.txt");
         static Dictionary<string, int> pokeIDS = new Dictionary<string, int>();
         static Dictionary<string, int> evolveIDS = new Dictionary<string, int>();
-        static string ConfigsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
+
         private Profile ActiveProfile;
         private List<PokemonId> toSnipe = new List<PokemonId>();
         
@@ -81,16 +74,16 @@ namespace PokeMaster
 
             comboBox_AccountType.DataSource = types;
 
-            if (!Directory.Exists(Program.path_device))
-                Directory.CreateDirectory(Program.path_device);
+            if (!Directory.Exists(GlobalVars.PathToDevices))
+                Directory.CreateDirectory(GlobalVars.PathToDevices);
             
             // some information about ios devices
             // http://stackoverflow.com/questions/448162/determine-device-iphone-ipod-touch-with-iphone-sdk/3950748#3950748
             // https://www.theiphonewiki.com/wiki/Models
-            if (!File.Exists(Program.deviceData))
-                DownloadHelper.DownloadFile("PokemonGo.RocketAPI.Console/Resources", Program.path_device, "DeviceData.json");
+            if (!File.Exists(GlobalVars.FileForDeviceData))
+                DownloadHelper.DownloadFile("PokemonGo.RocketAPI.Console/Resources", GlobalVars.PathToDevices, "DeviceData.json");
 
-            var devData = new DeviceSetup(Program.deviceData);
+            var devData = new DeviceSetup(GlobalVars.FileForDeviceData);
             comboBox_Device.DisplayMember = "Tradename";
             comboBox_Device.DataSource = devData.data;
             comboBox_Device.Text = "iPhone 7";
@@ -98,12 +91,12 @@ namespace PokeMaster
             
                 
             #region new translation
-            if (!Directory.Exists(GlobalVars.TranslationsPath))
-                Directory.CreateDirectory(GlobalVars.TranslationsPath);
+            if (!Directory.Exists(GlobalVars.PathToTranslations))
+                Directory.CreateDirectory(GlobalVars.PathToTranslations);
 
             comboLanguage.SelectedIndex = 0;
             // Download json file of current Culture Info if exists
-            TranslatorHelper.DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", GlobalVars.TranslationsPath, CultureInfo.CurrentCulture.Name);
+            TranslatorHelper.DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", GlobalVars.PathToTranslations, CultureInfo.CurrentCulture.Name);
             // Translate using Current Culture Info
             th.Translate(this);
             tabControl1.SizeMode = TabSizeMode.Normal;
@@ -163,8 +156,8 @@ namespace PokeMaster
             var filenameProf = "";
             Profile selectedProfile = null;
             var result = "";
-            if (File.Exists(Program.accountProfiles)) {
-                string JSONstring = File.ReadAllText(@Program.accountProfiles);
+            if (File.Exists(GlobalVars.FileForProfiles)) {
+                string JSONstring = File.ReadAllText(@GlobalVars.FileForProfiles);
                 Profiles = JsonConvert.DeserializeObject<Collection<Profile>>(JSONstring);
                 foreach (Profile _profile in Profiles) {
                     if (_profile.IsDefault)
@@ -172,7 +165,7 @@ namespace PokeMaster
 
                     foundDefaultProfile |= _profile.ProfileName == "DefaultProfile";
 
-                    filenameProf = Path.Combine(ConfigsPath, _profile.ProfileName + ".json");
+                    filenameProf = Path.Combine(GlobalVars.PathToConfigs, _profile.ProfileName + ".json");
                     if (File.Exists(filenameProf)) {
                         try {
                             _profile.Settings = ProfileSettings.LoadFromFile(filenameProf);
@@ -540,8 +533,8 @@ namespace PokeMaster
         private void LoadLatestCoords()
         {
             bool CoordsAreLoaded = false;
-            if (File.Exists(Program.LastCoordsTXTFileName)) {
-                string[] CoordsFromFileTXT = File.ReadAllText(Program.LastCoordsTXTFileName).Split(':');
+            if (File.Exists(GlobalVars.FileForCoordinates)) {
+                string[] CoordsFromFileTXT = File.ReadAllText(GlobalVars.FileForCoordinates).Split(':');
 
                 if (CoordsFromFileTXT.Length > 1) {
                     double lat = StrCordToDouble(CoordsFromFileTXT[0]);
@@ -1030,7 +1023,7 @@ namespace PokeMaster
                 if (ActiveProfile.Settings.UsePwdEncryption) {
                     ActiveProfile.Settings.Password = Encryption.Encrypt(ActiveProfile.Settings.Password);
                 }
-                var filenameProf = Path.Combine(ConfigsPath, ProfileName.Text + ".json");
+                var filenameProf = Path.Combine(GlobalVars.PathToConfigs, ProfileName.Text + ".json");
                 ActiveProfile.Settings.SaveToFile(filenameProf);
                 var newProfiles = new Collection<Profile>();
                 var foundActiveProf = false;
@@ -1062,7 +1055,7 @@ namespace PokeMaster
                     newProfiles.Add(newProfile);
                 }
                 var profileJSON = JsonConvert.SerializeObject(newProfiles, Formatting.Indented);
-                File.WriteAllText(@Program.accountProfiles, profileJSON);
+                File.WriteAllText(@GlobalVars.FileForProfiles, profileJSON);
                 if (!foundActiveProf) {
                     var newProfile = new Profile();
                     newProfile.ProfileName = ProfileName.Text;
@@ -1400,7 +1393,7 @@ namespace PokeMaster
             }
 
             if (lang != "") {
-                TranslatorHelper.DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", GlobalVars.TranslationsPath, lang);
+                TranslatorHelper.DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", GlobalVars.PathToTranslations, lang);
                 th.SelectLanguage(lang);
                 th.Translate(this);
                 tabControl1.SizeMode = TabSizeMode.Normal;
@@ -1428,7 +1421,7 @@ namespace PokeMaster
         void buttonSelectFile_Click(object sender, EventArgs e)
         {
             if (textBoxFortsFile.Text == "")
-                textBoxFortsFile.Text = GlobalVars.ConfigsPath + "\\forts.json";
+                textBoxFortsFile.Text = GlobalVars.PathToConfigs + "\\forts.json";
             saveFileDialog1.FileName = textBoxFortsFile.Text;
             saveFileDialog1.FilterIndex = 1;
             if (saveFileDialog1.ShowDialog() == DialogResult.OK) {
@@ -1473,7 +1466,7 @@ namespace PokeMaster
         void buttonSelectLocationFile_Click(object sender, EventArgs e)
         {
             if (textBoxSaveLocationsFile.Text == "")
-                textBoxSaveLocationsFile.Text = GlobalVars.ConfigsPath + "\\pokemons.txt";
+                textBoxSaveLocationsFile.Text = GlobalVars.PathToConfigs + "\\pokemons.txt";
             saveFileDialog1.FileName = textBoxSaveLocationsFile.Text;
             saveFileDialog1.FilterIndex = 2;
             if (saveFileDialog1.ShowDialog() == DialogResult.OK) {

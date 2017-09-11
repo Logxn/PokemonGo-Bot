@@ -23,11 +23,25 @@ namespace PokeMaster.Logic.Shared
         public static bool BypassKillSwitch = false;
 
         // Path Vars
-        public static string ConfigsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
-        public static string TranslationsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Translations");
-        public static string LogsBasePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
+        public static string PathToConfigs = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
+        public static string PathToTranslations = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Translations");
+        public static string PathToDevices = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Device");
+        public static string PathToLogs = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
 
-        public static string ProfilesFilePath = Path.Combine(ConfigsPath, "Profiles.txt");
+        public static string FileForProfiles = Path.Combine(GlobalVars.PathToConfigs, "Profiles.txt");
+        public static string FileForCoordinates = Path.Combine(GlobalVars.PathToConfigs, "Lastcoords.txt");
+        public static string FileForHuntStats = Path.Combine(GlobalVars.PathToConfigs, "HuntStats.txt");
+        public static string FileForSession = Path.Combine(GlobalVars.PathToConfigs, "session.json");
+        public static string FileForKeys = Path.Combine(GlobalVars.PathToConfigs, "keys.json");
+
+        public static string FileForDeviceSettings = Path.Combine(GlobalVars.PathToDevices, "DeviceInfo.txt");
+        public static string FileForDeviceData = Path.Combine(GlobalVars.PathToDevices, "DeviceData.json");
+
+        public static string FileForPokemonsCaught = Path.Combine(GlobalVars.PathToLogs, "Pokelog.txt");
+        public static string FileForTransfers = Path.Combine(GlobalVars.PathToLogs, "TransferLog.txt");
+        public static string FileForEvolve = Path.Combine(GlobalVars.PathToLogs, "EvolveLog.txt");
+        public static string FileForAppLog = Path.Combine(GlobalVars.PathToLogs, "log.txt");
+        public static string FileForEggs = Path.Combine(GlobalVars.PathToLogs, "EggLog.txt");
 
         // Other Globals
         public static string pFHashKey;

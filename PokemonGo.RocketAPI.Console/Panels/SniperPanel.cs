@@ -35,7 +35,7 @@ namespace PokeMaster
         public WebBrowser webBrowser = null;
         private Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
         private const string linksFileName = "snipelinks.json";
-        private static string linksFile = Path.Combine(GlobalVars.ConfigsPath, linksFileName);
+        private static string linksFile = Path.Combine(GlobalVars.PathToConfigs, linksFileName);
 
         private static Components.HRefLink[] links = {
             new Components.HRefLink("pokedexs.com", "https://pokedexs.com"),
@@ -338,7 +338,7 @@ namespace PokeMaster
         private static bool LoadLinks()
         {
             if (!File.Exists(linksFile)) {
-                DownloadHelper.DownloadFile("PokemonGo.RocketAPI.Console/Resources", GlobalVars.ConfigsPath, linksFileName);
+                DownloadHelper.DownloadFile("PokemonGo.RocketAPI.Console/Resources", GlobalVars.PathToConfigs, linksFileName);
             }
             if (File.Exists(linksFile)) {
                 links = JsonConvert.DeserializeObject<Components.HRefLink[]>(File.ReadAllText(linksFile));

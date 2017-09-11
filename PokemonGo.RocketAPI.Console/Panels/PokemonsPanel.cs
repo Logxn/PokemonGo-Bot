@@ -437,8 +437,6 @@ namespace PokeMaster
             int total = selectedItems.Count;
             string failed = string.Empty;
             var date = DateTime.Now.ToString();
-            string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
-            string evolvelog = Path.Combine(logPath, "EvolveLog.txt");
             int gotXP = 0;
             
             var resp = new EvolvePokemonResponse();
@@ -502,7 +500,7 @@ namespace PokeMaster
             {
                 if (GlobalVars.LogEvolve)
                 {
-                    File.AppendAllText(evolvelog, $"[{date}] - MANUAL - Sucessfully evolved {evolved}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
+                    File.AppendAllText(GlobalVars.FileForEvolve, $"[{date}] - MANUAL - Sucessfully evolved {evolved}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
                 }
                 MessageBox.Show(th.TS("Succesfully evolved {0}/{1} Pokemons. Failed: {2}",evolved,total,failed), th.TS("Evolve status"), MessageBoxButtons.OK, MessageBoxIcon.Information,MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
             }
@@ -510,7 +508,7 @@ namespace PokeMaster
             {
                 if (GlobalVars.LogEvolve)
                 {
-                    File.AppendAllText(evolvelog, $"[{date}] - MANUAL - Sucessfully evolved {evolved}/{total} Pokemons." + Environment.NewLine);
+                    File.AppendAllText(GlobalVars.FileForEvolve, $"[{date}] - MANUAL - Sucessfully evolved {evolved}/{total} Pokemons." + Environment.NewLine);
                 }
                 MessageBox.Show(th.TS("Succesfully evolved {0}/{1} Pokemons.",evolved,total), th.TS("Evolve status"), MessageBoxButtons.OK, MessageBoxIcon.Information,MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
             }
@@ -540,8 +538,6 @@ namespace PokeMaster
                 int total = selectedItems.Count;
                 string failed = string.Empty;
                 
-                string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
-                string logs = Path.Combine(logPath, "TransferLog.txt");
                 string date = DateTime.Now.ToString();
                 
                 if (GlobalVars.pauseAtEvolve2)  // stop walking
@@ -573,7 +569,7 @@ namespace PokeMaster
 
                             transfered++;
 
-                            File.AppendAllText(logs, $"[{date}] - MANUAL - Enqueuing to BULK transfer pokemon {transfered}/{total}: { pokemon.PokemonId}" + Environment.NewLine);
+                            File.AppendAllText(GlobalVars.FileForTransfers, $"[{date}] - MANUAL - Enqueuing to BULK transfer pokemon {transfered}/{total}: { pokemon.PokemonId}" + Environment.NewLine);
                             var strPerfection = PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00");
                             var strTransfer = $"Enqueuing to BULK transfer pokemon {transfered}/{total}: {strPokename} CP {pokemon.Cp} IV {strPerfection}";
                             Logger.ColoredConsoleWrite(ConsoleColor.Yellow, strTransfer, LogLevel.Info);
@@ -595,7 +591,7 @@ namespace PokeMaster
                         {
                             if (GlobalVars.LogTransfer)
                             {
-                                File.AppendAllText(logs, $"[{date}] - MANUAL - Sucessfully Bulk transfered {transfered}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
+                                File.AppendAllText(GlobalVars.FileForTransfers, $"[{date}] - MANUAL - Sucessfully Bulk transfered {transfered}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
                             }
                             Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer Successful of {transfered}/{total} pokemons => {_response.CandyAwarded.ToString()} candy/ies awarded.");
                             statusTexbox.Text = $"Succesfully Bulk transfered {total} Pokemons.";

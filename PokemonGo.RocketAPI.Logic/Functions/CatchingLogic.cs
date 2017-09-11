@@ -470,14 +470,12 @@ namespace PokeMaster.Logic.Functions
                         var curDate = DateTime.Now;
                         Task.Factory.StartNew(() =>infoObservable.PushNewHuntStats($"{pokeLat}/{pokeLong};{pokeid};{curDate.Ticks};{curDate}" + Environment.NewLine));
 
-                        var logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
-                        var logs = Path.Combine(logPath, "PokeLog.txt");
                         var date = DateTime.Now;
                         if (caughtPokemonResponse.CaptureAward.Xp.Sum() >= 500)
                         {
                             if (GlobalVars.LogPokemons)
                             {
-                                File.AppendAllText(logs, $"[{date}] Caught new {pokeid} (CP: {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} | IV: {strIVPerfection}% | Pokeball used: {bestPokeball} | XP: {caughtPokemonResponse.CaptureAward.Xp.Sum()}) " + Environment.NewLine);
+                                File.AppendAllText(GlobalVars.FileForPokemonsCaught, $"[{date}] Caught new {pokeid} (CP: {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} | IV: {strIVPerfection}% | Pokeball used: {bestPokeball} | XP: {caughtPokemonResponse.CaptureAward.Xp.Sum()}) " + Environment.NewLine);
                             }
                             Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Caught {pokeid} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}% got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP | {caughtPokemonResponse.CaptureAward.Candy.Sum()} Candies | {caughtPokemonResponse.CaptureAward.Stardust.Sum()} Stardust");
                             Setout.pokemonCatchCount++;
@@ -489,7 +487,7 @@ namespace PokeMaster.Logic.Functions
                         {
                             if (GlobalVars.LogPokemons)
                             {
-                                File.AppendAllText(logs, $"[{date}] Caught {pokeid} (CP: {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} | IV: {strIVPerfection}% | Pokeball used: {bestPokeball} | XP: {caughtPokemonResponse.CaptureAward.Xp.Sum()}) " + Environment.NewLine);
+                                File.AppendAllText(GlobalVars.FileForPokemonsCaught, $"[{date}] Caught {pokeid} (CP: {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} | IV: {strIVPerfection}% | Pokeball used: {bestPokeball} | XP: {caughtPokemonResponse.CaptureAward.Xp.Sum()}) " + Environment.NewLine);
                             }
                             Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Caught {pokeid} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}% got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP | {caughtPokemonResponse.CaptureAward.Candy.Sum()} Candies | {caughtPokemonResponse.CaptureAward.Stardust.Sum()} Stardust");
                             Setout.pokemonCatchCount++;

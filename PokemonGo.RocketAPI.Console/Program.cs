@@ -22,23 +22,11 @@ namespace PokeMaster
         [DllImport("kernel32.dll")]
         public static extern Boolean FreeConsole();
 
-        public static string path_device = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Device");
-        public static string LastCoordsTXTFileName = Path.Combine(GlobalVars.ConfigsPath, "LastCoords.txt");
-        public static string huntstats = Path.Combine(GlobalVars.ConfigsPath, "HuntStats.txt");
-        public static string deviceSettings = Path.Combine(path_device, "DeviceInfo.txt");
-        public static string deviceData = Path.Combine(path_device, "DeviceData.json");
-        public static string cmdCoords = string.Empty;
-        public static string accountProfiles = Path.Combine(GlobalVars.ConfigsPath, "Profiles.txt");
-        public static string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
-        public static string path_pokedata = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PokeData");
-
-        static Version version;       
-
         [STAThread]
         static void Main(string[] args)
         {
             var openGUI = true;
-            version = new Version();
+            Version version = new Version();
             // Review & parse command line arguments
 
             if (args != null && args.Length > 0)
@@ -55,9 +43,9 @@ namespace PokeMaster
                         if (!arg.Contains(":")) // Load Default Profile
                         {
                             #region Read bot settings
-                            if (File.Exists(Program.accountProfiles))
+                            if (File.Exists(GlobalVars.FileForProfiles))
                             {
-                                var Profiles = Newtonsoft.Json.JsonConvert.DeserializeObject<Collection<Profile>>(File.ReadAllText(accountProfiles));
+                                var Profiles = Newtonsoft.Json.JsonConvert.DeserializeObject<Collection<Profile>>(File.ReadAllText(GlobalVars.FileForProfiles));
                                 foreach (Profile _profile in Profiles)
                                 {
                                     if (_profile.IsDefault)
@@ -69,7 +57,7 @@ namespace PokeMaster
                                 if (selectedProfile != null)
                                 {
                                     GlobalVars.ProfileName = selectedProfile.ProfileName;
-                                    selectedProfile.Settings = ProfileSettings.LoadFromFile(Path.Combine(GlobalVars.ConfigsPath, $"{selectedProfile.ProfileName}.json"));
+                                    selectedProfile.Settings = ProfileSettings.LoadFromFile(Path.Combine(GlobalVars.PathToConfigs, $"{selectedProfile.ProfileName}.json"));
                                     selectedProfile.Settings.SaveToGlobals();
                                 }
                                 else
@@ -87,11 +75,11 @@ namespace PokeMaster
                         else // Load selected profile
                         {
                             var givenProfile = arg.Split(':');
-                            if (File.Exists(Path.Combine(GlobalVars.ConfigsPath, givenProfile[1] + ".json")))
+                            if (File.Exists(Path.Combine(GlobalVars.PathToConfigs, givenProfile[1] + ".json")))
                             {
                                 selectedProfile.ProfileName = givenProfile[1];
                                 GlobalVars.ProfileName = selectedProfile.ProfileName;
-                                selectedProfile.Settings = ProfileSettings.LoadFromFile(Path.Combine(GlobalVars.ConfigsPath, givenProfile[1] + ".json"));
+                                selectedProfile.Settings = ProfileSettings.LoadFromFile(Path.Combine(GlobalVars.PathToConfigs, givenProfile[1] + ".json"));
                                 selectedProfile.Settings.SaveToGlobals();
                             }
                             else
@@ -101,7 +89,9 @@ namespace PokeMaster
                             }
                         }
 
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Using Profile: " + GlobalVars.ProfileName);
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Using Profile: " + GlobalVars.ProfileName + ". Check logs in this profile log folder.");
+                        CheckLogDirectories(Path.Combine(GlobalVars.PathToLogs, GlobalVars.ProfileName));
+
                         if (GlobalVars.UsePwdEncryption) GlobalVars.Password = Encryption.Decrypt(GlobalVars.Password);
                         #endregion
                     }
@@ -110,10 +100,10 @@ namespace PokeMaster
                     #region Argument Coordinates
                     if (arg.Contains(","))
                     {
-                        if (File.Exists(LastCoordsTXTFileName))
+                        if (File.Exists(GlobalVars.FileForCoordinates))
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Last coords file exists, trying to delete it");
-                            File.Delete(LastCoordsTXTFileName);
+                            File.Delete(GlobalVars.FileForCoordinates);
                         }
                         
                         string[] crdParts = arg.Split(',');
@@ -205,7 +195,7 @@ namespace PokeMaster
             SleepHelper.PreventSleep();
 
             // Ensure all log paths exists
-            CheckLogDirectories(logPath = Path.Combine(logPath, GlobalVars.ProfileName));
+            CheckLogDirectories(Path.Combine(GlobalVars.PathToLogs, GlobalVars.ProfileName));
 
             GlobalVars.infoObservable.HandleNewHuntStats += SaveHuntStats;
 
@@ -215,7 +205,7 @@ namespace PokeMaster
                {
                     try
                     {
-                        DeviceSetup.SelectDevice(GlobalVars.DeviceTradeName, GlobalVars.DeviceID, deviceData);
+                        DeviceSetup.SelectDevice(GlobalVars.DeviceTradeName, GlobalVars.DeviceID, GlobalVars.FileForDeviceData);
                         new Logic.Logic(new Settings(), GlobalVars.infoObservable).Execute();
                     }
                     catch (Exception ex)
@@ -250,7 +240,7 @@ namespace PokeMaster
 
         private static void SaveHuntStats(string newHuntStat)
         {
-            File.AppendAllText(huntstats, newHuntStat);
+            File.AppendAllText(GlobalVars.FileForHuntStats, newHuntStat);
         }
 
         public static void CheckForNewBotVersion()
@@ -310,16 +300,24 @@ namespace PokeMaster
         {
             Logger.SwitchToProfileLog(logPath); // Here we change from General Log to profile log, stored inside Logs\<profile_name>\
 
-            string pokelog = Path.Combine(logPath, "PokeLog.txt");
-            string manualTransferLog = Path.Combine(logPath, "TransferLog.txt");
-            string EvolveLog = Path.Combine(logPath, "EvolveLog.txt");
+            GlobalVars.PathToLogs = logPath;
 
-            if (!Directory.Exists(logPath)) Directory.CreateDirectory(logPath);
-            if (!File.Exists(pokelog)) File.Create(pokelog).Close();
-            if (!File.Exists(manualTransferLog)) File.Create(manualTransferLog).Close();
-            if (!File.Exists(EvolveLog)) File.Create(EvolveLog).Close();
+            GlobalVars.FileForAppLog = Path.Combine(GlobalVars.PathToLogs, "log.txt");
+            GlobalVars.FileForPokemonsCaught = Path.Combine(GlobalVars.PathToLogs, "PokeLog.txt");
+            GlobalVars.FileForTransfers = Path.Combine(GlobalVars.PathToLogs, "TransferLog.txt");
+            GlobalVars.FileForEvolve = Path.Combine(GlobalVars.PathToLogs, "EvolveLog.txt");
+            GlobalVars.FileForEggs = Path.Combine(GlobalVars.PathToLogs, "EggLog.txt");
+            GlobalVars.FileForSession = Path.Combine(GlobalVars.PathToConfigs, $"session_{GlobalVars.ProfileName}.json");
+            GlobalVars.FileForCoordinates = Path.Combine(GlobalVars.PathToConfigs, $"LastCoords_{GlobalVars.ProfileName}.txt");
 
-            Logger.Rename(logPath); // Rotate logs if checked
+
+            if (!Directory.Exists(GlobalVars.PathToLogs)) Directory.CreateDirectory(GlobalVars.PathToLogs);
+            if (!File.Exists(GlobalVars.FileForPokemonsCaught)) File.Create(GlobalVars.FileForPokemonsCaught).Close();
+            if (!File.Exists(GlobalVars.FileForTransfers)) File.Create(GlobalVars.FileForTransfers).Close();
+            if (!File.Exists(GlobalVars.FileForEvolve)) File.Create(GlobalVars.FileForEvolve).Close();
+            if (!File.Exists(GlobalVars.FileForEggs)) File.Create(GlobalVars.FileForEggs).Close();
+
+            Logger.Rename(GlobalVars.PathToLogs); // Rotate logs if checked
         }
     }
 }
