@@ -43,7 +43,7 @@ namespace PokemonGo.RocketAPI.Rpc
                     return Client.PokemonHttpClient.PostProtoPayload<TRequest, TResponsePayload>(Client.ApiUrl, requestEnvelops,
                                 Client.ApiFailure);
                 } catch (AccessTokenExpiredException) {
-                    //Logger.Warning("Invalid Token. Waiting 11 minutes before of reopen");
+                    //Logger.Warn("Invalid Token. Waiting 11 minutes before of reopen");
                     Logger.Warning("Invalid Token, Re-Authenticating...");
                     Client.ReadyToUse = false;
                     //verboseWait(11*60000);

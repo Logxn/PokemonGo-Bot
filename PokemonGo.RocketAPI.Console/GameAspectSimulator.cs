@@ -62,7 +62,7 @@ namespace PokeMaster
             RandomHelper.RandomSleep(300);
             var stats = client.Inventory.GetPlayerStats().FirstOrDefault();
             locationPanel1.CreateBotMarker(
-                (int)client.Player.PlayerResponse.PlayerData.Team, stats.Level, stats.Experience);
+                (int)client.Player.GetPlayer().Result.PlayerData.Team, stats.Level, stats.Experience);
         }
             
         void btnPicClose_Click(object sender, EventArgs e)

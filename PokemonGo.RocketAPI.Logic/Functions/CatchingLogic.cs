@@ -11,16 +11,18 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
+using Google.Protobuf.Collections;
+using POGOLib.Official.Logging;
 using POGOProtos.Enums;
 using POGOProtos.Inventory.Item;
+using POGOProtos.Map;
 using POGOProtos.Map.Pokemon;
 using POGOProtos.Networking.Responses;
-using PokemonGo.RocketAPI;
-using PokemonGo.RocketAPI.Helpers;
 using PokeMaster.Logic.Shared;
 using System.Linq;
 using PokeMaster.Logic;
 using PokeMaster.Logic.Utils;
+using PokemonGo.RocketAPIWrapper;
 
 namespace PokeMaster.Logic.Functions
 {
@@ -40,17 +42,13 @@ namespace PokeMaster.Logic.Functions
         {
             return Execute(null);
         }
-        public static bool Execute(GetMapObjectsResponse mapObjectsResponse )
+        public static bool Execute(RepeatedField<MapCell> mapCells )
         {
             client = Logic.objClient;
             infoObservable= Logic.Instance.infoObservable;
             //bypass catching pokemon if disabled
             if (GlobalVars.CatchPokemon && AllowCatchPokemon )
             {
-                if (mapObjectsResponse == null)
-                {
-                    mapObjectsResponse = client.Map.GetMapObjects().Result;
-                }
 
                 MapPokemon mapIncensePokemon = null;
                 try {
@@ -70,7 +68,7 @@ namespace PokeMaster.Logic.Functions
                             mapIncensePokemon.SpawnPointId = incensePokemon.EncounterLocation;
                             mapIncensePokemon.ExpirationTimestampMs = incensePokemon.DisappearTimestampMs;
                             
-                            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Found incensed Pokemon: {mapIncensePokemon.PokemonId}"  );
+                            Logger.Info( $"Found incensed Pokemon: {mapIncensePokemon.PokemonId}"  );
                             if (GlobalVars.ShowPokemons){
                                 infoObservable.PushNewPokemonLocation(mapIncensePokemon);
                             }
@@ -79,26 +77,26 @@ namespace PokeMaster.Logic.Functions
                     }
 
                 } catch (Exception ex1) {
-                    Logger.ExceptionInfo(ex1.ToString());
+                    Logger.Debug("Exception: "+ ex1.ToString());
                 }
                 
                 if (mapIncensePokemon!=null)
                     if (!GlobalVars.catchPokemonSkipList.Contains(mapIncensePokemon.PokemonId) )
                         CatchIncensedPokemon(mapIncensePokemon.EncounterId, mapIncensePokemon.SpawnPointId, mapIncensePokemon.PokemonId, mapIncensePokemon.Longitude, mapIncensePokemon.Latitude);
 
-                var pokemons = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons).OrderBy(i => LocationUtils.CalculateDistanceInMeters(client.CurrentLatitude, client.CurrentLongitude, i.Latitude, i.Longitude));
+                var pokemons = mapCells.SelectMany(i => i.CatchablePokemons).OrderBy(i => LocationUtils.CalculateDistanceInMeters(client.CurrentLatitude, client.CurrentLongitude, i.Latitude, i.Longitude));
                 Logger.Debug( $"Pokemons Catchable: {pokemons.Count()}");
                 
-                var nearbyPokemons = mapObjectsResponse.MapCells.SelectMany(i => i.NearbyPokemons);
+                var nearbyPokemons = mapCells.SelectMany(i => i.NearbyPokemons);
                 Logger.Debug( $"Pokemons Nearby: {nearbyPokemons.Count()}");
-                var wildPokemons = mapObjectsResponse.MapCells.SelectMany(i => i.WildPokemons).OrderBy(i => LocationUtils.CalculateDistanceInMeters(client.CurrentLatitude, client.CurrentLongitude, i.Latitude, i.Longitude));
+                var wildPokemons = mapCells.SelectMany(i => i.WildPokemons).OrderBy(i => LocationUtils.CalculateDistanceInMeters(client.CurrentLatitude, client.CurrentLongitude, i.Latitude, i.Longitude));
                 Logger.Debug( $"Pokemons Wild: {wildPokemons.Count()}");
                 if (pokemons.Any())
                 {
                     var strNames = pokemons.Aggregate("", (current, pokemon) => current + ( pokemon.PokemonId + ", "));
                     strNames = strNames.Substring(0, strNames.Length - 2);
 
-                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Found {pokemons.Count()} catchable Pokemon(s): " + strNames);
+                    Logger.Info( $"Found {pokemons.Count()} catchable Pokemon(s): " + strNames);
                     if (GlobalVars.ShowPokemons){
                         ShowNearbyPokemons(pokemons);
                     }
@@ -133,7 +131,7 @@ namespace PokeMaster.Logic.Functions
 
                     if (GlobalVars.catchPokemonSkipList.Contains(pokemon.PokemonId))
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Skipped Pokemon: " + pokemon.PokemonId);
+                        Logger.Info( "Skipped Pokemon: " + pokemon.PokemonId);
                         continue;
                     }
 
@@ -149,8 +147,6 @@ namespace PokeMaster.Logic.Functions
 
                     
                 }
-                client.Map.GetMapObjects(true).Wait(); //force Map Objects Update
-                client.Inventory.GetHoloInventory(true); //force Inventory Update
                 return true;
             }
             return false;
@@ -223,7 +219,7 @@ namespace PokeMaster.Logic.Functions
                 if (luredPoke == 0)
                     encounterPokemonResponse = client.Encounter.EncounterPokemon(encounterId, spawnpointId).Result;
                 else if (luredPoke == 1){
-                    var DiscEncounterPokemonResponse =  client.Encounter.EncounterLurePokemon(encounterId, spawnpointId);
+                    var DiscEncounterPokemonResponse =  client.Encounter.DiskEncounter(encounterId, spawnpointId).Result;
                     encounterPokemonResponse = new EncounterResponse();
                     encounterPokemonResponse.Status =DiskEncounterResultToEncounterStatus(DiscEncounterPokemonResponse.Result);
                     
@@ -236,7 +232,7 @@ namespace PokeMaster.Logic.Functions
                     }
                     
                 }else{
-                    var IncenseEncounterPokemonResponse =  client.Encounter.EncounterIncensePokemon(encounterId, spawnpointId);
+                    var IncenseEncounterPokemonResponse =  client.Encounter.IncenseEncounter(encounterId, spawnpointId).Result;
                     encounterPokemonResponse = new EncounterResponse();
                     encounterPokemonResponse.Status =IncenseEncounterResultToEncounterStatus(IncenseEncounterPokemonResponse.Result);
                     
@@ -252,30 +248,30 @@ namespace PokeMaster.Logic.Functions
             }
             catch (Exception ex)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Error: Logic.cs - CatchPokemon - encounter: {ex.Message}");
+                Logger.Error( $"Error: Logic.cs - CatchPokemon - encounter: {ex.Message}");
                 if (goBack)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"(SNIPING) Go to {returnLatitude} / {returnLongitude} before starting the capture.");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan,LocationUtils.FindAddress(returnLatitude, returnLongitude));
+                    Logger.Info( $"(SNIPING) Go to {returnLatitude} / {returnLongitude} before starting the capture.");
+                    Logger.Info(LocationUtils.FindAddress(returnLatitude, returnLongitude));
                     LocationUtils.updatePlayerLocation(client, returnLatitude, returnLongitude, GlobalVars.altitude);
-                    var tmpMap = client.Map.GetMapObjects(true);
+                    var tmpMap = client.Map.GetMapObjects();
                 }
                 return ret;
             }
 
             if (goBack)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"(SNIPING) Go to {returnLatitude} / {returnLongitude} before starting the capture.");
-                Logger.ColoredConsoleWrite(ConsoleColor.Cyan,LocationUtils.FindAddress(returnLatitude, returnLongitude));
+                Logger.Info( $"(SNIPING) Go to {returnLatitude} / {returnLongitude} before starting the capture.");
+                Logger.Info(LocationUtils.FindAddress(returnLatitude, returnLongitude));
                 LocationUtils.updatePlayerLocation(client, returnLatitude, returnLongitude, GlobalVars.altitude);
-                var tmpMap = client.Map.GetMapObjects(true);
+                var tmpMap = client.Map.GetMapObjects();
             }
 
             if (encounterPokemonResponse.Status == EncounterResponse.Types.Status.EncounterSuccess)
             {
                 if (SkippedPokemon.Contains(encounterPokemonResponse.WildPokemon.EncounterId))
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Previously Skipped this Pokemon - Skipping Again!");
+                    Logger.Info( "Previously Skipped this Pokemon - Skipping Again!");
                     return 0;
                 }
 
@@ -286,8 +282,8 @@ namespace PokeMaster.Logic.Functions
                 if (bestPokeball == ItemId.ItemUnknown)
                 {
                     
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"No Pokeballs! - missed {pokeid} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}%");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Detected all balls out of stock - disabling pokemon catch until restock of at least 1 ball type occurs");
+                    Logger.Error( $"No Pokeballs! - missed {pokeid} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}%");
+                    Logger.Error( "Detected all balls out of stock - disabling pokemon catch until restock of at least 1 ball type occurs");
 
                     Logic.Instance.pokeballoutofstock = true;
                     AllowCatchPokemon = false;
@@ -299,7 +295,7 @@ namespace PokeMaster.Logic.Functions
                 var probability = encounterPokemonResponse?.CaptureProbability?.CaptureProbability_?.FirstOrDefault();
                 var probability100 =  Math.Round(probability.Value * 100);
 
-                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Encountered {pokeid} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}% Probability {probability100}%");
+                Logger.Info( $"Encountered {pokeid} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}% Probability {probability100}%");
                 if (encounterPokemonResponse.WildPokemon.PokemonData != null)
                     SaveLocations(encounterPokemonResponse.WildPokemon, iv, probability100);
 
@@ -321,8 +317,8 @@ namespace PokeMaster.Logic.Functions
                         // Check if the best ball is still valid
                         if (bestPokeball == ItemId.ItemUnknown)
                         {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Red, $"No Pokeballs! - missed {pokeid} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}%");
-                            Logger.ColoredConsoleWrite(ConsoleColor.Red, "Detected all balls out of stock - disabling pokemon catch until restock of at least 1 ball type occurs");
+                            Logger.Error( $"No Pokeballs! - missed {pokeid} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}%");
+                            Logger.Error( "Detected all balls out of stock - disabling pokemon catch until restock of at least 1 ball type occurs");
 
                             Logic.Instance.pokeballoutofstock = true;
                             AllowCatchPokemon = false;
@@ -347,7 +343,7 @@ namespace PokeMaster.Logic.Functions
 
                                 RandomHelper.RandomSleep(250);
                             }
-                            if (!client.Player.PlayerResponse.PlayerData.TutorialState.Contains(TutorialState.PokemonBerry)) Logic.Instance.Tutorial.MarkTutorialAsDone(TutorialState.PokemonBerry, client);
+                            if (!client.Player.GetPlayer().Result.PlayerData.TutorialState.Contains(TutorialState.PokemonBerry)) Logic.Instance.Tutorial.MarkTutorialAsDone(TutorialState.PokemonBerry, client);
                         }
 
                         if (GlobalVars.PokemonPinap.Contains(pokeid) && !usedBerry )
@@ -403,14 +399,14 @@ namespace PokeMaster.Logic.Functions
                             case 0:
                                 if (bestPokeball == ItemId.ItemMasterBall)
                                 {
-                                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "No messing around with your Master Balls! Forcing a hit on target.");
+                                    Logger.Info( "No messing around with your Master Balls! Forcing a hit on target.");
                                     forceHit = true;
                                 }
                                 break;
                             case 1:
                                 if (bestPokeball == ItemId.ItemUltraBall)
                                 {
-                                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Not wasting more of your Ultra Balls! Forcing a hit on target.");
+                                    Logger.Info( "Not wasting more of your Ultra Balls! Forcing a hit on target.");
                                     forceHit = true;
                                 }
                                 break;
@@ -421,7 +417,7 @@ namespace PokeMaster.Logic.Functions
                                 break;
                             default:
                                 // default to force hit after 3 wasted balls of any kind.
-                                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Enough misses! Forcing a hit on target.");
+                                Logger.Info( "Enough misses! Forcing a hit on target.");
                                 forceHit = true;
                                 break;
                         }
@@ -443,13 +439,13 @@ namespace PokeMaster.Logic.Functions
 
                         if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchMissed)
                         {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Missed { pokeid} while using {bestPokeball}");
+                            Logger.Info( $"Missed { pokeid} while using {bestPokeball}");
                             missCount++;
                             RandomHelper.RandomSleep(1500, 3000);
                         }
                         else if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchEscape)
                         {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"{pokeid} escaped while using {bestPokeball}");
+                            Logger.Info( $"{pokeid} escaped while using {bestPokeball}");
                             usedBerry = false;
                             escaped = true;
                             //reset forceHit in case we randomly triggered on last throw.
@@ -479,11 +475,11 @@ namespace PokeMaster.Logic.Functions
                             {
                                 File.AppendAllText(logs, $"[{date}] Caught new {pokeid} (CP: {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} | IV: {strIVPerfection}% | Pokeball used: {bestPokeball} | XP: {caughtPokemonResponse.CaptureAward.Xp.Sum()}) " + Environment.NewLine);
                             }
-                            Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Caught {pokeid} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}% got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP | {caughtPokemonResponse.CaptureAward.Candy.Sum()} Candies | {caughtPokemonResponse.CaptureAward.Stardust.Sum()} Stardust");
+                            Logger.Info( $"Caught {pokeid} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}% got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP | {caughtPokemonResponse.CaptureAward.Candy.Sum()} Candies | {caughtPokemonResponse.CaptureAward.Stardust.Sum()} Stardust");
                             Setout.pokemonCatchCount++;
                             Setout.SaveSession();
                             // Wrong: TutorialState.PokemonCapture is not for the first wild pokemon caught.
-                            // if (!client.Player.PlayerResponse.PlayerData.TutorialState.Contains(TutorialState.PokemonCapture)) Logic.Instance.Tutorial.MarkTutorialAsDone(TutorialState.PokemonCapture, client, pokeid);
+                            // if (!client.Player.GetPlayer().Result.PlayerData.TutorialState.Contains(TutorialState.PokemonCapture)) Logic.Instance.Tutorial.MarkTutorialAsDone(TutorialState.PokemonCapture, client, pokeid);
                         }
                         else
                         {
@@ -491,7 +487,7 @@ namespace PokeMaster.Logic.Functions
                             {
                                 File.AppendAllText(logs, $"[{date}] Caught {pokeid} (CP: {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} | IV: {strIVPerfection}% | Pokeball used: {bestPokeball} | XP: {caughtPokemonResponse.CaptureAward.Xp.Sum()}) " + Environment.NewLine);
                             }
-                            Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Caught {pokeid} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}% got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP | {caughtPokemonResponse.CaptureAward.Candy.Sum()} Candies | {caughtPokemonResponse.CaptureAward.Stardust.Sum()} Stardust");
+                            Logger.Info( $"Caught {pokeid} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}% got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP | {caughtPokemonResponse.CaptureAward.Candy.Sum()} Candies | {caughtPokemonResponse.CaptureAward.Stardust.Sum()} Stardust");
                             Setout.pokemonCatchCount++;
                             Setout.SaveSession();
 
@@ -506,22 +502,22 @@ namespace PokeMaster.Logic.Functions
                     }
                     else
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, $"{pokeid} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}% got away while using {bestPokeball}..");
+                        Logger.Warn( $"{pokeid} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}% got away while using {bestPokeball}..");
                         Logic.FailedSoftban++;
                         if (Logic.FailedSoftban > 10)
                         {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Soft Ban Detected - Stopping Bot to prevent perma-ban. Try again in 4-24 hours and be more careful next time!");
+                            Logger.Error( $"Soft Ban Detected - Stopping Bot to prevent perma-ban. Try again in 4-24 hours and be more careful next time!");
                             Setout.LimitReached("");
                         }
                     }
                 }
                 else
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Pokemon CP or IV or Prob lower than Configured Min to Catch - Skipping Pokemon");
+                    Logger.Info( "Pokemon CP or IV or Prob lower than Configured Min to Catch - Skipping Pokemon");
                     SkippedPokemon.Add(encounterPokemonResponse.WildPokemon.EncounterId);
                 }
             }else if (encounterPokemonResponse.Status == EncounterResponse.Types.Status.PokemonInventoryFull){
-                Logger.Warning("You have no free space for new pokemons...transfer some as soon as possible.");
+                Logger.Warn("You have no free space for new pokemons...transfer some as soon as possible.");
             }else{
                 Logger.Debug(encounterPokemonResponse.Status.ToString());
             }
@@ -591,9 +587,9 @@ namespace PokeMaster.Logic.Functions
             //if not miss, log throw variables
             if (forceHit)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"{hitTxt} throw as {spinTxt} ball.");
+                Logger.Error( $"{hitTxt} throw as {spinTxt} ball.");
             }
-            return client.Encounter.CatchPokemon(encounterId, spawnpointId, bestPokeball, forceHit, normalizedRecticleSize, spinModifier);
+            return client.Encounter.CatchPokemon(encounterId, spawnpointId, bestPokeball, forceHit, normalizedRecticleSize, spinModifier).Result;
         }
         private static ItemId GetBestBall(WildPokemon pokemon, bool escaped)
         {
@@ -724,25 +720,25 @@ namespace PokeMaster.Logic.Functions
                 if (balls.First(g => g.Key == ItemId.ItemPokeBall).First().Count > 0)
                     pokeBallCollection.Add("pokeBalls", balls.First(g => g.Key == ItemId.ItemPokeBall).First().Count);
                 else
-                    Logger.Warning("PokeBall Count is Zero");
+                    Logger.Warn("PokeBall Count is Zero");
 
             if (balls.Any(g => g.Key == ItemId.ItemGreatBall))
                 if (balls.First(g => g.Key == ItemId.ItemGreatBall).First().Count > 0)
                     pokeBallCollection.Add("greatBalls", balls.First(g => g.Key == ItemId.ItemGreatBall).First().Count);
                 else
-                    Logger.Warning("GreatBall Count is Zero");
+                    Logger.Warn("GreatBall Count is Zero");
 
             if (balls.Any(g => g.Key == ItemId.ItemUltraBall))
                 if (balls.First(g => g.Key == ItemId.ItemUltraBall).First().Count > 0)
                     pokeBallCollection.Add("ultraBalls", balls.First(g => g.Key == ItemId.ItemUltraBall).First().Count);
                 else
-                    Logger.Warning("UltraBall Count is Zero");
+                    Logger.Warn("UltraBall Count is Zero");
 
             if (balls.Any(g => g.Key == ItemId.ItemMasterBall))
                 if (balls.First(g => g.Key == ItemId.ItemMasterBall).First().Count > 0)
                     pokeBallCollection.Add("masterBalls", balls.First(g => g.Key == ItemId.ItemMasterBall).First().Count);
                 else
-                    Logger.Warning("MasterBall Count is Zero");
+                    Logger.Warn("MasterBall Count is Zero");
 
             #endregion
 

@@ -10,6 +10,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using Discord;
+using POGOLib.Official.Logging;
 using POGOProtos.Data;
 using POGOProtos.Map.Pokemon;
 using POGOProtos.Networking.Responses;
@@ -17,6 +18,7 @@ using PokeMaster.Logic.Shared;
 using PokeMaster.Logic.Utils;
 using POGOProtos.Enums;
 using PokemonGo.RocketAPI;
+using PokemonGo.RocketAPIWrapper;
 
 namespace PokeMaster.Logic.Functions
 {

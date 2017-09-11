@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using PokemonGo.RocketAPI;
-using PokemonGo.RocketAPI.Helpers;
-using PokeMaster.Logic.Functions;
+using POGOLib.Official.Logging;
 
 namespace PokeMaster.Logic.Shared
 {
@@ -38,7 +33,7 @@ namespace PokeMaster.Logic.Shared
             idleTimer.Interval = _break.BreakIdleTime * 1000 * 60;
             idleTimer.AutoReset = false;
             idleTimer.Start();
-            Logger.Warning("[" + invokeCount + "] Idle Timer for sequence " + _break.BreakSequenceId + " started. We are going to idle during: " + _break.BreakIdleTime + " minutes as soon as we finish what we are doing.");
+            Logger.Warn("[" + invokeCount + "] Idle Timer for sequence " + _break.BreakSequenceId + " started. We are going to idle during: " + _break.BreakIdleTime + " minutes as soon as we finish what we are doing.");
         }
 
         private void IdleTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)

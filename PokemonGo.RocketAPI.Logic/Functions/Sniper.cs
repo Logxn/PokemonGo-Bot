@@ -9,14 +9,14 @@
 using System;
 using System.Collections.Generic;
 using System.Device.Location;
+using POGOLib.Official.Logging;
 using POGOProtos.Enums;
 using POGOProtos.Map.Pokemon;
 using POGOProtos.Networking.Responses;
-using PokemonGo.RocketAPI;
-using PokemonGo.RocketAPI.Helpers;
 using System.Linq;
 using PokeMaster.Logic.Utils;
 using PokeMaster.Logic.Shared;
+using PokemonGo.RocketAPIWrapper;
 
 namespace PokeMaster.Logic.Functions
 {
@@ -52,7 +52,7 @@ namespace PokeMaster.Logic.Functions
             
             var distanceToTarget = LocationUtils.CalculateDistanceInMeters(returnCoords, remoteCoords);
             if (distanceToTarget > 100000){
-                Logger.Warning("Distance greater than 100 kms. Skipping Snipe.");
+                Logger.Warn("Distance greater than 100 kms. Skipping Snipe.");
                 return;
             }
 
@@ -71,7 +71,7 @@ namespace PokeMaster.Logic.Functions
                 SendToLog($"Trying to capture {pokeid}  at { remoteCoords.Latitude } / {remoteCoords.Longitude}");
                 SendToLog(LocationUtils.FindAddress(remoteCoords.Latitude, remoteCoords.Longitude));
                 LocationUtils.updatePlayerLocation(_client, remoteCoords.Latitude, remoteCoords.Longitude, remoteCoords.Altitude, false);
-                var gmp = _client.Map.GetMapObjects(true).Result;
+                var gmp = _client.Map.GetMapObjects();
 
                 SendToLog($"We are at sniping location...");
                 SendToLog($"Waiting {GlobalVars.SnipeOpts.WaitSecond} seconds for Pokemon to appear...");
@@ -86,13 +86,13 @@ namespace PokeMaster.Logic.Functions
                 }
 
                 LocationUtils.updatePlayerLocation(_client, returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude);
-                gmp = _client.Map.GetMapObjects(true).Result;
+                gmp = _client.Map.GetMapObjects();
 
                 SendToLog($"Location after Snipe : {_client.CurrentLatitude} / {_client.CurrentLongitude} / {_client.CurrentAltitude}");
                 SendToLog(LocationUtils.FindAddress(_client.CurrentLatitude, _client.CurrentLongitude));
 
                 if ((catchedID > 0) && GlobalVars.SnipeOpts.TransferIt && pokeid != PokemonId.Missingno) {
-                    var trResult = Logic.objClient.Inventory.ReleasePokemon(catchedID);
+                    var trResult = Logic.objClient.Inventory.ReleasePokemon(catchedID).Result;
                     if (trResult.Result == ReleasePokemonResponse.Types.Result.Success) {
                         SendToLog("Pokemon was transfered.");
                         SendToLog("Candies awarded: " + trResult.CandyAwarded);
@@ -102,10 +102,10 @@ namespace PokeMaster.Logic.Functions
                 RandomHelper.RandomSleep(20000, 22000);  // Avoid cache after snipe
 
             } catch (Exception ex) {
-                Logger.ExceptionInfo(ex.ToString());
+                Logger.Debug("Exception: "+ ex.ToString());
                 SendToLog($"Go to {returnCoords.Latitude} / {returnCoords.Longitude} / {returnCoords.Altitude}.");
                 LocationUtils.updatePlayerLocation(_client, returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude);
-                var gmp = _client.Map.GetMapObjects(true).Result;
+                var gmp = _client.Map.GetMapObjects();
             }
 
             GlobalVars.SnipeOpts.Enabled = false;
@@ -124,14 +124,14 @@ namespace PokeMaster.Logic.Functions
             
             do {
 
-                var mapObjectsResponse = _client.Map.GetMapObjects(true).Result;
-                var pokeGyms = mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
+                var mapObjectsResponse = _client.Map.GetMapObjects();
+                var pokeGyms = mapObjectsResponse.SelectMany(i => i.Forts)
                     .Where(i => i.Type == POGOProtos.Map.Fort.FortType.Gym);
                 Logger.Debug("pokeCoords:" + pokeCoords);
                 foreach (var element in pokeGyms) {
                     if (Math.Abs(element.Latitude - pokeCoords.Latitude) < Epsilon && Math.Abs(element.Longitude - pokeCoords.Longitude) < Epsilon) {
                         SendToLog("Found Gym to Snipe");
-                        var profile = _client.Player.GetPlayer();
+                        var profile = _client.Player.GetPlayer().Result;
                         var buddyid = 0UL;
                         if (profile.PlayerData.BuddyPokemon != null)
                             buddyid = profile.PlayerData.BuddyPokemon.Id;
@@ -198,8 +198,8 @@ namespace PokeMaster.Logic.Functions
 
             do {
                 SendToLog($"Try {tries} of {GlobalVars.SnipeOpts.NumTries}");
-                var mapObjectsResponse = _client.Map.GetMapObjects(true).Result;
-                var pokemons = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons);
+                var mapObjectsResponse = _client.Map.GetMapObjects();
+                var pokemons = mapObjectsResponse.SelectMany(i => i.CatchablePokemons);
                 if (pokemons.Any()) {
                     SendToLog($"Found {pokemons.Count()} catchable Pokemon(s)");
                     MapPokemon pokemon = null;
@@ -228,10 +228,10 @@ namespace PokeMaster.Logic.Functions
         public static void SendToSnipe( PokemonId pokemon, GeoCoordinate location)
         {
             if (GlobalVars.SnipeOpts.Enabled){
-                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "There is a Snipe in process.");
+                Logger.Warn( "There is a Snipe in process.");
                 return;
             }
-            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Manual Snipe Triggered! We'll stop farming and go catch the pokemon ASAP");
+            Logger.Warn( "Manual Snipe Triggered! We'll stop farming and go catch the pokemon ASAP");
             GlobalVars.SnipeOpts.ID = pokemon;
             GlobalVars.SnipeOpts.Location = location;
             GlobalVars.SnipeOpts.WaitSecond = 7;

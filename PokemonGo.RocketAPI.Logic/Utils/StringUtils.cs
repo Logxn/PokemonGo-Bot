@@ -1,17 +1,10 @@
-﻿using Google.Protobuf.WellKnownTypes;
-using Newtonsoft.Json;
+﻿using POGOLib.Official.Logging;
 using POGOProtos.Enums;
 using POGOProtos.Inventory.Item;
-using POGOProtos.Networking.Responses;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using PokemonGo.RocketAPI;
-using PokemonGo.RocketAPI.Helpers;
 using PokeMaster.Logic.Shared;
 
 namespace PokeMaster.Logic.Utils

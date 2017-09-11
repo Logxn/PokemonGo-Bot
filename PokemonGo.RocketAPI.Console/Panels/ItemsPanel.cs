@@ -84,7 +84,7 @@ namespace PokeMaster
                     RefreshTitle();
                 }
             } catch (Exception e) {
-                Logger.ExceptionInfo("[ItemsList-Error] " + e.StackTrace);
+                Logger.Debug("Exception: "+ "[ItemsList-Error] " + e.StackTrace);
             }
         }
 
@@ -93,7 +93,7 @@ namespace PokeMaster
             var txt = th.TS("Items");
             if (Parent != null) {
                 txt += ": " + lblCount.Text;
-                txt += "/" + client.Player.PlayerResponse.PlayerData.MaxItemStorage;
+                txt += "/" + client.Player.GetPlayer().Result.PlayerData.MaxItemStorage;
             }
             Parent.Text = txt;
         }
@@ -161,7 +161,7 @@ namespace PokeMaster
                 }else
                     Logger.Error("RecycleItems:" +resp2.Result);
             } catch (Exception e) {
-                Logger.ExceptionInfo("RecycleItems: "+e);
+                Logger.Debug("Exception: "+ "RecycleItems: "+e);
             }
             return resp1;
         }
@@ -227,7 +227,7 @@ namespace PokeMaster
                 UpdateItemTotalCount();
 
             } catch (Exception e1) {
-                Logger.ExceptionInfo(e1.ToString());
+                Logger.Debug("Exception: "+ e1.ToString());
             }
         }
 
@@ -257,7 +257,7 @@ namespace PokeMaster
             var items = client.Inventory.GetItemsToRecycle(GlobalVars.GetItemFilter());
             foreach (var item in items) {
                 var transfer = client.Inventory.RecycleItem((ItemId)item.ItemId, item.Count).Result;
-                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, String.Format("Recycled {0}x {1}",item.Count,(ItemId)item.ItemId));
+                Logger.Warn( String.Format("Recycled {0}x {1}",item.Count,(ItemId)item.ItemId));
                 RandomHelper.RandomSleep(1000, 5000);
             }
         }
@@ -289,7 +289,7 @@ namespace PokeMaster
                 }
                 if (item.ItemId == ItemId.ItemTroyDisk) {
                     GlobalVars.UseLureGUIClick = true;
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Lure will be used on next pokestop"); 
+                    Logger.Warn( "Lure will be used on next pokestop"); 
                 }
             
             }

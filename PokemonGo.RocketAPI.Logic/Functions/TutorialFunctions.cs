@@ -1,11 +1,11 @@
 ﻿using System;
-using PokemonGo.RocketAPI;
+using POGOLib.Official.Logging;
 using POGOProtos.Enums;
 using POGOProtos.Networking.Responses;
 using PokeMaster.Logic.Shared;
 using POGOProtos.Data.Player;
-using PokemonGo.RocketAPI.Helpers;
 using Google.Protobuf.Collections;
+using PokemonGo.RocketAPIWrapper;
 
 namespace PokeMaster.Logic.Functions
 {
@@ -26,7 +26,7 @@ namespace PokeMaster.Logic.Functions
          *
          */
 
-        public bool MarkTutorialAsDone(TutorialState State, PokemonGo.RocketAPI.Client client, PokemonId firstPokemon = PokemonId.Charmander)
+        public bool MarkTutorialAsDone(TutorialState State, Client client, PokemonId firstPokemon = PokemonId.Charmander)
         {
             MarkTutorialCompleteResponse TutorialResponse = null;
             SetAvatarResponse AvatarResponse = null;
@@ -108,30 +108,30 @@ namespace PokeMaster.Logic.Functions
                             this.state.assets.getFullIdFromId('aa8f7687-a022-4773-b900-3a8c170e9aea'),
                             this.state.assets.getFullIdFromId('e89109b0-9a54-40fe-8431-12f7826c8194'),
                         ]);*/
-                        CommonRequest.GetDownloadUrlsRequest(client); // Not fully implemented, you need to send the ID's
+                        //CommonRequest.GetDownloadUrlsRequest(client); // Not fully implemented, you need to send the ID's
 
                         RandomHelper.RandomSleep(10000, 13000);
 
                         var encounterResponse = client.Encounter.EncounterTutorialComplete(AvatarSettings.starter);
 
                         if (encounterResponse.Result == EncounterTutorialCompleteResponse.Types.Result.ErrorInvalidPokemon)
-                            Logger.Warning("TUTORIAL 3: Something happened when trying to complete Pokemon ENCOUNTER tutorial (" + AvatarSettings.starter + " / " + encounterResponse.ToString() + ")");
+                            Logger.Warn("TUTORIAL 3: Something happened when trying to complete Pokemon ENCOUNTER tutorial (" + AvatarSettings.starter + " / " + encounterResponse.ToString() + ")");
                         SuccessFlag = (encounterResponse.Result == EncounterTutorialCompleteResponse.Types.Result.Success);
 
                         client.Player.GetPlayerProfile();
 
                         // TODO: check if this is really needed or the "TutorialState.PokemonCapture" flag is done by the above call.
-                        if (!client.Player.PlayerResponse.PlayerData.TutorialState.Contains(TutorialState.PokemonCapture))
+                        if (!client.Player.GetPlayer().Result.PlayerData.TutorialState.Contains(TutorialState.PokemonCapture))
                         {
                             TutorialResponse = client.Misc.MarkTutorialComplete(new RepeatedField<TutorialState>() { TutorialState.PokemonCapture }).Result;
-                            if (!TutorialResponse.Success) Logger.Warning("TUTORIAL 3: Something happened when trying to complete Pokemon MARKTUTORIAL tutorial (" + AvatarSettings.starter + " / " + TutorialResponse.ToString() + ")");
+                            if (!TutorialResponse.Success) Logger.Warn("TUTORIAL 3: Something happened when trying to complete Pokemon MARKTUTORIAL tutorial (" + AvatarSettings.starter + " / " + TutorialResponse.ToString() + ")");
                             SuccessFlag = TutorialResponse.Success;
                         }
                         break;
                     /* 4 */
                     case TutorialState.NameSelection:
                         SuccessFlag = false;
-                        string suggestedName = client.Username;
+                        string suggestedName = client.Player.Username;
                         ClaimCodenameResponse.Types.Status status = ClaimCodenameResponse.Types.Status.CodenameNotValid;
                         for (int i = 0; i < 100; i++)
                         {
@@ -178,14 +178,14 @@ namespace PokeMaster.Logic.Functions
                 }
 
                 if (SuccessFlag) Logger.Info("[TUTORIAL] " + (int)State + "- " + State + " set DONE");
-                else Logger.Warning("[TUTORIAL] " + (int)State + "- " + Enum.GetName(typeof(EncounterTutorialCompleteResponse.Types), State) + " set FAILED. Reason: " + TutorialResponse.Success);
+                else Logger.Warn("[TUTORIAL] " + (int)State + "- " + Enum.GetName(typeof(EncounterTutorialCompleteResponse.Types), State) + " set FAILED. Reason: " + TutorialResponse.Success);
 
                 RandomHelper.RandomDelay(5000).Wait();
                 return SuccessFlag;
             }
             catch (global::System.Exception ex)
             {
-                Logger.ExceptionInfo("[TUTORIAL] " + (int)State + "- " + Enum.GetName(typeof(EncounterTutorialCompleteResponse.Types), State) + " EXCEPTION. Reason: " + ex.Message);
+                Logger.Debug("Exception: "+ "[TUTORIAL] " + (int)State + "- " + Enum.GetName(typeof(EncounterTutorialCompleteResponse.Types), State) + " EXCEPTION. Reason: " + ex.Message);
                 throw;
             }
         }

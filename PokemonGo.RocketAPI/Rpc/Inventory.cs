@@ -516,7 +516,7 @@ namespace PokemonGo.RocketAPI.Rpc
                         }
                         w.Close();
                     }
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Export Player Infos and all Pokemon to \"\\Config\\{filename}\"");
+                    Logger.Info( $"Export Player Infos and all Pokemon to \"\\Config\\{filename}\"");
                 }
                 catch
                 {

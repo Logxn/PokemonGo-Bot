@@ -16,18 +16,18 @@ using System.Net;
 using System.Reflection;
 using System.Windows.Forms;
 using Newtonsoft.Json;
+using POGOLib.Official.Logging;
 using POGOProtos.Data;
 using POGOProtos.Enums;
 using POGOProtos.Inventory;
 using POGOProtos.Inventory.Item;
 using POGOProtos.Networking.Responses;
 using POGOProtos.Settings.Master;
-using PokemonGo.RocketAPI;
-using PokemonGo.RocketAPI.Rpc;
-using PokemonGo.RocketAPI.Helpers;
 using PokeMaster.Logic;
 using PokeMaster.Logic.Shared;
 using PokeMaster.Logic.Utils;
+using PokemonGo.RocketAPIWrapper;
+
 
 namespace PokeMaster.Logic.Functions
 {
@@ -157,7 +157,7 @@ namespace PokeMaster.Logic.Functions
                     var minute = DateTime.Now.AddMinutes(1) - DateTime.Now;
                     if (loginterval > minute)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Incense still running: {duration.Minutes}m{duration.Seconds}s");
+                        Logger.Info( $"Incense still running: {duration.Minutes}m{duration.Seconds}s");
                         LastIncenselog = DateTime.Now;
                     }
                     return;
@@ -169,7 +169,7 @@ namespace PokeMaster.Logic.Functions
                 }
 
                 Logic.objClient.Inventory.UseIncense(ItemId.ItemIncenseOrdinary);
-                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Incsense, remaining: {incense.Count - 1}");
+                Logger.Info( $"Used Incsense, remaining: {incense.Count - 1}");
                 lastincenseuse = DateTime.Now.AddMinutes(30);
                 RandomHelper.RandomSleep(1100);
             }
@@ -262,7 +262,7 @@ namespace PokeMaster.Logic.Functions
                         {
                             File.AppendAllText(evolvelog, $"[{date}] - Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}" + Environment.NewLine);
                         }
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}");
+                        Logger.Error( $"Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}");
                         evolvecount++;
                     }
                 }
@@ -275,7 +275,7 @@ namespace PokeMaster.Logic.Functions
 
                 if (GlobalVars.pauseAtEvolve2)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemons evolved. Time to continue our journey!");
+                    Logger.Info( "Pokemons evolved. Time to continue our journey!");
                     GlobalVars.PauseTheWalking = false;
                 }
             }
@@ -292,7 +292,7 @@ namespace PokeMaster.Logic.Functions
                 {
                     return;
                 }
-                var inventory = Logic.objClient.Inventory.GetHoloInventory();
+                var inventory = Logic.objClient.Inventory.GetInventoryItems();
                 var incubators = Logic.objClient.Inventory.GetEggIncubators().ToList();
                 var unusedEggs = (Logic.objClient.Inventory.GetEggs()).Where(x => string.IsNullOrEmpty(x.EggIncubatorId)).OrderBy(x => x.EggKmWalkedTarget - x.EggKmWalkedStart).ToList();
                 var pokemons = (Logic.objClient.Inventory.GetPokemons()).ToList();
@@ -326,12 +326,12 @@ namespace PokeMaster.Logic.Functions
                         var IVPercent = PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00");
                         File.AppendAllText(logs, $"[{date}] - Hatched a {kmsEgg} Km egg, and we got a {hatched.PokemonId} (CP: {hatched.Cp} | MaxCP: {MaxCP} | Level: {Level} | IV: {IVPercent}% )" + Environment.NewLine);
                     }
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Hatched a " + kmsEgg + "Km egg, and we got a" + hatched.PokemonId + " CP: " + hatched.Cp + " MaxCP: " + PokemonInfo.CalculateMaxCP(hatched) + " Level: " + PokemonInfo.GetLevel(hatched) + " IV: " + PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00") + "%");
+                    Logger.Warn( "Hatched a " + kmsEgg + "Km egg, and we got a" + hatched.PokemonId + " CP: " + hatched.Cp + " MaxCP: " + PokemonInfo.CalculateMaxCP(hatched) + " Level: " + PokemonInfo.GetLevel(hatched) + " IV: " + PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00") + "%");
                 }
 
                 if ((unusedEggsUnlimitInc.Count < 1) && (unusedEggsUnlimitInc.Count < 1))
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "There's no egg to hatch");
+                    Logger.Warn( "There's no egg to hatch");
                     return;
                 }
 
@@ -364,8 +364,8 @@ namespace PokeMaster.Logic.Functions
                             unusedEggsBasicInc.Remove(egg);
                         }
                         catch (Exception ex){
-                            Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: Logic.cs - StartIncubation()");
-                            Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
+                            Logger.Error( "Error: Logic.cs - StartIncubation()");
+                            Logger.Error( ex.Message);
                         }
                         newRememberedIncubators.Add(new IncubatorUsage { IncubatorId = incubator.Id, PokemonId = egg.Id });
                         var kmsEgg = (egg.EggKmWalkedTarget - egg.EggKmWalkedStart);
@@ -375,7 +375,7 @@ namespace PokeMaster.Logic.Functions
                         Logger.Debug("kmsEgg: " + kmsEgg);
                         Logger.Debug("***");
                         
-                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Added " + kmsEgg + " Km egg");
+                        Logger.Warn( "Added " + kmsEgg + " Km egg");
                         // We need some sleep here or this shit explodes
                         RandomHelper.RandomSleep(100, 200);
                     }
@@ -387,7 +387,7 @@ namespace PokeMaster.Logic.Functions
                                                         PokemonId = incubator.PokemonId
                                                     });
 
-                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg (" + (incubator.TargetKmWalked - incubator.StartKmWalked) + " Km) needs to walk " + Math.Round(incubator.TargetKmWalked - kmWalked, 2) + " Km.");
+                        Logger.Warn( "Egg (" + (incubator.TargetKmWalked - incubator.StartKmWalked) + " Km) needs to walk " + Math.Round(incubator.TargetKmWalked - kmWalked, 2) + " Km.");
                     }
                 }
                 if (!newRememberedIncubators.SequenceEqual(rememberedIncubators))
@@ -397,8 +397,8 @@ namespace PokeMaster.Logic.Functions
             catch (Exception ex)
             {
                 // Leave this here: Logger.Error(e.StackTrace);
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg: no egg to incubate");
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
+                Logger.Warn( "Egg: no egg to incubate");
+                Logger.Error( ex.Message);
             }
         }
 
@@ -449,12 +449,12 @@ namespace PokeMaster.Logic.Functions
             {
                 if ((item.ItemId == ItemId.ItemPokeBall || item.ItemId == ItemId.ItemGreatBall || item.ItemId == ItemId.ItemUltraBall || item.ItemId == ItemId.ItemMasterBall) && Logic.Instance.pokeballoutofstock)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Detected Pokeball Restock - Enabling Catch Pokemon");
+                    Logger.Error( $"Detected Pokeball Restock - Enabling Catch Pokemon");
                     CatchingLogic.AllowCatchPokemon = true;
                     Logic.Instance.pokeballoutofstock = false;
                 }
                 var transfer = Logic.objClient.Inventory.RecycleItem(item.ItemId, item.Count).Result;
-                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Recycled {item.Count}x {item.ItemId}");
+                Logger.Warn( $"Recycled {item.Count}x {item.ItemId}");
                 RandomHelper.RandomSleep(1000, 5000);
             }
         }
@@ -464,8 +464,8 @@ namespace PokeMaster.Logic.Functions
         private static void StatsLog(Client client)
         {
 
-            var profile = client.Player.GetPlayer();
-            var inventory = client.Inventory.GetHoloInventory();
+            var profile = client.Player.GetPlayer().Result;
+            var inventory = client.Inventory.GetInventoryItems();
             var playerStats = client.Inventory.GetPlayerStats();
             var stats = playerStats.First();
             var expneeded = stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
@@ -495,29 +495,27 @@ namespace PokeMaster.Logic.Functions
             var expLeft = stats.NextLevelXp - stats.Experience;
             timeLeftToNextLevel = Logic.Instance.BotStats.GettimeLeft(expLeft).ToString(@"dd\.hh\:mm");
 
-            client.ShowingStats = true;
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "-----------------------[PLAYER STATS]-----------------------");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Level/EXP: {stats.Level} | {currEXP}/{neededEXP} ({expPercent}%)");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"EXP to Level up: {expLeft} (Time Left: {timeLeftToNextLevel})");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"PokeStops visited: {stats.PokeStopVisits}");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"KM Walked: {Math.Round(stats.KmWalked, 2)}");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Pokemon: {pokemonCount}/{maxPokemonStorage} ({pokemonToEvolve} Evolvable)");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Eggs: {eggCount}");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Pokedex Completion: {stats.UniquePokedexEntries}/{numDifferentPokemons} [{pokedexpercent}%]");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Stardust: {stardust}");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "------------------------------------------------------------");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Pokemon Catch Count this session: {pokemonCatchCount}");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"PokeStop Farmed Count this session: {pokeStopFarmedCount}");
+            Logger.Info( "-----------------------[PLAYER STATS]-----------------------");
+            Logger.Info( $"Level/EXP: {stats.Level} | {currEXP}/{neededEXP} ({expPercent}%)");
+            Logger.Info( $"EXP to Level up: {expLeft} (Time Left: {timeLeftToNextLevel})");
+            Logger.Info( $"PokeStops visited: {stats.PokeStopVisits}");
+            Logger.Info( $"KM Walked: {Math.Round(stats.KmWalked, 2)}");
+            Logger.Info( $"Pokemon: {pokemonCount}/{maxPokemonStorage} ({pokemonToEvolve} Evolvable)");
+            Logger.Info( $"Eggs: {eggCount}");
+            Logger.Info( $"Pokedex Completion: {stats.UniquePokedexEntries}/{numDifferentPokemons} [{pokedexpercent}%]");
+            Logger.Info( $"Stardust: {stardust}");
+            Logger.Info( "------------------------------------------------------------");
+            Logger.Info( $"Pokemon Catch Count this session: {pokemonCatchCount}");
+            Logger.Info( $"PokeStop Farmed Count this session: {pokeStopFarmedCount}");
 
             var totalitems = 0;
             foreach (var item in items){
-                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"{item.ItemId} Qty: {item.Count}");
+                Logger.Info( $"{item.ItemId} Qty: {item.Count}");
                 totalitems += item.Count;
             }
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Items: {totalitems}/{maxItemStorage} ");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "------------------------------------------------------------");
+            Logger.Info( $"Items: {totalitems}/{maxItemStorage} ");
+            Logger.Info( "------------------------------------------------------------");
 
-            client.ShowingStats = false;
 
 
         }
@@ -538,7 +536,7 @@ namespace PokeMaster.Logic.Functions
             else if (stats.Level > level) {
                 level = stats.Level;
 
-                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Got reward from your level up.");
+                Logger.Info( "Got reward from your level up.");
 
                 var lvlup = client.Player.GetLevelUpRewards(stats.Level);
                 var alreadygot = new List<ItemId>();
@@ -547,7 +545,7 @@ namespace PokeMaster.Logic.Functions
                 {
                     if (alreadygot.Contains(i.ItemId)) continue;
 
-                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Got Item: {i.ItemId} ({i.ItemCount}x)");
+                    Logger.Info( $"Got Item: {i.ItemId} ({i.ItemCount}x)");
                     alreadygot.Add(i.ItemId);
                 }
                 alreadygot.Clear();
@@ -556,8 +554,8 @@ namespace PokeMaster.Logic.Functions
 
         public static void RefreshConsoleTitle(Client client)
         {
-            var profile = client.Player.GetPlayer();
-            var inventory = client.Inventory.GetHoloInventory();
+            var profile = client.Player.GetPlayer().Result;
+            var inventory = client.Inventory.GetInventoryItems();
             var playerStats = client.Inventory.GetPlayerStats();
             var stats = playerStats.FirstOrDefault();
             if (stats == null)
@@ -581,7 +579,7 @@ namespace PokeMaster.Logic.Functions
                 /*try {
                     Application.OpenForms[0].Invoke(new Action(() => Application.OpenForms[0].Text = TitleText));
                 } catch (Exception ex1) {
-                    Logger.ExceptionInfo(ex1.ToString());
+                    Logger.Debug("Exception: "+ ex1.ToString());
                 }*/
 
                 //Xelwon fix this
@@ -608,13 +606,13 @@ namespace PokeMaster.Logic.Functions
                         var runTimeRemaining = timetorunstamp - (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
                         var remainingTime = Math.Round(runTimeRemaining / 1000 / 60, 2);
                         if (runTimeRemaining <= 0) {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Red, "Time To Run Reached or Exceeded...Walking back to default location and stopping bot");
+                            Logger.Error( "Time To Run Reached or Exceeded...Walking back to default location and stopping bot");
 
                             Logic.Instance.WalkWithRouting(GlobalVars.latitude, GlobalVars.longitude);
 
                             LimitReached("Time to Run");
                         } else {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Blue, $"Remaining Time to Run: {remainingTime} minutes");
+                            Logger.Info( $"Remaining Time to Run: {remainingTime} minutes");
                         }
                     }
                 }
@@ -634,17 +632,17 @@ namespace PokeMaster.Logic.Functions
                             GlobalVars.pauseAtPokeStop = true;
                             resumetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds +GlobalVars.BreakLength * 60 * 1000;
 
-                            Logger.ColoredConsoleWrite(ConsoleColor.Blue, $"Break Time! Pause walking for {GlobalVars.BreakLength} minutes");
+                            Logger.Info( $"Break Time! Pause walking for {GlobalVars.BreakLength} minutes");
                         }
                         else
                         {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Blue, $"Remaining Time until break: {Math.Round(walkTimeRemaining / 1000 / 60, 2)} minutes");
+                            Logger.Info( $"Remaining Time until break: {Math.Round(walkTimeRemaining / 1000 / 60, 2)} minutes");
                         }
                     }
                     else if (Math.Abs(resumetimestamp + 10000) < 0.001) {
                         pausetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + GlobalVars.BreakInterval * 60 * 1000;
 
-                        Logger.ColoredConsoleWrite(ConsoleColor.Blue, $"Remaining Time until break: {GlobalVars.BreakInterval} minutes");
+                        Logger.Info( $"Remaining Time until break: {GlobalVars.BreakInterval} minutes");
                     }
                 }
 
@@ -657,11 +655,11 @@ namespace PokeMaster.Logic.Functions
                         resumetimestamp = -10000;
                         GlobalVars.pauseAtPokeStop = false;
 
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Break over, back to walking!");
+                        Logger.Info( "Break over, back to walking!");
                     }
                     else
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Blue, $"Remaining Time until resume walking: {Math.Round(breakTimeRemaining / 1000 / 60, 2)} minutes");
+                        Logger.Info( $"Remaining Time until resume walking: {Math.Round(breakTimeRemaining / 1000 / 60, 2)} minutes");
                     }
                 }
 
@@ -685,7 +683,7 @@ namespace PokeMaster.Logic.Functions
                 //add logging for pokemon catch disabled here for now to prevent spamming
                 if (!GlobalVars.CatchPokemon)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Catching Pokemon Disabled in Client Settings - Skipping all pokemon");
+                    Logger.Error( $"Catching Pokemon Disabled in Client Settings - Skipping all pokemon");
                 }
 
                 #endregion
@@ -698,13 +696,13 @@ namespace PokeMaster.Logic.Functions
                 {
                     if (GlobalVars.FarmPokestops)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemon Catch Limit Reached - Bot will only farm pokestops");
+                        Logger.Info( "Pokemon Catch Limit Reached - Bot will only farm pokestops");
 
                         CatchingLogic.AllowCatchPokemon = false;
                     }
                     else
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemon Catch Limit Reached and not farming pokestops - Bot will return to default location and stop");
+                        Logger.Info( "Pokemon Catch Limit Reached and not farming pokestops - Bot will return to default location and stop");
 
                         Logic.Instance.WalkWithRouting(GlobalVars.latitude, GlobalVars.longitude);
 
@@ -720,13 +718,13 @@ namespace PokeMaster.Logic.Functions
                 {
                     if (GlobalVars.CatchPokemon && CatchingLogic.AllowCatchPokemon)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokestop Farmed Limit Reached - Bot will only catch pokemon");
+                        Logger.Info( "Pokestop Farmed Limit Reached - Bot will only catch pokemon");
 
                         GlobalVars.FarmPokestops = false;
                     }
                     else
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokestop Farmed Limit Reached and not catching pokemon - Bot will return to default location and stop");
+                        Logger.Info( "Pokestop Farmed Limit Reached and not catching pokemon - Bot will return to default location and stop");
 
                         Logic.Instance.WalkWithRouting(GlobalVars.latitude, GlobalVars.longitude);
 
@@ -740,7 +738,7 @@ namespace PokeMaster.Logic.Functions
 
                 if (Math.Abs(startingXp + 10000) > 0.001 && Math.Abs(currentxp + 10000) > 0.001 && (currentxp = -startingXp) >= GlobalVars.XPFarmedLimit)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "XP Farmed Limit Reached - Bot will return to default location and stop");
+                    Logger.Info( "XP Farmed Limit Reached - Bot will return to default location and stop");
 
                     if (GlobalVars.UseGoogleMapsAPI)
                     {
@@ -781,7 +779,7 @@ namespace PokeMaster.Logic.Functions
                         var date = DateTime.Now.ToString();
                         File.AppendAllText(logs, $"[{date}] - Transfer unwanted {Pokename} CP {pokemon.Cp}" + Environment.NewLine);
                     }
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Enqueuing to BULK Transfer unwanted {Pokename} CP {pokemon.Cp} ");
+                    Logger.Warn( $"Enqueuing to BULK Transfer unwanted {Pokename} CP {pokemon.Cp} ");
                     RandomHelper.RandomSleep(400, 600);
                 }
             }
@@ -789,16 +787,16 @@ namespace PokeMaster.Logic.Functions
             if (!idsToTransfer.Any())
                 return;
 
-            var _response = Logic.objClient.Inventory.ReleasePokemon(idsToTransfer);
+            var _response = Logic.objClient.Inventory.ReleasePokemon(idsToTransfer).Result;
 
             if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer Successful of {idsToTransfer.Count} pokemon => {_response.CandyAwarded.ToString()} candy/ies awarded.");
+                Logger.Warn( $"Transfer Successful of {idsToTransfer.Count} pokemon => {_response.CandyAwarded.ToString()} candy/ies awarded.");
                 RandomHelper.RandomSleep(1000, 2000);
             }
             else
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Something happened while transferring pokemon: {_response.Result}");
+                Logger.Error( $"Something happened while transferring pokemon: {_response.Result}");
             }
 
         }
@@ -811,12 +809,12 @@ namespace PokeMaster.Logic.Functions
             }
             if (GlobalVars.TransferDoublePokemons)
             {
-                var profil = Logic.objClient.Player.GetPlayer();
+                var profil = Logic.objClient.Player.GetPlayer().Result;
                 RandomHelper.RandomSleep(300, 400);
 
                 if (GlobalVars.pauseAtEvolve2)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Stopping to transfer some Pokemon.");
+                    Logger.Info( "Stopping to transfer some Pokemon.");
                     GlobalVars.PauseTheWalking = true;
                 }
                 var buddyId = (profil.PlayerData.BuddyPokemon!=null) ? profil.PlayerData.BuddyPokemon.Id : 0;
@@ -839,7 +837,7 @@ namespace PokeMaster.Logic.Functions
 
                         if (buddyId == duplicatePokemon.Id)
                         {
-                            Logger.Warning($"Pokemon {Pokename} with {IVPercent}% IV Is your buddy so can not be transfered");
+                            Logger.Warn($"Pokemon {Pokename} with {IVPercent}% IV Is your buddy so can not be transfered");
                             continue;// go to next itearion from foreach
                         }
 
@@ -859,7 +857,7 @@ namespace PokeMaster.Logic.Functions
                             {
                                 File.AppendAllText(logs, $"[{date}] - Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Your best is: {BestIV}% IV)" + Environment.NewLine);
                             }
-                            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Enqueuing to BULK Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Your best is: {BestIV}% IV)");
+                            Logger.Warn( $"Enqueuing to BULK Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Your best is: {BestIV}% IV)");
                         }
                         else
                         {
@@ -867,7 +865,7 @@ namespace PokeMaster.Logic.Functions
                             {
                                 File.AppendAllText(logs, $"[{date}] - Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Best: {bestPokemonsCpOfType.First().Cp} CP)" + Environment.NewLine);
                             }
-                            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Enqueuing to BULK Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Best: {bestPokemonsCpOfType.First().Cp} CP)");
+                            Logger.Warn( $"Enqueuing to BULK Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Best: {bestPokemonsCpOfType.First().Cp} CP)");
                         }
 
                         if (Logic.Instance.Telegram != null)
@@ -878,21 +876,21 @@ namespace PokeMaster.Logic.Functions
                 }
                 if (pokemonsToTransfer.Any())
                 {
-                    var _response = Logic.objClient.Inventory.ReleasePokemon(pokemonsToTransfer);
+                    var _response = Logic.objClient.Inventory.ReleasePokemon(pokemonsToTransfer).Result;
 
                     if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Transfer Successful of " + pokemonsToTransfer.Count + " pokemon => " + _response.CandyAwarded + ((_response.CandyAwarded == 1) ? " candy" : " candies") + " awarded.", LogLevel.Info);
+                        Logger.Warn( "Transfer Successful of " + pokemonsToTransfer.Count + " pokemon => " + _response.CandyAwarded + ((_response.CandyAwarded == 1) ? " candy" : " candies") + " awarded.");
                         RandomHelper.RandomSleep(1000, 2000);
                     }
                     else
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Something happened while transferring pokemon: {_response.Result}");
+                        Logger.Error( $"Something happened while transferring pokemon: {_response.Result}");
                     }
 
                     if (GlobalVars.pauseAtEvolve2)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemon transfered. Time to continue our journey!");
+                        Logger.Info( "Pokemon transfered. Time to continue our journey!");
                         GlobalVars.PauseTheWalking = false;
                     }
                 }
@@ -955,21 +953,21 @@ namespace PokeMaster.Logic.Functions
             if (_lastegguse > DateTime.Now.AddSeconds(5))
             {
                 TimeSpan duration = _lastegguse - DateTime.Now;
-                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Lucky Egg still running: {duration.Minutes}m{duration.Seconds}s");
+                Logger.Info( $"Lucky Egg still running: {duration.Minutes}m{duration.Seconds}s");
                 return;
             }
 
             if (luckyEgg == null || luckyEgg.Count <= 0) { return; }
 
             client.Inventory.UseItemXpBoost(ItemId.ItemLuckyEgg);
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Lucky Egg, remaining: {luckyEgg.Count - 1}");
+            Logger.Info( $"Used Lucky Egg, remaining: {luckyEgg.Count - 1}");
             _lastegguse = DateTime.Now.AddMinutes(30);
             RandomHelper.RandomSleep(3000, 3100);
         }
 
         public static IEnumerable<PokemonSettings> GetPokemonSettings()
         {
-            var templates =   Logic.objClient.Download.GetItemTemplates();
+            var templates =   Logic.objClient.Download.DownloadItemTemplates().Result;
             return
                 templates.ItemTemplates.Select(i => i.PokemonSettings)
                 .Where(p => p != null && p.FamilyId != PokemonFamilyId.FamilyUnset);
@@ -977,9 +975,9 @@ namespace PokeMaster.Logic.Functions
 
         public static List<Candy> GetPokemonFamilies()
         {
-            var inventory =  Logic.objClient.Inventory.GetHoloInventory();
+            var inventory =  Logic.objClient.Inventory.GetInventoryItems();
 
-            var families = from item in inventory.InventoryDelta.InventoryItems
+            var families = from item in inventory
                 where item.InventoryItemData?.Candy != null
                 where item.InventoryItemData?.Candy.FamilyId != PokemonFamilyId.FamilyUnset
                 group item by item.InventoryItemData?.Candy.FamilyId into family
@@ -1052,7 +1050,7 @@ namespace PokeMaster.Logic.Functions
         {
             if (GetServerVersion() > Assembly.GetEntryAssembly().GetName().Version)
             {
-                Logger.Warning("There is an Update on Github");
+                Logger.Warn("There is an Update on Github");
                 var dialogResult = MessageBox.Show(
                     "There is an Update on Github. do you want to open it ?", $"Newest Version: {GetServerVersion()}, MessageBoxButtons.YesNo");
                 switch (dialogResult)

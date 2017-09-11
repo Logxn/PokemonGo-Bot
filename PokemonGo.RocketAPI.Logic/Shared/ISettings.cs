@@ -2,9 +2,6 @@
 using System;
 using Google.Protobuf;
 using POGOProtos.Enums;
-using POGOProtos.Inventory.Item;
-using PokemonGo.RocketAPI.Enums;
-using System.Device.Location;
 using System.Collections.Generic;
 
 
@@ -18,7 +15,6 @@ namespace PokeMaster.Logic.Shared
 
         /* AUTHENTICATION */
         string pFHashKey { get; set; }
-        AuthType AuthType { get; set; }
         string Username { get; set; }
         string Password { get; set; }
 

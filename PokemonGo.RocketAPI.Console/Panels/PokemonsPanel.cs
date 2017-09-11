@@ -221,7 +221,7 @@ namespace PokeMaster
                     additionalPokeData = Newtonsoft.Json.JsonConvert.DeserializeObject<List<AdditionalPokeData>>(jsonData);
                 }
             } catch (Exception ex1) {
-                Logger.ExceptionInfo(ex1.ToString());
+                Logger.Debug("Exception: "+ ex1.ToString());
             }
         }
 
@@ -245,7 +245,7 @@ namespace PokeMaster
                     try{
                         PokemonListView.BeginUpdate();
                     }catch(Exception ex1){
-                        Logger.ExceptionInfo(ex1.ToString());
+                        Logger.Debug("Exception: "+ ex1.ToString());
                     }
                     
                     PokemonListView.Items.Clear();
@@ -366,7 +366,7 @@ namespace PokeMaster
                     try{
                         PokemonListView.EndUpdate();
                     }catch(Exception ex1){
-                        Logger.ExceptionInfo(ex1.ToString());
+                        Logger.Debug("Exception: "+ ex1.ToString());
                     }
                     PokemonListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
                     EnabledButton(true);
@@ -376,7 +376,7 @@ namespace PokeMaster
             }
             catch (Exception ex1)
             {
-                Logger.ExceptionInfo(ex1.ToString());
+                Logger.Debug("Exception: "+ ex1.ToString());
             }
         }
         private void EnabledButton(bool enabled, string reason = "")
@@ -445,7 +445,7 @@ namespace PokeMaster
 
             if (GlobalVars.pauseAtEvolve2)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Taking a break to evolve some pokemons!");
+                Logger.Info( $"Taking a break to evolve some pokemons!");
                 GlobalVars.PauseTheWalking = true;
             }
             var useItemAtEvolve = MessageBox.Show(th.TS("Do you want try to use Evolving Item?"), th.TS("Evolving Item Confirmation"), MessageBoxButtons.YesNo) == DialogResult.Yes;
@@ -490,7 +490,7 @@ namespace PokeMaster
                 }
                 else
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Failed to evolve {pokemoninfo.PokemonId}. EvolvePokemonOutProto.Result was {resp.Result}");
+                    Logger.Error( $"Failed to evolve {pokemoninfo.PokemonId}. EvolvePokemonOutProto.Result was {resp.Result}");
                     failed += " {pokemoninfo.PokemonId} ";
                 }
 
@@ -526,7 +526,7 @@ namespace PokeMaster
 
             if (GlobalVars.pauseAtEvolve)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved everything. Time to continue our journey!");
+                Logger.Info( $"Evolved everything. Time to continue our journey!");
                 GlobalVars.PauseTheWalking = false;
             }
         }
@@ -576,15 +576,15 @@ namespace PokeMaster
                             File.AppendAllText(logs, $"[{date}] - MANUAL - Enqueuing to BULK transfer pokemon {transfered}/{total}: { pokemon.PokemonId}" + Environment.NewLine);
                             var strPerfection = PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00");
                             var strTransfer = $"Enqueuing to BULK transfer pokemon {transfered}/{total}: {strPokename} CP {pokemon.Cp} IV {strPerfection}";
-                            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, strTransfer, LogLevel.Info);
+                            Logger.Warn( strTransfer, LogLevel.Info);
                             
                             PokemonListView.Items.Remove(selectedItem);
                         }
                         else
                         {
-                            if (pokemon.DeployedFortId != "") Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Impossible to transfer {strPokename} because it is deployed in a Gym.");
-                            if (pokemon.Favorite == 1) Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Impossible to transfer {strPokename} because it is a favourite pokemon.");
-                            if (pokemon.Id == profile.PlayerResponse.PlayerData.BuddyPokemon.Id) Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Impossible to transfer {strPokename} because it is your Buddy.");
+                            if (pokemon.DeployedFortId != "") Logger.Info( $"Impossible to transfer {strPokename} because it is deployed in a Gym.");
+                            if (pokemon.Favorite == 1) Logger.Info( $"Impossible to transfer {strPokename} because it is a favourite pokemon.");
+                            if (pokemon.Id == profile.PlayerResponse.PlayerData.BuddyPokemon.Id) Logger.Info( $"Impossible to transfer {strPokename} because it is your Buddy.");
                             total--;
                         }
                     }
@@ -597,7 +597,7 @@ namespace PokeMaster
                             {
                                 File.AppendAllText(logs, $"[{date}] - MANUAL - Sucessfully Bulk transfered {transfered}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
                             }
-                            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer Successful of {transfered}/{total} pokemons => {_response.CandyAwarded.ToString()} candy/ies awarded.");
+                            Logger.Warn( $"Transfer Successful of {transfered}/{total} pokemons => {_response.CandyAwarded.ToString()} candy/ies awarded.");
                             statusTexbox.Text = $"Succesfully Bulk transfered {total} Pokemons.";
                             RandomHelper.RandomSleep(1000, 2000);
                         }
@@ -617,7 +617,7 @@ namespace PokeMaster
                 }
                 EnabledButton(true);
             } catch (Exception ex1) {
-                Logger.ExceptionInfo(ex1.ToString());
+                Logger.Debug("Exception: "+ ex1.ToString());
             }
 
         }
@@ -637,13 +637,13 @@ namespace PokeMaster
                 {
                     ret  = true;
                 } else {
-                    Logger.Warning(evolvePokemonResponse.Result.ToString());
+                    Logger.Warn(evolvePokemonResponse.Result.ToString());
                 }
                 RandomHelper.RandomSleep(1000, 2000);
             }
             catch (Exception e)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error Powering Up: " + e.Message);
+                Logger.Error( "Error Powering Up: " + e.Message);
             }
             return ret;
         }
@@ -818,7 +818,7 @@ namespace PokeMaster
             }
             catch (Exception e)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error ChangeFavourites: " + e.Message);
+                Logger.Error( "Error ChangeFavourites: " + e.Message);
             }
             return resp;
         }
@@ -840,7 +840,7 @@ namespace PokeMaster
             {
                 if (changeBuddy(pokemon))
                 {
-                    client.Player.PlayerResponse.PlayerData.BuddyPokemon.Id = pokemon.Id;
+                    client.Player.GetPlayer().Result.PlayerData.BuddyPokemon.Id = pokemon.Id;
                     PokemonListView.SelectedItems[0].Text = "☉" + pokemon.PokemonId;
                 }
                 else
@@ -859,7 +859,7 @@ namespace PokeMaster
             }
             catch (Exception e)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error SetBuddyPokemon: " + e.Message);
+                Logger.Error( "Error SetBuddyPokemon: " + e.Message);
             }
             return ret;
         }
@@ -940,7 +940,7 @@ namespace PokeMaster
             if (selectedPokemon.DeployedFortId=="")
                 return;
 
-            var forts = client.Map.GetMapObjects().Result;
+            var forts = client.Map.GetMapObjects();
             var pokeGym = forts.MapCells.SelectMany(i => i.Forts)
                 .FirstOrDefault(i => i.Id == selectedPokemon.DeployedFortId );
 

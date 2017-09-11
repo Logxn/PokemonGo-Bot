@@ -75,7 +75,7 @@ namespace PokemonGo.RocketAPI.Hash
                         Logger.Debug("Changing KEY to: " + this.apiKey.Substring(0, 5));
                     } else {
                         NoValidKey = true;
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: PokeHashHasher.cs - NO VALID KEY FOUND - STOPPING");
+                        Logger.Error( "Error: PokeHashHasher.cs - NO VALID KEY FOUND - STOPPING");
                         System.Console.ReadKey();
                         Environment.Exit(-1);
                     }

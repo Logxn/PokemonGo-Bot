@@ -11,8 +11,10 @@ using System.Device.Location;
 using System.IO;
 using System.Net;
 using System.Globalization;
+using POGOLib.Official.Logging;
 using PokeMaster.Logic.Shared;
 using PokemonGo.RocketAPI;
+using PokemonGo.RocketAPIWrapper;
 
 namespace PokeMaster.Logic.Utils
 {
@@ -50,7 +52,7 @@ namespace PokeMaster.Logic.Utils
                     altitude = (double)json.SelectToken("results[0].elevation");
                 } 
             } catch (Exception e) {
-                Logger.ExceptionInfo(e.ToString());
+                Logger.Debug("Exception: "+ e.ToString());
             }
             return altitude;
         }
@@ -162,7 +164,8 @@ namespace PokeMaster.Logic.Utils
         }
         public static void updatePlayerLocation(Client client, double latitude, double longitude, double altitude, bool updateFile = true)
         {
-            client.Player.SetCoordinates(latitude, longitude, altitude);
+            client.Player.SetCoordinates(latitude, longitude);
+            client.CurrentAltitude = altitude;
             if (updateFile) {
                 string latlngalt = latitude.ToString(CultureInfo.InvariantCulture) + ":" + longitude.ToString(CultureInfo.InvariantCulture) + ":" + altitude.ToString(CultureInfo.InvariantCulture);
                 File.WriteAllText(Directory.GetCurrentDirectory() + "\\Configs\\LastCoords.txt", latlngalt);
@@ -180,7 +183,7 @@ namespace PokeMaster.Logic.Utils
                     foreach (Result result in elevation.Results)
                         return  result.Elevation;
             } catch (Exception ex1) {
-                Logger.ExceptionInfo(ex1.ToString());
+                Logger.Debug("Exception: "+ ex1.ToString());
             }
             return  GetRandom(11.0d, 8.6d);
         }

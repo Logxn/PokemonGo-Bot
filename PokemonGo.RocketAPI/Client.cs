@@ -124,7 +124,7 @@ namespace PokemonGo.RocketAPI
             } catch (Exception ex)
             {
                 Logger.Error("Something in your Proxy Settings is wrong, or the Proxy is down! Exiting in 5 seconds.");
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Exception in Client.cs - InitProxy: " + ex.Message);
+                Logger.Error( "Exception in Client.cs - InitProxy: " + ex.Message);
                 Thread.Sleep(5000);
                 Environment.Exit(0);
                 return null;

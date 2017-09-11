@@ -27,7 +27,6 @@ namespace PokeMaster.Logic.Shared
         #region User Settings
         public string pFHashKey { get; set; }
         public Google.Protobuf.ByteString SessionHash { get; set; }
-        public PokemonGo.RocketAPI.Enums.AuthType AuthType { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
         public bool UsePwdEncryption { get; set; }

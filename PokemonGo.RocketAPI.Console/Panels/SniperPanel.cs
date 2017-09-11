@@ -84,7 +84,7 @@ namespace PokeMaster
         
         void ForceAutoSnipe_Click(object sender, EventArgs e)
         {
-            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "User Initiated Automatic Snipe Routine! We'll stop farming and start sniping ASAP!");
+            Logger.Warn( "User Initiated Automatic Snipe Routine! We'll stop farming and start sniping ASAP!");
             GlobalVars.ForceSnipe = true;
         }
         void SnipePokemonPokeCom_CheckedChanged(object sender, EventArgs e)
@@ -103,7 +103,7 @@ namespace PokeMaster
                     var lng = double.Parse(array[1].Trim(), CultureInfo.InvariantCulture);
                     return new GeoCoordinate(lat, lng);
                 } catch (Exception ex1) {
-                    Logger.ExceptionInfo(ex1.ToString());
+                    Logger.Debug("Exception: "+ ex1.ToString());
                 }
             return null;
         }
@@ -112,11 +112,11 @@ namespace PokeMaster
         void SnipePoke(PokemonId id, int secondsToWait, int numberOfTries, bool transferIt, bool usePinap)
         {
             if (GlobalVars.SnipeOpts.Enabled){
-                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "There is a Snipe in process.");
+                Logger.Warn( "There is a Snipe in process.");
                 return;
             }
                 
-            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Manual Snipe Triggered! We'll stop farming and go catch the pokemon ASAP");
+            Logger.Warn( "Manual Snipe Triggered! We'll stop farming and go catch the pokemon ASAP");
             
             GlobalVars.SnipeOpts.ID = id;
             GlobalVars.SnipeOpts.Location = splLatLngResult;
@@ -139,7 +139,7 @@ namespace PokeMaster
                     UnregisterUriScheme(URI_SCHEME);
                     UnregisterUriScheme(URI_SCHEME_MSNIPER);
 
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Service Uninstalled");
+                    Logger.Warn( "Service Uninstalled");
                     timerSnipe.Enabled = false;
                 } catch (Exception) {
                     MessageBox.Show(th.TS("Cannot uninstall service.") + "\n" + e.ToString());
@@ -148,7 +148,7 @@ namespace PokeMaster
                 try {
                     RegisterUriScheme(Application.ExecutablePath, URI_SCHEME, URI_KEY);
                     RegisterUriScheme(Application.ExecutablePath, URI_SCHEME_MSNIPER, URI_KEY_MSNIPER);
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Service Installed");
+                    Logger.Warn( "Service Installed");
                     timerSnipe.Enabled = true;
                 } catch (Exception) {
                     MessageBox.Show(th.TS("Cannot install service.") + "\n" + e.ToString());
@@ -169,7 +169,7 @@ namespace PokeMaster
                 var usePinap = false;
                 try {
                 } catch (Exception ex1) {
-                    Logger.ExceptionInfo(ex1.ToString());
+                    Logger.Debug("Exception: "+ ex1.ToString());
                 }
                 var pokeID = ToPokemonID(splt[0]);
                 SnipePoke(pokeID, stw, tries, transferIt, usePinap);
@@ -183,7 +183,7 @@ namespace PokeMaster
                 var usePinap = false;
                 try {
                 } catch (Exception ex1) {
-                    Logger.ExceptionInfo(ex1.ToString());
+                    Logger.Debug("Exception: "+ ex1.ToString());
                 }
                 var pokeID = ToPokemonID(splt[0]);
                 SnipePoke(pokeID, stw, tries, transferIt, usePinap);
@@ -199,7 +199,7 @@ namespace PokeMaster
                     var utf8 = new UTF8Encoding();
                     var reader = new BinaryReader(stream, utf8);
                     string txt = reader.ReadString();
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Read URI: " + txt);
+                    Logger.Warn( "Read URI: " + txt);
                     reader.Close();
                     stream.Close();
                     File.Delete(filename);
@@ -525,7 +525,7 @@ namespace PokeMaster
             else
                 DiscordLogic.MessageReceived -= InterceptedDiscortMessage;
             } catch (Exception ex1) {
-                Logger.ExceptionInfo(ex1.ToString());
+                Logger.Debug("Exception: "+ ex1.ToString());
             }
         }
         private void InterceptedDiscortMessage(object s, DiscordLogic.DiscordReceivedDataEventArgs args)
@@ -571,7 +571,7 @@ namespace PokeMaster
 
             } catch (Exception ex1) {
                 Logger.Error("Message Interception Failed");
-                Logger.ExceptionInfo(ex1.ToString());
+                Logger.Debug("Exception: "+ ex1.ToString());
             }
         }
         static readonly double[,] TimeValues = {{ 1, 1 },

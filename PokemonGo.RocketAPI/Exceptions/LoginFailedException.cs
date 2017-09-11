@@ -8,20 +8,20 @@ namespace PokemonGo.RocketAPI.Exceptions
         {
             if (_httpStatusCode == System.Net.HttpStatusCode.BadRequest)
             {
-                Logger.ExceptionInfo("Your account is banned, you received a Bad Request from server at login time. Press a key to exit.");
+                Logger.Debug("Exception: "+ "Your account is banned, you received a Bad Request from server at login time. Press a key to exit.");
                 End();
             }
         }
 
         public LoginFailedException(string message) : base(message)
         {
-            Logger.ExceptionInfo(message);
+            Logger.Debug("Exception: "+ message);
             End();
         }
 
         public LoginFailedException(Exception ex) : base()
         {
-            Logger.ExceptionInfo(ex.StackTrace);
+            Logger.Debug("Exception: "+ ex.StackTrace);
             End();
         }
 

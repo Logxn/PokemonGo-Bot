@@ -106,7 +106,7 @@ namespace PokeMaster
             button.Enabled = false;
             var client = Logic.Logic.objClient;
             if (client.ReadyToUse) {
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Refreshing Forts", LogLevel.Warning);
+                Logger.Error( "Refreshing Forts", LogLevel.Warning);
                 var mapObjects = await client.Map.GetMapObjects().ConfigureAwait(false);
                 var mapCells = mapObjects.MapCells;
                 var pokeStops =
@@ -137,7 +137,7 @@ namespace PokeMaster
                 if (!map.Overlays.Contains(_pokeGymsOverlay)) {
                     map.Overlays.Add(_pokeGymsOverlay);
                 }
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Refreshing Forts Done.", LogLevel.Warning);
+                Logger.Error( "Refreshing Forts Done.", LogLevel.Warning);
             }
            
 
@@ -188,7 +188,7 @@ namespace PokeMaster
                         tbAddress.Text = LocationUtils.FindAddress(newPosition);
                     }
                 } catch (Exception e) {
-                    Logger.ExceptionInfo(string.Format("Error in handleLiveGeoLocations: {0}", e));
+                    Logger.Debug("Exception: "+ string.Format("Error in handleLiveGeoLocations: {0}", e));
                 }
             }));
         }
@@ -200,7 +200,7 @@ namespace PokeMaster
                     _pokemonMarks.Clear();
                     _pokemonOverlay.Markers.Clear();
                 } catch (Exception e) {
-                    Logger.ExceptionInfo(string.Format("Error in HandleClearPokemon: {0}", e));
+                    Logger.Debug("Exception: "+ string.Format("Error in HandleClearPokemon: {0}", e));
                 }
             }));
         }
@@ -218,7 +218,7 @@ namespace PokeMaster
                         _pokemonOverlay.IsVisibile = true;
                     }
                 } catch (Exception e) {
-                    Logger.ExceptionInfo(string.Format("Error in infoObservable_HandleDeletePokemonLocation: {0}", e));
+                    Logger.Debug("Exception: "+ string.Format("Error in infoObservable_HandleDeletePokemonLocation: {0}", e));
                 }
             }));
         }
@@ -268,7 +268,7 @@ namespace PokeMaster
                         map.Overlays.Add(_pokemonOverlay);
                     _pokemonOverlay.IsVisibile = true;
                 } catch (Exception e) {
-                    Logger.ExceptionInfo(string.Format("Error in HandleNewPokemonLocations: {0}", e.ToString()));
+                    Logger.Debug("Exception: "+ string.Format("Error in HandleNewPokemonLocations: {0}", e.ToString()));
                 }
             }));
         }
@@ -390,7 +390,7 @@ namespace PokeMaster
                             .ContinueWith(t => InfoObservable_HandlePokeStop(pokeStop,false,pokeStopMaker.ToolTipText));
                         
                 } else {
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, string.Format("Ignore this: pokeStop.Id is null."));
+                    Logger.Error( string.Format("Ignore this: pokeStop.Id is null."));
                 }
             }));
         }
@@ -429,11 +429,11 @@ namespace PokeMaster
                         if (GlobalVars.SaveForts)
                             SavePokestopsInfo();
                     } else {
-                        Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, string.Format("Ignore this: pokeStops length is 0."));
+                        Logger.Error( string.Format("Ignore this: pokeStops length is 0."));
                     }
                 } catch (Exception e) {
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Ignore this: sending exception information to log file.");
-                    Logger.AddLog(string.Format("Error in HandlePokeStop: {0}", e.ToString()));
+                    Logger.Error( "Ignore this: sending exception information to log file.");
+                    Logger.Error(string.Format("Error in HandlePokeStop: {0}", e.ToString()));
                 }
             }));
         }
@@ -560,7 +560,7 @@ namespace PokeMaster
                                 InfoObservable_HandleUpdatePokeGym(pokeGym);
 
                             } else {
-                                Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, string.Format("Ignore this: pokeGym.Id is null."));
+                                Logger.Error( string.Format("Ignore this: pokeGym.Id is null."));
                             }
                         }
                         if (!map.Overlays.Contains(_pokeGymsOverlay))
@@ -570,11 +570,11 @@ namespace PokeMaster
                             SavePokestopsInfo();
                         
                     } else {
-                        Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, string.Format("Ignore this: pokeGym length is 0."));
+                        Logger.Error( string.Format("Ignore this: pokeGym length is 0."));
                     }
                 } catch (Exception e) {
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Ignore this: sending exception information to log file.");
-                    Logger.AddLog(string.Format("Error in HandlePokeStop: {0}", e.ToString()));
+                    Logger.Error( "Ignore this: sending exception information to log file.");
+                    Logger.Error(string.Format("Error in HandlePokeStop: {0}", e.ToString()));
                 }
             }));
         }
@@ -829,21 +829,21 @@ namespace PokeMaster
         {
             if (btnPauseWalking.Text.Equals(th.TS("Pause Walking"))) {
                 GlobalVars.pauseAtPokeStop = true;
-                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Pausing at next Pokestop. (will continue catching pokemon and farming pokestop when available)");
+                Logger.Info( "Pausing at next Pokestop. (will continue catching pokemon and farming pokestop when available)");
                 if (GlobalVars.RouteToRepeat.Count > 0) {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "User Defined Route Cleared!");
+                    Logger.Warn( "User Defined Route Cleared!");
                     GlobalVars.RouteToRepeat.Clear();
                 }
 
                 btnPauseWalking.Text = th.TS("Resume Walking");
             } else {
                 GlobalVars.pauseAtPokeStop = false;
-                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Resume walking between Pokestops.");
+                Logger.Info( "Resume walking between Pokestops.");
                 if (GlobalVars.RouteToRepeat.Count > 0) {
                     foreach (var geocoord in GlobalVars.RouteToRepeat) {
                         GlobalVars.NextDestinationOverride.AddLast(geocoord);
                     }
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "User Defined Route Captured! Beginning Route Momentarily.");
+                    Logger.Warn( "User Defined Route Captured! Beginning Route Momentarily.");
                 }
                 btnPauseWalking.Text = th.TS("Pause Walking");
             }

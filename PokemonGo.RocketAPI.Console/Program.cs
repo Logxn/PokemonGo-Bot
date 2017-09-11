@@ -52,7 +52,7 @@ namespace PokeMaster
                     {
                         openGUI = false;
                         Profile selectedProfile = null;
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "You added -nogui!");
+                        Logger.Error( "You added -nogui!");
                         if (!arg.Contains(":")) // Load Default Profile
                         {
                             #region Read bot settings
@@ -75,13 +75,13 @@ namespace PokeMaster
                                 }
                                 else
                                 {
-                                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Default Profile not found! You didn't setup the bot correctly by running it with -nogui.");
+                                    Logger.Error( "Default Profile not found! You didn't setup the bot correctly by running it with -nogui.");
                                     Environment.Exit(-1);
                                 }
                             }
                             else
                             {
-                                Logger.ColoredConsoleWrite(ConsoleColor.Red, "You have not setup the bot yet. Run it without -nogui to Configure.");
+                                Logger.Error( "You have not setup the bot yet. Run it without -nogui to Configure.");
                                 Environment.Exit(-1);
                             }
                         }
@@ -97,12 +97,12 @@ namespace PokeMaster
                             }
                             else
                             {
-                                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Profile not found! You didn't setup the bot correctly by running it with -nogui.");
+                                Logger.Error( "Profile not found! You didn't setup the bot correctly by running it with -nogui.");
                                 Environment.Exit(-1);
                             }
                         }
 
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Using Profile: " + GlobalVars.ProfileName);
+                        Logger.Error( "Using Profile: " + GlobalVars.ProfileName);
                         if (GlobalVars.UsePwdEncryption) GlobalVars.Password = Encryption.Decrypt(GlobalVars.Password);
                         #endregion
                     }
@@ -113,14 +113,14 @@ namespace PokeMaster
                     {
                         if (File.Exists(LastCoordsTXTFileName))
                         {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Last coords file exists, trying to delete it");
+                            Logger.Warn( "Last coords file exists, trying to delete it");
                             File.Delete(LastCoordsTXTFileName);
                         }
                         
                         string[] crdParts = arg.Split(',');
                         GlobalVars.latitude = double.Parse(crdParts[0].Replace(',', '.'), ConfigWindow.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
                         GlobalVars.longitude = double.Parse(crdParts[1].Replace(',', '.'), ConfigWindow.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
-                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Found coordinates in command line. Starting at: {GlobalVars.latitude},{GlobalVars.longitude},{GlobalVars.altitude}");
+                        Logger.Warn( $"Found coordinates in command line. Starting at: {GlobalVars.latitude},{GlobalVars.longitude},{GlobalVars.altitude}");
                         //we assume -noguie
                         openGUI = false;
                     }
@@ -155,16 +155,16 @@ namespace PokeMaster
             if (!GlobalVars.BypassCheckCompatibilityVersion)
             {
                 var currentAPIVersion =new CurrentAPIVersion();
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Current version: {Resources.BotVersion}");
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Supported API version: {Resources.BotApiSupportedVersion}");
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Current API version: {currentAPIVersion.GetNianticAPIVersion()}");
+                Logger.Error( $"Bot Current version: {Resources.BotVersion}");
+                Logger.Error( $"Bot Supported API version: {Resources.BotApiSupportedVersion}");
+                Logger.Error( $"Current API version: {currentAPIVersion.GetNianticAPIVersion()}");
 
                 bool CurrentVersionsOK = currentAPIVersion.CheckAPIVersionCompatibility(GlobalVars.BotApiSupportedVersion);
                 if (!CurrentVersionsOK)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Atention, current API version is new and still not supported by Bot.");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Bot will now exit to keep your account safe.");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"---------- PRESS ANY KEY TO CLOSE ----------");
+                    Logger.Error( $"Atention, current API version is new and still not supported by Bot.");
+                    Logger.Error( $"Bot will now exit to keep your account safe.");
+                    Logger.Error( $"---------- PRESS ANY KEY TO CLOSE ----------");
 
                     Console.ReadKey();
                     Environment.Exit(-1);
@@ -268,8 +268,8 @@ namespace PokeMaster
                     return;
                 }
 
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Bot Version {gitVersion} is available!");
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "We recommend to use this new version.");
+                Logger.Error( $"Bot Version {gitVersion} is available!");
+                Logger.Error( "We recommend to use this new version.");
             }
             catch (Exception)
             {

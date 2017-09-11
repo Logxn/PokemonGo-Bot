@@ -4,25 +4,24 @@ using System.Device.Location;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Google.Protobuf.Collections;
 using GoogleMapsApi;
 using GoogleMapsApi.Entities.Common;
 using GoogleMapsApi.Entities.Directions.Request;
 using GoogleMapsApi.Entities.Directions.Response;
-using POGOProtos.Data.Player;
+using POGOLib.Official.Logging;
 using POGOProtos.Enums;
 using POGOProtos.Inventory.Item;
+using POGOProtos.Map;
 using POGOProtos.Map.Fort;
 using POGOProtos.Map.Pokemon;
 using POGOProtos.Networking.Responses;
-using PokemonGo.RocketAPI;
-using PokemonGo.RocketAPI.Exceptions;
-using PokemonGo.RocketAPI.Helpers;
 using PokeMaster.Logic;
 using PokeMaster.Logic.Functions;
 using PokeMaster.Logic.Shared;
 using PokeMaster.Logic.Utils;
-using Google.Protobuf.Collections;
-using PokemonGo.RocketAPI.Shared;
+using PokemonGo.RocketAPI.Logic;
+using PokemonGo.RocketAPIWrapper;
 
 namespace PokeMaster.Logic
 {
@@ -32,13 +31,12 @@ namespace PokeMaster.Logic
         #region Members and Constructor
 
         public static Client objClient;
-        public readonly ISettings BotSettings;
+        public readonly PokeMaster.Logic.Shared.ISettings BotSettings;
         public TelegramUtil Telegram;
         public BotStats BotStats;
         public readonly Navigation navigation;
         public const double SpeedDownTo = 10 / 3.6;
         public readonly LogicInfoObservable infoObservable;
-        private readonly PokeVisionUtil pokevision;
         public bool pokeballoutofstock;
         public static Logic Instance;
         private readonly List<string> lureEncounters = new List<string>();
@@ -56,23 +54,17 @@ namespace PokeMaster.Logic
         #endregion
 
         #region Constructor
-        public Logic(ISettings botSettings, LogicInfoObservable infoObservable)
+        public Logic(PokeMaster.Logic.Shared.ISettings botSettings, LogicInfoObservable infoObservable)
         {
             this.BotSettings = botSettings;
-            var clientSettings = new PokemonGo.RocketAPI.Shared.ClientSettings(botSettings.pFHashKey, botSettings.DefaultLatitude, botSettings.DefaultLongitude, botSettings.DefaultAltitude,
-                      botSettings.proxySettings.hostName, botSettings.proxySettings.port, botSettings.proxySettings.username, botSettings.proxySettings.password,
-                      botSettings.AuthType, botSettings.Username, botSettings.Password, GlobalVars.BotApiSupportedVersion);
-            objClient = new Client(clientSettings);
-            objClient.setFailure(new ApiFailureStrat(objClient));
-            objClient.EvMakeTutorial += MakeTutorial;
-            LocaleInfo.SetValues(GlobalVars.LocaleCountry, GlobalVars.LocaleLanguage, GlobalVars.LocaleTimeZone, GlobalVars.LocaleLanguage + "-" + GlobalVars.LocaleCountry);
+            objClient = new Client(new ClientSettings(botSettings.Username,botSettings.Password,botSettings.pFHashKey,botSettings.DefaultLatitude,botSettings.DefaultLongitude));
+            //objClient.EvMakeTutorial += MakeTutorial;
+            //LocaleInfo.SetValues(GlobalVars.LocaleCountry, GlobalVars.LocaleLanguage, GlobalVars.LocaleTimeZone, GlobalVars.LocaleLanguage + "-" + GlobalVars.LocaleCountry);
             BotStats = new BotStats();
             navigation = new Navigation(objClient, botSettings);
-            pokevision = new PokeVisionUtil();
             this.infoObservable = infoObservable;
             Instance = this;
             sniperLogic = new Sniper(objClient, botSettings);
-            PokemonGo.RocketAPI.Shared.KeyCollection.Load();
 
             #region Set Session values
             Setout.sessionStart = DateTime.UtcNow;
@@ -102,20 +94,16 @@ namespace PokeMaster.Logic
         #region Start and run the Bot
         public void Execute()
         {
-            Logger.SelectedLevel = LogLevel.Error;
-            Logger.Warning("Source code and binary files of this bot are absolutely free and open-source!");
-            Logger.Warning("If you've paid for it. Request a chargeback immediately!");
-            Logger.Warning("You only need pay for a key to access to Hash Service");
+            Logger.Warn("Source code and binary files of this bot are absolutely free and open-source!");
+            Logger.Warn("If you've paid for it. Request a chargeback immediately!");
+            Logger.Warn("You only need pay for a key to access to Hash Service");
 
             if (GlobalVars.Debug.VerboseMode)
             {
-                Logger.SelectedLevel = LogLevel.Debug;
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"LogLevel set to {Logger.SelectedLevel}. Many logs will be generated.");
+                Logger.Error( $"LogLevel set to Debug. Many logs will be generated.");
             }
 
             #region Log Logger
-
-            Logger.Info($"Starting Execute on login server: {BotSettings.AuthType}");
 
             if (BotSettings.LogPokemons)
             {
@@ -133,9 +121,8 @@ namespace PokeMaster.Logic
             }
             #endregion
 
+            objClient.Player.SetCoordinates(BotSettings.DefaultLatitude,BotSettings.DefaultLongitude);
             objClient.CurrentAltitude = BotSettings.DefaultAltitude;
-            objClient.CurrentLongitude = BotSettings.DefaultLongitude;
-            objClient.CurrentLatitude = BotSettings.DefaultLatitude;
 
 
             #region Fix Altitude
@@ -145,7 +132,7 @@ namespace PokeMaster.Logic
                 objClient.CurrentAltitude = LocationUtils.GetAltitude(objClient.CurrentLatitude, objClient.CurrentLongitude);
                 BotSettings.DefaultAltitude = objClient.CurrentAltitude;
 
-                Logger.Warning($"Altitude was 0, resolved that. New Altitude is now: {objClient.CurrentAltitude}");
+                Logger.Warn($"Altitude was 0, resolved that. New Altitude is now: {objClient.CurrentAltitude}");
             }
 
             #endregion
@@ -183,55 +170,20 @@ namespace PokeMaster.Logic
 
                     Logger.Info("All Pokestops in range was already visited.");
                 }
-                catch (PtcOfflineException)
-                {
-                    Logger.Error("PTC Servers are probably down.");
-                }
-                catch (AggregateException ae)
-                {
-                    foreach (var e in ae.Flatten().InnerExceptions)
-                    {
-                        if (e is LoginFailedException)
-                        {
-                            Logger.Error(e.Message);
-                            Logger.Error("Exiting in 10 Seconds.");
-                            RandomHelper.RandomSleep(10000, 10001);
-                            Environment.Exit(0);
-                        }
-                        else if (e is GoogleException)
-                        {
-                            Logger.Error("Login Failed. Your credentials are wrong or Google Account is banned.");
-                            Logger.Error("Exiting in 10 Seconds.");
-                            RandomHelper.RandomSleep(10000, 10001);
-                            Environment.Exit(0);
-                        }
-                        else if (e is AccountNotVerifiedException)
-                        {
-                            Logger.Error("Your PTC Account is not activated.");
-                            Logger.Error("Exiting in 10 Seconds.");
-                            RandomHelper.RandomSleep(10000, 10001);
-                            Environment.Exit(0);
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
-                }
                 catch (Exception ex)
                 {
                     #region Log Error 
                     Exception realerror = ex;
                     while (realerror.InnerException != null)
                         realerror = realerror.InnerException;
-                    Logger.ExceptionInfo(ex.Message + "/" + realerror + "/" + ex.GetType());
+                    Logger.Debug("Exception: "+ ex.Message + "/" + realerror + "/" + ex.GetType());
                     #endregion
                 }
 
                 TelegramLogic.Stop();
                 DiscordLogic.Finish();
                 const int msToWait = 50000;
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Restarting in over {(msToWait + 5000) / 1000} Seconds.");
+                Logger.Error( $"Restarting in over {(msToWait + 5000) / 1000} Seconds.");
                 RandomHelper.RandomSleep(msToWait, msToWait + 10000);
             }
             #endregion
@@ -241,7 +193,7 @@ namespace PokeMaster.Logic
         private void FarmPokestopOnBreak(FortData[] pokeStops, Client client)
         {
             //check for overlapping pokestops where we are taking a break
-            Logger.ColoredConsoleWrite(ConsoleColor.Green, "Reached break location. Using Lures Enabled");
+            Logger.Info( "Reached break location. Using Lures Enabled");
 
             var pokestopsWithinRangeStanding = pokeStops
                 .Where(i => LocationUtils
@@ -253,7 +205,7 @@ namespace PokeMaster.Logic
 
             var pokestopCount = pokestopsWithinRangeStanding.Count();
 
-            Logger.ColoredConsoleWrite(ConsoleColor.Green, $"{pokestopCount} Pokestops within range of where you are standing.");
+            Logger.Info( $"{pokestopCount} Pokestops within range of where you are standing.");
 
             //Begin farming loop while on break
             while (BotSettings.pauseAtPokeStop)
@@ -273,7 +225,7 @@ namespace PokeMaster.Logic
                         {
                             BotSettings.UseLureGUIClick = false;
 
-                            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Adding lure and setting resume walking to 30 minutes");
+                            Logger.Info( "Adding lure and setting resume walking to 30 minutes");
 
                             objClient.Fort.AddFortModifier(fortInfo.FortId, ItemId.ItemTroyDisk);
 
@@ -300,7 +252,7 @@ namespace PokeMaster.Logic
                 Setout.resumetimestamp = -10000;
                 BotSettings.pauseAtPokeStop = false;
 
-                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Exit Command detected - Ending break");
+                Logger.Info( "Exit Command detected - Ending break");
             }
         }
 
@@ -327,7 +279,7 @@ namespace PokeMaster.Logic
             {
                 //update user location on map
                 Task.Factory.StartNew(() => Logic.Instance.infoObservable.PushNewGeoLocations(new GeoCoordinate(GlobalVars.latitude, GlobalVars.longitude)));
-                GetPlayerResponse profil = objClient.Player.GetPlayer();
+                GetPlayerResponse profil = objClient.Player.GetPlayer().Result;
                 objClient.Inventory.ExportPokemonToCSV(profil.PlayerData);
                 Setout.Execute();
                 while (GlobalVars.pauseAtPokeStop)
@@ -335,14 +287,6 @@ namespace PokeMaster.Logic
                     RandomHelper.RandomDelay(2000).Wait();
                 }
                 ExecuteFarmingPokestopsAndPokemons(objClient);
-            }
-            catch (AccessTokenExpiredException)
-            {
-                throw new AccessTokenExpiredException();
-            }
-            catch (InvalidPlatformException)
-            {
-                throw new InvalidPlatformException();
             }
             catch (Exception ex)
             {
@@ -366,7 +310,7 @@ namespace PokeMaster.Logic
         {
             CatchingLogic.Execute();
 
-            Logger.ColoredConsoleWrite(ConsoleColor.Blue, "Starting Archimedean spiral");
+            Logger.Info( "Starting Archimedean spiral");
 
             var i2 = 0;
             var salir = true;
@@ -396,7 +340,7 @@ namespace PokeMaster.Logic
                 {
                     salir = false;
 
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Returning to the starting point...");
+                    Logger.Info( "Returning to the starting point...");
 
                     navigation.HumanLikeWalking(new GeoCoordinate(BotSettings.DefaultLatitude, BotSettings.DefaultLongitude), BotSettings.WalkingSpeedInKilometerPerHour, CatchingLogic.Execute);
 
@@ -405,7 +349,7 @@ namespace PokeMaster.Logic
 
                 if (i2 % 10 == 0)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Blue, "Distance from starting point: " + distancia + " metros...");
+                    Logger.Info( "Distance from starting point: " + distancia + " metros...");
                 }
 
                 navigation.HumanLikeWalking(
@@ -413,7 +357,7 @@ namespace PokeMaster.Logic
                     BotSettings.WalkingSpeedInKilometerPerHour,
                     CatchingLogic.Execute);
 
-                Logger.ColoredConsoleWrite(ConsoleColor.Blue, "Looking PokeStops who are less than 30 meters...");
+                Logger.Info( "Looking PokeStops who are less than 30 meters...");
 
                 FncPokeStop(client, pokeStops, true);
 
@@ -445,18 +389,18 @@ namespace PokeMaster.Logic
 
                     if (!pokeStops.Any())
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "We can't find any PokeStops in a range of " + BotSettings.MaxWalkingRadiusInMeters + "m!");
+                        Logger.Error( "We can't find any PokeStops in a range of " + BotSettings.MaxWalkingRadiusInMeters + "m!");
                     }
                 }
 
                 if (!pokeStops.Any())
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "We can't find any PokeStops, which are unused! Probably the server are unstable, or you visted them all. Retrying..");
+                    Logger.Error( "We can't find any PokeStops, which are unused! Probably the server are unstable, or you visted them all. Retrying..");
                     tries--;
                 }
                 else
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "We found " + pokeStops.Count() + " usable PokeStops near your current location.");
+                    Logger.Warn( "We found " + pokeStops.Count() + " usable PokeStops near your current location.");
                     tries = 0;
                 }
             } while (tries > 0);
@@ -479,24 +423,19 @@ namespace PokeMaster.Logic
             #endregion
         }
 
-        private FortData[] GetNearbyPokeStops(bool updateMap = true, GetMapObjectsResponse mapObjectsResponse = null)
+        private FortData[] GetNearbyPokeStops(bool updateMap = true, RepeatedField<MapCell> mapCells = null)
         {
 
-            //Query nearby objects for mapData
-            if (mapObjectsResponse == null)
-                mapObjectsResponse = objClient.Map.GetMapObjects().Result;
-
             //narrow map data to pokestops within walking distance
-
             var unixNow = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
 
-            var pokeStops = mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
+            var pokeStops = mapCells.SelectMany(i => i.Forts)
                 .Where(i => i.Type == FortType.Checkpoint && i.CooldownCompleteTimestampMs < unixNow);
 
             IEnumerable<FortData> pokeGyms = new List<FortData>();
 
             if (GlobalVars.Gyms.Farm || GlobalVars.Gyms.Spin)
-                pokeGyms = mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
+                pokeGyms = mapCells.SelectMany(i => i.Forts)
                  .Where(i => i.Type == FortType.Gym && i.CooldownCompleteTimestampMs < unixNow);
 
             var both = pokeStops.Concat(pokeGyms)
@@ -598,8 +537,8 @@ namespace PokeMaster.Logic
                     }
                     catch (Exception e)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Ignore this: sending exception information to log file.");
-                        Logger.AddLog(string.Format("Error in Walk Defined Route: " + e));
+                        Logger.Error( "Ignore this: sending exception information to log file.");
+                        Logger.Error(string.Format("Error in Walk Defined Route: " + e));
                     }
                 }
 
@@ -632,7 +571,7 @@ namespace PokeMaster.Logic
                     continue;
                 }
 
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Next Pokestop: {fortInfo.Name} in {distance:0.##}m distance.");
+                Logger.Info( $"Next Pokestop: {fortInfo.Name} in {distance:0.##}m distance.");
 
                 #region Break At Lure Logic  
 
@@ -643,7 +582,7 @@ namespace PokeMaster.Logic
                     Setout.resumetimestamp = fortInfo.Modifiers.First().ExpirationTimestampMs;
                     var timeRemaining = Setout.resumetimestamp - (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
 
-                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Active Lure at next Pokestop - Pausing walk for " + Math.Round(timeRemaining / 60 / 1000, 2) + " Minutes");
+                    Logger.Info( "Active Lure at next Pokestop - Pausing walk for " + Math.Round(timeRemaining / 60 / 1000, 2) + " Minutes");
 
                     BotSettings.pauseAtPokeStop = true;
                 }
@@ -656,7 +595,7 @@ namespace PokeMaster.Logic
                 }
                 catch (Exception e)
                 {
-                    Logger.ExceptionInfo(string.Format("Error in Walk Default Route: " + e));
+                    Logger.Debug("Exception: "+ string.Format("Error in Walk Default Route: " + e));
                 }
 
                 // Pause and farm nearby pokestops
@@ -679,7 +618,7 @@ namespace PokeMaster.Logic
 
                 if (BotSettings.RelocateDefaultLocation)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Relocate Command Detected - Clearing User Defined Route");
+                    Logger.Warn( "Relocate Command Detected - Clearing User Defined Route");
 
                     GlobalVars.NextDestinationOverride.Clear();
                     GlobalVars.RouteToRepeat.Clear();
@@ -700,13 +639,13 @@ namespace PokeMaster.Logic
                     var pokestopCoords = GlobalVars.NextDestinationOverride.First();
                     GlobalVars.NextDestinationOverride.RemoveFirst();
 
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Path Override detected! Rerouting to user-selected pokeStop...");
+                    Logger.Warn( $"Path Override detected! Rerouting to user-selected pokeStop...");
 
                     WalkWithRouting(pokestopCoords.Latitude, pokestopCoords.Longitude);
                 }
                 catch (Exception ex1)
                 {
-                    Logger.ExceptionInfo(ex1.ToString());
+                    Logger.Debug("Exception: "+ ex1.ToString());
                 }
             } while (GlobalVars.NextDestinationOverride.Count > 0);
         }
@@ -729,7 +668,7 @@ namespace PokeMaster.Logic
         {
             var walkspeed = GetRandomWalkspeed();
 
-            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Getting Google Maps Routing");
+            Logger.Warn( $"Getting Google Maps Routing");
 
             if (BotSettings.GoogleMapsAPIKey != null)
             {
@@ -756,13 +695,13 @@ namespace PokeMaster.Logic
                 {
                     directionsRequest.TravelMode = TravelMode.Bicycling;
 
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Using Directions For Bicycling due to max speed setting > 10km/h");
+                    Logger.Warn( "Using Directions For Bicycling due to max speed setting > 10km/h");
                 }
 
                 if (walkspeed > 20)
                 {
                     directionsRequest.TravelMode = TravelMode.Bicycling;
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Using Directions For Driving due to max speed setting > 20km/h");
+                    Logger.Warn( "Using Directions For Driving due to max speed setting > 20km/h");
                 }
 
                 if (BotSettings.SelectedLanguage == "de")
@@ -797,14 +736,14 @@ namespace PokeMaster.Logic
 
                         if (BotSettings.RelocateDefaultLocation)
                         {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Exiting Navigation to Relocate");
+                            Logger.Warn( "Exiting Navigation to Relocate");
                             break;
                         }
 
                         #endregion
 
-                        var directiontext = PokemonGo.RocketAPI.Helpers.Utils.HtmlRemoval.StripTagsRegexCompiled(step.HtmlInstructions);
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, directiontext);
+                        var directiontext = Client.StripTagsRegexCompiled(step.HtmlInstructions);
+                        Logger.Info( directiontext);
                         var lastpoint = new Location(objClient.CurrentLatitude, objClient.CurrentLongitude);
                         foreach (var point in step.PolyLine.Points)
                         {
@@ -828,10 +767,10 @@ namespace PokeMaster.Logic
                                 {
                                     lowestspeed = (int)BotSettings.MinWalkSpeed;
                                 }
-                                Logger.ColoredConsoleWrite(ConsoleColor.Green, "As close as google can take us, going off-road at walking speed (" + lowestspeed + ")");
+                                Logger.Info( "As close as google can take us, going off-road at walking speed (" + lowestspeed + ")");
                                 navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchandFarm);
                             }
-                            Logger.ColoredConsoleWrite(ConsoleColor.Green, "Destination Reached!");
+                            Logger.Info( "Destination Reached!");
                         }
                     }
                 }
@@ -842,22 +781,22 @@ namespace PokeMaster.Logic
                 //Log any message other than expected directions response
                 else if (directions.Status == DirectionsStatusCodes.REQUEST_DENIED)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Request Failed! Bad API key?");
+                    Logger.Error( "Request Failed! Bad API key?");
                     navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, CatchingLogic.Execute);
                 }
                 else if (directions.Status == DirectionsStatusCodes.OVER_QUERY_LIMIT)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Over 2500 queries today! Are you botting unsafely? :)");
+                    Logger.Error( "Over 2500 queries today! Are you botting unsafely? :)");
                     navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, CatchingLogic.Execute);
                 }
                 else if (directions.Status == DirectionsStatusCodes.NOT_FOUND)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Geocoding coords failed! Waypoint: " + latitude + "," + longitude + " Bot Location: " + objClient.CurrentLatitude + "," + objClient.CurrentLongitude);
+                    Logger.Error( "Geocoding coords failed! Waypoint: " + latitude + "," + longitude + " Bot Location: " + objClient.CurrentLatitude + "," + objClient.CurrentLongitude);
                     navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, CatchingLogic.Execute);
                 }
                 else
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Unhandled Error occurred when getting route[ STATUS:" + directions.StatusStr + " ERROR MESSAGE:" + directions.ErrorMessage + "] Using default walk method instead.");
+                    Logger.Error( "Unhandled Error occurred when getting route[ STATUS:" + directions.StatusStr + " ERROR MESSAGE:" + directions.ErrorMessage + "] Using default walk method instead.");
                     navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, CatchingLogic.Execute);
                 }
 
@@ -865,7 +804,7 @@ namespace PokeMaster.Logic
             }
             else
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"API Key not found in Client Settings! Using default method instead.");
+                Logger.Error( $"API Key not found in Client Settings! Using default method instead.");
                 navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, CatchingLogic.Execute);
             }
 
@@ -896,22 +835,22 @@ namespace PokeMaster.Logic
                 switch (fortSearch.Result.ToString())
                 {
                     case "NoResultSet":
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Pokestop Error: We did not recieve a result from the pokestop.");
+                        Logger.Error( "Pokestop Error: We did not recieve a result from the pokestop.");
                         break;
                     case "Success":
                         // It already showed our pokestop Information
                         break;
                     case "OutOfRange":
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Pokestop Error: The pokestop is out of range!");
+                        Logger.Error( "Pokestop Error: The pokestop is out of range!");
                         break;
                     case "InCooldownPeriod":
-                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Pokestop Warning: The current Pokestop is in the cooldown period.");
+                        Logger.Warn( "Pokestop Warning: The current Pokestop is in the cooldown period.");
                         break;
                     case "InventoryFull":
-                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Pokestop Warning: Your Inventory is full. You did not recieve any items.");
+                        Logger.Warn( "Pokestop Warning: Your Inventory is full. You did not recieve any items.");
                         break;
                     case "ExceededDailyLimit":
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Pokestop Error: You are above your daily limit of pokestops! You should stop farming pokestops.");
+                        Logger.Error( "Pokestop Error: You are above your daily limit of pokestops! You should stop farming pokestops.");
                         break;
                 }
 
@@ -950,7 +889,7 @@ namespace PokeMaster.Logic
 
                         if (logrestock && pokeballoutofstock)
                         {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Detected Pokeball Restock - Enabling Catch Pokemon");
+                            Logger.Error( $"Detected Pokeball Restock - Enabling Catch Pokemon");
 
                             CatchingLogic.AllowCatchPokemon = true;
                             pokeballoutofstock = false;
@@ -985,14 +924,14 @@ namespace PokeMaster.Logic
                             {
                                 if (!lureEncounters.Contains(pokedata.EncounterId.ToString()))
                                 {
-                                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Catching Lured Pokemon");
+                                    Logger.Info( "Catching Lured Pokemon");
                                     CatchingLogic.CatchLuredPokemon(pokedata.EncounterId, pokedata.SpawnPointId, pokedata.PokemonId, pokedata.Longitude, pokedata.Latitude);
 
                                     lureEncounters.Add(pokedata.EncounterId.ToString());
                                 }
                                 else
                                 {
-                                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Skipped Lure Pokemon: " + pokedata.PokemonId + " because we have already caught him, or catching pokemon is disabled");
+                                    Logger.Info( "Skipped Lure Pokemon: " + pokedata.PokemonId + " because we have already caught him, or catching pokemon is disabled");
                                 }
                             }
                         }
@@ -1015,12 +954,12 @@ namespace PokeMaster.Logic
 
             if (!BotSettings.FarmPokestops)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Farm Pokestop option unchecked, skipping and only looking for pokemon");
+                Logger.Info( "Farm Pokestop option unchecked, skipping and only looking for pokemon");
 
                 return false;
             }
 
-            Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokestop not ready to farm again, skipping and only looking for pokemon");
+            Logger.Info( "Pokestop not ready to farm again, skipping and only looking for pokemon");
 
             return false;
         }
@@ -1047,7 +986,7 @@ namespace PokeMaster.Logic
             {
                 lastsearchtimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
 
-                var mapObjectsResponse = objClient.Map.GetMapObjects().Result;
+                var mapObjectsResponse = objClient.Map.GetMapObjects();
                 if (mapObjectsResponse == null)
                     return false;
                 //narrow map data to pokestops within walking distance
@@ -1057,7 +996,7 @@ namespace PokeMaster.Logic
                 var withinRangeStandingList = pokestopsWithinRangeStanding as IList<FortData> ?? pokestopsWithinRangeStanding.ToList();
                 if (withinRangeStandingList.Any())
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"{withinRangeStandingList.Count} Pokestops within range of user");
+                    Logger.Info( $"{withinRangeStandingList.Count} Pokestops within range of user");
 
                     foreach (var pokestop in withinRangeStandingList)
                     {
@@ -1125,13 +1064,13 @@ namespace PokeMaster.Logic
                     walkingspeed = BotSettings.RelocateDefaultLocationTravelSpeed;
                 }
 
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Relocating to new Default Location! Travelling at " + walkingspeed + "km/h");
+                Logger.Info( "Relocating to new Default Location! Travelling at " + walkingspeed + "km/h");
 
                 BotSettings.RelocateDefaultLocation = false;
             }
             else
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, "You're outside of the defined max. walking radius. Walking back!");
+                Logger.Info( "You're outside of the defined max. walking radius. Walking back!");
             }
 
             WalkWithRouting(BotSettings.DefaultLatitude, BotSettings.DefaultLongitude);
@@ -1180,7 +1119,7 @@ namespace PokeMaster.Logic
             if (!GlobalVars.CompleteTutorial)
                 return;
 
-            var state = objClient.Player.PlayerResponse.PlayerData.TutorialState;
+            var state = objClient.Player.GetPlayer().Result.PlayerData.TutorialState;
             AvatarSettings.Load(); // we need it to AvatarSelection, NameSelection and PokemonCapture
             /* 0 */ if (!state.Contains(TutorialState.LegalScreen)) Tutorial.MarkTutorialAsDone(TutorialState.LegalScreen, objClient);
             /* 1 */ if (!state.Contains(TutorialState.AvatarSelection)) Tutorial.MarkTutorialAsDone(TutorialState.AvatarSelection, objClient);
@@ -1198,7 +1137,7 @@ namespace PokeMaster.Logic
             if (!GlobalVars.CompleteTutorial)
                 return;
 
-            var state = objClient.Player.PlayerResponse.PlayerData.TutorialState;
+            var state = objClient.Player.GetPlayer().Result.PlayerData.TutorialState;
 
             /* 8 */ if (!state.Contains(TutorialState.PokestopTutorial)) Tutorial.MarkTutorialAsDone(TutorialState.PokestopTutorial, objClient);
         }
@@ -1209,7 +1148,7 @@ namespace PokeMaster.Logic
             if (!GlobalVars.CompleteTutorial)
                 return;
 
-            var state = objClient.Player.PlayerResponse.PlayerData.TutorialState;
+            var state = objClient.Player.GetPlayer().Result.PlayerData.TutorialState;
 
             /* 9 */ if (!state.Contains(TutorialState.GymTutorial)) Tutorial.MarkTutorialAsDone(TutorialState.GymTutorial, objClient);
         }

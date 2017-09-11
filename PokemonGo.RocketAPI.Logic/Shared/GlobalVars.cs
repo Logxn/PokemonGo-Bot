@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Device.Location;
 using System.IO;
 using Google.Protobuf;
+using POGOLib.Official.Logging;
 using POGOProtos.Enums;
 using POGOProtos.Inventory.Item;
-using PokemonGo.RocketAPI;
-using PokemonGo.RocketAPI.Enums;
 
 namespace PokeMaster.Logic.Shared
 {
@@ -15,8 +14,6 @@ namespace PokeMaster.Logic.Shared
     /// </summary>
     public static class GlobalVars
     {
-        // Bot Info  Globals (not yet implemented in any function)
-        public static Version BotApiSupportedVersion = Resources.BotApiSupportedVersion;
 
         // Command line vars
         public static bool BypassCheckCompatibilityVersion = false;
@@ -35,7 +32,6 @@ namespace PokeMaster.Logic.Shared
         public static bool IsDefault = false;
         public static int RunOrder = 0;
         public static string SettingsJSON = "";
-        public static AuthType acc = AuthType.Google;
         public static string email = "empty";
         public static string Password = "empty";
         public static bool WalkBackToDefaultLocation = true;
@@ -240,7 +236,7 @@ namespace PokeMaster.Logic.Shared
                          property.GetValue(settings));
                 } catch (Exception ex1) {
                     
-                    Logger.ExceptionInfo($"setting {fieldname}: {ex1.ToString()}");
+                    Logger.Debug("Exception: "+ $"setting {fieldname}: {ex1.ToString()}");
                 }
             }
         }
@@ -265,7 +261,7 @@ namespace PokeMaster.Logic.Shared
                     property.SetValue(settings,typeof(GlobalVars)
                                    .GetField(fieldname).GetValue(null));
                 } catch (Exception ex1) {
-                    Logger.ExceptionInfo($"setting {fieldname}: {ex1.ToString()}");
+                    Logger.Debug("Exception: "+ $"setting {fieldname}: {ex1.ToString()}");
                 }
             }
             return settings;

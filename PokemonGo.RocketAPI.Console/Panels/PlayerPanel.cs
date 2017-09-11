@@ -271,7 +271,7 @@ namespace PokeMaster
             if (teamSelect.ShowDialog() == DialogResult.OK){
                 // Simulate to enter in a gym before select a team.
                 var client = Logic.Logic.objClient;
-                var mapObjects = client.Map.GetMapObjects().Result;
+                var mapObjects = client.Map.GetMapObjects();
                 var mapCells = mapObjects.MapCells;
 
                 var pokeGyms = mapCells.SelectMany(i => i.Forts)
@@ -288,7 +288,7 @@ namespace PokeMaster
                         var resp2 = SelectTeam(team);
                         if (resp2.Status)
                         {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Green, "Selected Team: " + team.ToString());
+                            Logger.Info( "Selected Team: " + team.ToString());
                             Execute();
                         }
                         else
@@ -335,7 +335,7 @@ namespace PokeMaster
             }
             catch (Exception e)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error SelectTeam: " + e.Message);
+                Logger.Error( "Error SelectTeam: " + e.Message);
                 SelectTeam(teamColor);
             }
             return resp1;
@@ -360,7 +360,7 @@ namespace PokeMaster
             }
             catch (Exception e)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error GetGym: " + e.Message);
+                Logger.Error( "Error GetGym: " + e.Message);
                 GetGym(gym,lat,lng);
             }
             return resp1;
@@ -377,7 +377,7 @@ namespace PokeMaster
                     }
                 }
                 catch (Exception ex1) {
-                    Logger.ExceptionInfo(ex1.ToString());
+                    Logger.Debug("Exception: "+ ex1.ToString());
                 }
             }
         }

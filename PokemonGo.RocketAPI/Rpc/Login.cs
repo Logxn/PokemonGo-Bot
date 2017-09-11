@@ -89,7 +89,7 @@ namespace PokemonGo.RocketAPI.Rpc
             // This call (GetPlayerProfile) is only needed if the tutorial is done.
             // TODO: Check if tutorial is done to do not do GetPlayerProfile.
 
-            if (Client.Player.PlayerResponse.PlayerData.TutorialState.Count() >= 5) Client.Player.GetPlayerProfile();
+            if (client.Player.GetPlayer().Result.PlayerData.TutorialState.Count() >= 5) Client.Player.GetPlayerProfile();
 
             await LevelUpRewards().ConfigureAwait(false);
 
@@ -97,7 +97,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
             await Client.Map.GetMapObjects().ConfigureAwait(false);
                        
-            foreach (var element in Client.Player.PlayerResponse.PlayerData.TutorialState) {
+            foreach (var element in client.Player.GetPlayer().Result.PlayerData.TutorialState) {
                 Logger.Debug(element.ToString());
             } 
         }

@@ -1621,10 +1621,6 @@
       <Project>{0739e40d-c589-4aeb-93e5-ee8cd6773c60}</Project>
       <Name>PokeMaster.Logic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PokemonGo.RocketAPI\PokemonGo.RocketAPI.csproj">
-      <Project>{05d2da44-1b8e-4cf7-94ed-4d52451cd095}</Project>
-      <Name>PokemonGo.RocketAPI</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

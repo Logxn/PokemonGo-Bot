@@ -52,7 +52,7 @@ namespace PokeMaster.Panels
                     }
                 }
             } catch (Exception ex1) {
-                Logger.ExceptionInfo(ex1.ToString());
+                Logger.Debug("Exception: "+ ex1.ToString());
             }
         }
         void btnBuy_Click(object sender, EventArgs e)

@@ -181,7 +181,7 @@ namespace PokeMaster
                     resp1.Message = item.ItemId.ToString();
                 }
             } catch (Exception e) {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error IncubateEgg: " + e.Message);
+                Logger.Error( "Error IncubateEgg: " + e.Message);
                 await IncubateEgg(item, egg).ConfigureAwait(false);
             }
             return resp1;

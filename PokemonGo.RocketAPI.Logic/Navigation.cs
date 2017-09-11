@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Device.Location;
 using System.Threading.Tasks;
+using POGOLib.Official.Logging;
 using POGOProtos.Map.Fort;
-using PokemonGo.RocketAPI;
-using PokemonGo.RocketAPI.Helpers;
 using PokeMaster.Logic.Utils;
 using POGOProtos.Enums;
 using PokeMaster.Logic.Shared;
 using System.Globalization;
 using System.IO;
+using PokemonGo.RocketAPIWrapper;
 
 namespace PokeMaster.Logic
 {
@@ -17,7 +17,7 @@ namespace PokeMaster.Logic
     {
         private static readonly Random RandomDevice = new Random();
 
-        public Navigation(Client client, ISettings settings)
+        public Navigation(Client client, PokeMaster.Logic.Shared.ISettings settings)
         {
             _client = client;
             _botSettings = settings;
@@ -25,12 +25,11 @@ namespace PokeMaster.Logic
 
         private const double SpeedDownTo = 10 / 3.6;
         private readonly Client _client;
-        public readonly ISettings _botSettings;
+        public readonly PokeMaster.Logic.Shared.ISettings _botSettings;
 
         public void SetCoordinates(double lat, double lng, double altitude)
         {
-            _client.CurrentLatitude = lat;
-            _client.CurrentLongitude = lng;
+            _client.Player.SetCoordinates(lat,lng);
             _client.CurrentAltitude = altitude;
             SaveLatLngAlt(lat, lng, altitude);
         }
@@ -41,7 +40,7 @@ namespace PokeMaster.Logic
                 string latlngalt = lat.ToString(CultureInfo.InvariantCulture) + ":" + lng.ToString(CultureInfo.InvariantCulture) + ":" + alt.ToString(CultureInfo.InvariantCulture);
                 File.WriteAllText(Directory.GetCurrentDirectory() + "\\Configs\\LastCoords.txt", latlngalt);
             }catch (Exception ex){
-                Logger.ExceptionInfo(ex.ToString());
+                Logger.Debug("Exception: "+ ex.ToString());
             }
         }
 
@@ -71,7 +70,7 @@ namespace PokeMaster.Logic
             var sourceLocation = new GeoCoordinate(_client.CurrentLatitude, _client.CurrentLongitude);
             var distanceToTarget = LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation);
             //Logger.Debug($"Distance to target location: {distanceToTarget:0.##} meters. Will take {distanceToTarget / speedInMetersPerSecond:0.##} seconds!");
-            //Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Distance to target location at {distanceToTarget:0.##} meters will take {distanceToTarget / speedInMetersPerSecond:0.##} seconds at {speedInMetersPerSecond} m/s ({walkingSpeedInKilometersPerHour} Km/h).");
+            //Logger.Info( $"Distance to target location at {distanceToTarget:0.##} meters will take {distanceToTarget / speedInMetersPerSecond:0.##} seconds at {speedInMetersPerSecond} m/s ({walkingSpeedInKilometersPerHour} Km/h).");
             var nextWaypointBearing = LocationUtils.DegreeBearing(sourceLocation, targetLocation);
             var nextWaypointDistance = speedInMetersPerSecond;
             var waypoint = LocationUtils.CreateWaypoint(sourceLocation, nextWaypointDistance, nextWaypointBearing);
@@ -98,7 +97,7 @@ namespace PokeMaster.Logic
                 {
                     if (speedInMetersPerSecond > SpeedDownTo)
                     {
-                        Logger.Warning( "We are within 40 meters of the target. Slowing down to ~10 km/h to not pass the target.");
+                        Logger.Warn( "We are within 40 meters of the target. Slowing down to ~10 km/h to not pass the target.");
                         speedInMetersPerSecond = SpeedDownTo;
                     }
                 }

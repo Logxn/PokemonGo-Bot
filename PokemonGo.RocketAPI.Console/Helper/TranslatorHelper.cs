@@ -298,11 +298,11 @@ namespace PokeMaster.Helper
                 }catch(WebException webEx){
                     var status = ((HttpWebResponse)webEx.Response).StatusCode ;
                     if (status == HttpStatusCode.NotFound)
-                        Logger.AddLog($"File {resourceName} not found in the server.");
+                        Logger.Error($"File {resourceName} not found in the server.");
                     else
-                        Logger.AddLog(resourceName+":"+webEx);
+                        Logger.Error(resourceName+":"+webEx);
                 } catch (Exception ex1) {
-                    Logger.AddLog(resourceName+":"+ex1);
+                    Logger.Error(resourceName+":"+ex1);
                 }
             }
 

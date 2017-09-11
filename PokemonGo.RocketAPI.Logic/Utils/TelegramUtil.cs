@@ -4,10 +4,12 @@ using System.Device.Location;
 using System.Linq;
 using System.Globalization;
 
+using POGOLib.Official.Logging;
+using POGOLib.Official.Pokemon;
 using POGOProtos.Enums;
 using POGOProtos.Inventory.Item;
 using PokeMaster.Logic.Functions;
-using PokemonGo.RocketAPI;
+using PokemonGo.RocketAPIWrapper;
 using Telegram.Bot.Args;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
@@ -15,10 +17,8 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 
 using PokeMaster.Logic.Utils;
-using PokemonGo.RocketAPI.Helpers;
 
 using PokeMaster.Logic.Translation;
-using PokemonGo.RocketAPI.Rpc;
 using POGOProtos.Data;
 
 namespace PokeMaster.Logic.Utils
@@ -95,13 +95,13 @@ namespace PokeMaster.Logic.Utils
                     _telegram.SendTextMessageAsync(_chatid, msg, replyMarkup: new ReplyKeyboardHide());
                 }
             } catch (Exception ex1) {
-                Logger.ExceptionInfo(ex1.ToString());
+                Logger.Debug("Exception:" + ex1.ToString());
             }
         }
 
         #region private properties
         private Client _client;
-        private Inventory _inventory;
+        private PokemonGo.RocketAPIWrapper.Inventory _inventory;
 
         private Telegram.Bot.TelegramBotClient _telegram;
         private readonly PokeMaster.Logic.Shared.ISettings _botSettings;
@@ -161,7 +161,7 @@ namespace PokeMaster.Logic.Utils
         };
         #endregion
 
-        public TelegramUtil(Client client, Telegram.Bot.TelegramBotClient telegram, PokeMaster.Logic.Shared.ISettings settings, Inventory inv)
+        public TelegramUtil(Client client, Telegram.Bot.TelegramBotClient telegram, PokeMaster.Logic.Shared.ISettings settings, PokemonGo.RocketAPIWrapper.Inventory inv)
         {
             instance = this;
             _client = client;
@@ -193,9 +193,9 @@ namespace PokeMaster.Logic.Utils
                 if (_chatid != -1 && _livestats)
                 {
                     var usage = "";
-                    var inventory =  _client.Inventory.GetHoloInventory();
-                    var profil =  _client.Player.GetPlayer();
-                    var stats = inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData.PlayerStats).ToArray();
+                    var inventory =  _client.Inventory.GetInventoryItems();
+                    var profil =  _client.Player.GetPlayer().Result;
+                    var stats = inventory.Select(i => i.InventoryItemData.PlayerStats).ToArray();
                     foreach (var c in stats)
                     {
                         if (c != null)
@@ -222,7 +222,7 @@ namespace PokeMaster.Logic.Utils
                 await System.Threading.Tasks.Task.Delay(settings.TelegramLiveStatsDelay).ConfigureAwait(false);
                 DoLiveStats(settings);
             } catch (Exception ex1){
-                Logger.ExceptionInfo(ex1.ToString());
+                Logger.Debug("Exception: "+ ex1.ToString());
             }
         }
 
@@ -243,7 +243,7 @@ namespace PokeMaster.Logic.Utils
                     if (current != level)
                     {
                         level = current;
-                        string nick = _client.Player.GetPlayer().PlayerData.Username;
+                        string nick = _client.Player.Username;
 
                         sendInformationText(TelegramUtilInformationTopics.Levelup, nick, level);
 
@@ -252,7 +252,7 @@ namespace PokeMaster.Logic.Utils
                 await System.Threading.Tasks.Task.Delay(5000).ConfigureAwait(false);
                 DoInformation();
             } catch (Exception ex1){
-                Logger.ExceptionInfo(ex1.ToString());
+                Logger.Debug("Exception: "+ ex1.ToString());
             }
         }
 
@@ -266,7 +266,7 @@ namespace PokeMaster.Logic.Utils
             _chatid = message.Chat.Id;
             try
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "[TelegramAPI] Got Request from " + message.From.Username + " | " + message.Text);
+                Logger.Error( "[TelegramAPI] Got Request from " + message.From.Username + " | " + message.Text);
                 string username = _botSettings.TelegramName;
                 string telegramAnswer = string.Empty;
                 
@@ -312,7 +312,7 @@ namespace PokeMaster.Logic.Utils
                         string curlochtml = "https://www.google.com/maps/search/" + curloc + "/";
                         double shortenLng = Math.Round(_client.CurrentLongitude, 3);
                         double shortenLat = Math.Round(_client.CurrentLatitude, 3);
-                        var player = _client.Player.GetPlayer();
+                        var player = _client.Player.GetPlayer().Result;
                         telegramAnswer += "\nNickname: " + player.PlayerData.Username;
                         telegramAnswer += "\nLevel: " + ps.First().Level;
                         telegramAnswer += "\nEXP Needed: " + ((ps.First().NextLevelXp - ps.First().PrevLevelXp) - StringUtils.getExpDiff(ps.First().Level));
@@ -337,7 +337,7 @@ namespace PokeMaster.Logic.Utils
 
                         var myPokemons =  _client.Inventory.GetPokemons();
                         myPokemons = myPokemons.OrderByDescending(x => x.Cp);
-                        var PogoUsername = _client.Player.GetPlayer().PlayerData.Username;
+                        var PogoUsername = _client.Player.Username;
                         telegramAnswer = $"Top {shows} Pokemons of {PogoUsername}:";
 
                         IEnumerable<PokemonData> topPokemon = myPokemons.Take(shows);
@@ -421,7 +421,7 @@ namespace PokeMaster.Logic.Utils
                         {
                             if (_botSettings.pokemonsToEvolve.Contains(pokemon.PokemonId))
                             {
-                                var evolvePokemonOutProto =  _client.Inventory.EvolvePokemon((ulong)pokemon.Id);
+                                var evolvePokemonOutProto =  _client.Inventory.EvolvePokemon((ulong)pokemon.Id).Result;
                                 if (evolvePokemonOutProto.Result == POGOProtos.Networking.Responses.EvolvePokemonResponse.Types.Result.Success)
                                 {
                                     await _telegram.SendTextMessageAsync(_chatid, $"Evolved {pokemon.PokemonId} successfully for {evolvePokemonOutProto.ExperienceAwarded}xp", replyMarkup: new ReplyKeyboardHide()).ConfigureAwait(false);

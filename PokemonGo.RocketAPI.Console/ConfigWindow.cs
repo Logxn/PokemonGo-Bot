@@ -556,8 +556,8 @@ namespace PokeMaster
                 }
             }
             if (!CoordsAreLoaded) {
-                Logger.Warning(th.TS("Failed loading last coords!"));
-                Logger.Warning(th.TS("Using default location"));
+                Logger.Warn(th.TS("Failed loading last coords!"));
+                Logger.Warn(th.TS("Using default location"));
             }
         }
 

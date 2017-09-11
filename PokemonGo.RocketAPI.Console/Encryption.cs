@@ -42,7 +42,7 @@ namespace PokeMaster
                 return UTF8Encoding.UTF8.GetString(resultArray);
                 
             } catch (Exception ex1) {
-                Logger.ExceptionInfo(ex1.ToString());
+                Logger.Debug("Exception: "+ ex1.ToString());
             }
             return "";
         }

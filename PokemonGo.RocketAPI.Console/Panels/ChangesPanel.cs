@@ -145,8 +145,8 @@ namespace PokeMaster
             }
             catch (Exception ex)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: ChangesPanel.cs - CheckBoxes_CheckedChanged()");
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
+                Logger.Error( "Error: ChangesPanel.cs - CheckBoxes_CheckedChanged()");
+                Logger.Error( ex.Message);
             }
         }
 
@@ -184,7 +184,7 @@ namespace PokeMaster
                 typeof(GlobalVars).GetField(globalName).SetValue(null,(double) castedSender.Value);
             Logger.ColoredConsoleWrite(tryCatchColor,th.TS("{0} value changed to {1}",globalName,castedSender.Text));
             } catch (Exception ex) {
-                Logger.AddLog("[Exception]: " + ex.ToString());
+                Logger.Error("[Exception]: " + ex.ToString());
             }
         }
 
@@ -202,7 +202,7 @@ namespace PokeMaster
                 typeof(GlobalVars).GetField(globalName).SetValue(null,(int) castedSender.Value);
             Logger.ColoredConsoleWrite(tryCatchColor,th.TS("{0} value changed to {1}",globalName,castedSender.Text));
             } catch (Exception ex) {
-                Logger.AddLog("[Exception]: " + ex.ToString());
+                Logger.Error("[Exception]: " + ex.ToString());
             }
         }
 
@@ -275,13 +275,13 @@ namespace PokeMaster
                     }
                     catch (Exception ex1)
                     {
-                        Logger.ExceptionInfo(ex1.ToString());
+                        Logger.Debug("Exception: "+ ex1.ToString());
                     }
                     GlobalVars.RelocateDefaultLocation = true;
                     numTravelSpeed.Value = 0;
                     textBoxLatitude.Text = "";
                     textBoxLongitude.Text = "";
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Default Location Set will navigate there after next pokestop!");
+                    Logger.Info( "Default Location Set will navigate there after next pokestop!");
                 }
             }
             
