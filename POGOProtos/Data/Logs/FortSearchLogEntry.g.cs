@@ -25,17 +25,23 @@ namespace POGOProtos.Data.Logs {
             "Ci1QT0dPUHJvdG9zL0RhdGEvTG9ncy9Gb3J0U2VhcmNoTG9nRW50cnkucHJv",
             "dG8SFFBPR09Qcm90b3MuRGF0YS5Mb2dzGiFQT0dPUHJvdG9zL0RhdGEvUG9r",
             "ZW1vbkRhdGEucHJvdG8aKFBPR09Qcm90b3MvSW52ZW50b3J5L0l0ZW0vSXRl",
-            "bURhdGEucHJvdG8i/gEKEkZvcnRTZWFyY2hMb2dFbnRyeRI/CgZyZXN1bHQY",
-            "ASABKA4yLy5QT0dPUHJvdG9zLkRhdGEuTG9ncy5Gb3J0U2VhcmNoTG9nRW50",
-            "cnkuUmVzdWx0Eg8KB2ZvcnRfaWQYAiABKAkSMgoFaXRlbXMYAyADKAsyIy5Q",
-            "T0dPUHJvdG9zLkludmVudG9yeS5JdGVtLkl0ZW1EYXRhEgwKBGVnZ3MYBCAB",
-            "KAUSMgoMcG9rZW1vbl9lZ2dzGAUgAygLMhwuUE9HT1Byb3Rvcy5EYXRhLlBv",
-            "a2Vtb25EYXRhIiAKBlJlc3VsdBIJCgVVTlNFVBAAEgsKB1NVQ0NFU1MQAWIG",
-            "cHJvdG8z"));
+            "bURhdGEucHJvdG8aIlBPR09Qcm90b3MvTWFwL0ZvcnQvRm9ydFR5cGUucHJv",
+            "dG8i5QMKEkZvcnRTZWFyY2hMb2dFbnRyeRI/CgZyZXN1bHQYASABKA4yLy5Q",
+            "T0dPUHJvdG9zLkRhdGEuTG9ncy5Gb3J0U2VhcmNoTG9nRW50cnkuUmVzdWx0",
+            "Eg8KB2ZvcnRfaWQYAiABKAkSMgoFaXRlbXMYAyADKAsyIy5QT0dPUHJvdG9z",
+            "LkludmVudG9yeS5JdGVtLkl0ZW1EYXRhEgwKBGVnZ3MYBCABKAUSMgoMcG9r",
+            "ZW1vbl9lZ2dzGAUgAygLMhwuUE9HT1Byb3Rvcy5EYXRhLlBva2Vtb25EYXRh",
+            "EjAKCWZvcnRfdHlwZRgGIAEoDjIdLlBPR09Qcm90b3MuTWFwLkZvcnQuRm9y",
+            "dFR5cGUSOgoNYXdhcmRlZF9pdGVtcxgHIAMoCzIjLlBPR09Qcm90b3MuSW52",
+            "ZW50b3J5Lkl0ZW0uSXRlbURhdGESOAoLYm9udXNfaXRlbXMYCCADKAsyIy5Q",
+            "T0dPUHJvdG9zLkludmVudG9yeS5JdGVtLkl0ZW1EYXRhEj0KEHRlYW1fYm9u",
+            "dXNfaXRlbXMYCSADKAsyIy5QT0dPUHJvdG9zLkludmVudG9yeS5JdGVtLkl0",
+            "ZW1EYXRhIiAKBlJlc3VsdBIJCgVVTlNFVBAAEgsKB1NVQ0NFU1MQAWIGcHJv",
+            "dG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::POGOProtos.Data.PokemonDataReflection.Descriptor, global::POGOProtos.Inventory.Item.ItemDataReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::POGOProtos.Data.PokemonDataReflection.Descriptor, global::POGOProtos.Inventory.Item.ItemDataReflection.Descriptor, global::POGOProtos.Map.Fort.FortTypeReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.Logs.FortSearchLogEntry), global::POGOProtos.Data.Logs.FortSearchLogEntry.Parser, new[]{ "Result", "FortId", "Items", "Eggs", "PokemonEggs" }, null, new[]{ typeof(global::POGOProtos.Data.Logs.FortSearchLogEntry.Types.Result) }, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.Logs.FortSearchLogEntry), global::POGOProtos.Data.Logs.FortSearchLogEntry.Parser, new[]{ "Result", "FortId", "Items", "Eggs", "PokemonEggs", "FortType", "AwardedItems", "BonusItems", "TeamBonusItems" }, null, new[]{ typeof(global::POGOProtos.Data.Logs.FortSearchLogEntry.Types.Result) }, null)
           }));
     }
     #endregion
@@ -71,6 +77,10 @@ namespace POGOProtos.Data.Logs {
       items_ = other.items_.Clone();
       eggs_ = other.eggs_;
       pokemonEggs_ = other.pokemonEggs_.Clone();
+      fortType_ = other.fortType_;
+      awardedItems_ = other.awardedItems_.Clone();
+      bonusItems_ = other.bonusItems_.Clone();
+      teamBonusItems_ = other.teamBonusItems_.Clone();
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -131,6 +141,47 @@ namespace POGOProtos.Data.Logs {
       get { return pokemonEggs_; }
     }
 
+    /// <summary>Field number for the "fort_type" field.</summary>
+    public const int FortTypeFieldNumber = 6;
+    private global::POGOProtos.Map.Fort.FortType fortType_ = 0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::POGOProtos.Map.Fort.FortType FortType {
+      get { return fortType_; }
+      set {
+        fortType_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "awarded_items" field.</summary>
+    public const int AwardedItemsFieldNumber = 7;
+    private static readonly pb::FieldCodec<global::POGOProtos.Inventory.Item.ItemData> _repeated_awardedItems_codec
+        = pb::FieldCodec.ForMessage(58, global::POGOProtos.Inventory.Item.ItemData.Parser);
+    private readonly pbc::RepeatedField<global::POGOProtos.Inventory.Item.ItemData> awardedItems_ = new pbc::RepeatedField<global::POGOProtos.Inventory.Item.ItemData>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::POGOProtos.Inventory.Item.ItemData> AwardedItems {
+      get { return awardedItems_; }
+    }
+
+    /// <summary>Field number for the "bonus_items" field.</summary>
+    public const int BonusItemsFieldNumber = 8;
+    private static readonly pb::FieldCodec<global::POGOProtos.Inventory.Item.ItemData> _repeated_bonusItems_codec
+        = pb::FieldCodec.ForMessage(66, global::POGOProtos.Inventory.Item.ItemData.Parser);
+    private readonly pbc::RepeatedField<global::POGOProtos.Inventory.Item.ItemData> bonusItems_ = new pbc::RepeatedField<global::POGOProtos.Inventory.Item.ItemData>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::POGOProtos.Inventory.Item.ItemData> BonusItems {
+      get { return bonusItems_; }
+    }
+
+    /// <summary>Field number for the "team_bonus_items" field.</summary>
+    public const int TeamBonusItemsFieldNumber = 9;
+    private static readonly pb::FieldCodec<global::POGOProtos.Inventory.Item.ItemData> _repeated_teamBonusItems_codec
+        = pb::FieldCodec.ForMessage(74, global::POGOProtos.Inventory.Item.ItemData.Parser);
+    private readonly pbc::RepeatedField<global::POGOProtos.Inventory.Item.ItemData> teamBonusItems_ = new pbc::RepeatedField<global::POGOProtos.Inventory.Item.ItemData>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::POGOProtos.Inventory.Item.ItemData> TeamBonusItems {
+      get { return teamBonusItems_; }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as FortSearchLogEntry);
@@ -149,6 +200,10 @@ namespace POGOProtos.Data.Logs {
       if(!items_.Equals(other.items_)) return false;
       if (Eggs != other.Eggs) return false;
       if(!pokemonEggs_.Equals(other.pokemonEggs_)) return false;
+      if (FortType != other.FortType) return false;
+      if(!awardedItems_.Equals(other.awardedItems_)) return false;
+      if(!bonusItems_.Equals(other.bonusItems_)) return false;
+      if(!teamBonusItems_.Equals(other.teamBonusItems_)) return false;
       return true;
     }
 
@@ -160,6 +215,10 @@ namespace POGOProtos.Data.Logs {
       hash ^= items_.GetHashCode();
       if (Eggs != 0) hash ^= Eggs.GetHashCode();
       hash ^= pokemonEggs_.GetHashCode();
+      if (FortType != 0) hash ^= FortType.GetHashCode();
+      hash ^= awardedItems_.GetHashCode();
+      hash ^= bonusItems_.GetHashCode();
+      hash ^= teamBonusItems_.GetHashCode();
       return hash;
     }
 
@@ -184,6 +243,13 @@ namespace POGOProtos.Data.Logs {
         output.WriteInt32(Eggs);
       }
       pokemonEggs_.WriteTo(output, _repeated_pokemonEggs_codec);
+      if (FortType != 0) {
+        output.WriteRawTag(48);
+        output.WriteEnum((int) FortType);
+      }
+      awardedItems_.WriteTo(output, _repeated_awardedItems_codec);
+      bonusItems_.WriteTo(output, _repeated_bonusItems_codec);
+      teamBonusItems_.WriteTo(output, _repeated_teamBonusItems_codec);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -200,6 +266,12 @@ namespace POGOProtos.Data.Logs {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Eggs);
       }
       size += pokemonEggs_.CalculateSize(_repeated_pokemonEggs_codec);
+      if (FortType != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) FortType);
+      }
+      size += awardedItems_.CalculateSize(_repeated_awardedItems_codec);
+      size += bonusItems_.CalculateSize(_repeated_bonusItems_codec);
+      size += teamBonusItems_.CalculateSize(_repeated_teamBonusItems_codec);
       return size;
     }
 
@@ -219,6 +291,12 @@ namespace POGOProtos.Data.Logs {
         Eggs = other.Eggs;
       }
       pokemonEggs_.Add(other.pokemonEggs_);
+      if (other.FortType != 0) {
+        FortType = other.FortType;
+      }
+      awardedItems_.Add(other.awardedItems_);
+      bonusItems_.Add(other.bonusItems_);
+      teamBonusItems_.Add(other.teamBonusItems_);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -247,6 +325,22 @@ namespace POGOProtos.Data.Logs {
           }
           case 42: {
             pokemonEggs_.AddEntriesFrom(input, _repeated_pokemonEggs_codec);
+            break;
+          }
+          case 48: {
+            fortType_ = (global::POGOProtos.Map.Fort.FortType) input.ReadEnum();
+            break;
+          }
+          case 58: {
+            awardedItems_.AddEntriesFrom(input, _repeated_awardedItems_codec);
+            break;
+          }
+          case 66: {
+            bonusItems_.AddEntriesFrom(input, _repeated_bonusItems_codec);
+            break;
+          }
+          case 74: {
+            teamBonusItems_.AddEntriesFrom(input, _repeated_teamBonusItems_codec);
             break;
           }
         }

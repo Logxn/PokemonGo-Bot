@@ -89,7 +89,7 @@ namespace POGOProtos.Networking.Responses {
     public const int ItemTemplatesTimestampMsFieldNumber = 2;
     private ulong itemTemplatesTimestampMs_;
     /// <summary>
-    ///  Latest available?
+    /// Latest available?
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public ulong ItemTemplatesTimestampMs {

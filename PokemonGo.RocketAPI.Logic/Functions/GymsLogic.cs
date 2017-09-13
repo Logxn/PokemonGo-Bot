@@ -2,6 +2,7 @@
 using System.Device.Location;
 using System.Threading.Tasks;
 using POGOProtos.Data.Gym;
+using POGOProtos.Networking.Requests.Messages;
 using PokeMaster.Logic.Shared;
 using System.Collections.Generic;
 using System.Linq;
@@ -299,14 +300,14 @@ namespace PokeMaster.Logic.Functions
             return -1L;
         }
 
-        private static AttackGymResponse AttackGym(FortData gym, Client client,
+        private static GymBattleAttackResponse AttackGym(FortData gym, Client client,
             IEnumerable<PokemonData> pokeAttackers, ulong defenderId, int numDefenders, ulong buddyPokemonId)
         {
             StopAttack = false;
             var pokeAttackersIds = pokeAttackers.Select(x => x.Id);
             var moveSettings = GetMoveSettings(client);
             GymGetInfoResponse gymDetails = null;
-            StartGymBattleResponse resp = null;
+            GymStartSessionResponse resp = null;
 
             // Sometimes we get a null from startgymBattle so we try to start battle 3 times
             var numTries = 3;
@@ -315,8 +316,8 @@ namespace PokeMaster.Logic.Functions
                 gymDetails = client.Fort.GymGetInfo(gym.Id, gym.Latitude, gym.Longitude);
                 RandomHelper.RandomSleep(200);
                 try {
-                    resp = client.Fort.StartGymBattle(gym.Id, defenderId, pokeAttackersIds).Result;
-                    if (resp != null && resp.BattleLog != null) {
+                    resp = client.Fort.GymStartSession(gym.Id, defenderId, pokeAttackersIds).Result;
+                    if (resp != null && resp.Battle != null) {
                         startOk = true;
                     } else {
                         Logger.Info("(Gym) - Start Gym Failed.");
@@ -333,31 +334,31 @@ namespace PokeMaster.Logic.Functions
                 return null;
             }
 
-            if (resp.BattleLog.State == BattleState.Active) {
+            if (resp.Battle.BattleLog.State == BattleState.Active) {
                 Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Battle Started");
                 RandomHelper.RandomSleep(2000);
                 var battleActions = new List<BattleAction>();
                 var lastRetrievedAction = new BattleAction();
-                var battleStartMs = resp.BattleLog.BattleStartTimestampMs;
-                var attResp = client.Fort.AttackGym(gym.Id, resp.BattleId, battleActions, lastRetrievedAction);
-                var inBattle = (attResp.Result == AttackGymResponse.Types.Result.Success);
-                inBattle = inBattle && (attResp.BattleLog.State == BattleState.Active);
+                var battleStartMs = resp.Battle.BattleLog.BattleStartTimestampMs;
+                var attResp = client.Fort.GymBattleAttack(gym.Id, resp.Battle.BattleId, battleActions, lastRetrievedAction);
+                var inBattle = (attResp.Result == GymBattleAttackResponse.Types.Result.Success);
+                inBattle = inBattle && (attResp.BattleUpdate.BattleLog.State == BattleState.Active);
                 var count = 1;
                 var energy = 0;
                 Logger.Debug("attResp: " + attResp);
                 while (inBattle && !StopAttack) {
-                    var timeMs = attResp.BattleLog.ServerMs;
-                    var move1Settings = moveSettings.FirstOrDefault(x => x.MoveSettings.MovementId == attResp.ActiveAttacker.PokemonData.Move1).MoveSettings;
-                    var move2Settings = moveSettings.FirstOrDefault(x => x.MoveSettings.MovementId == attResp.ActiveAttacker.PokemonData.Move2).MoveSettings;
+                    var timeMs = attResp.BattleUpdate.BattleLog.ServerMs;
+                    var move1Settings = moveSettings.FirstOrDefault(x => x.MoveSettings.MovementId == attResp.BattleUpdate.ActiveAttacker.PokemonData.Move1).MoveSettings;
+                    var move2Settings = moveSettings.FirstOrDefault(x => x.MoveSettings.MovementId == attResp.BattleUpdate.ActiveAttacker.PokemonData.Move2).MoveSettings;
                     battleActions = new List<BattleAction>();
                     
                     var baseAction = new BattleAction();
                     baseAction.ActionStartMs = timeMs + RandomNumbers.Next(110, 170);
                     baseAction.TargetIndex = -1;
-                    if (attResp.ActiveDefender != null)
-                        baseAction.TargetPokemonId = attResp.ActiveDefender.PokemonData.Id;
-                    if (attResp.ActiveAttacker.PokemonData.Stamina > 0)
-                        baseAction.ActivePokemonId = attResp.ActiveAttacker.PokemonData.Id;
+                    if (attResp.BattleUpdate.ActiveDefender != null)
+                        baseAction.TargetPokemonId = attResp.BattleUpdate.ActiveDefender.PokemonData.Id;
+                    if (attResp.BattleUpdate.ActiveAttacker.PokemonData.Stamina > 0)
+                        baseAction.ActivePokemonId = attResp.BattleUpdate.ActiveAttacker.PokemonData.Id;
                     // One each ten times we try to evade attack
                     if (RandomNumbers.Next(1, 10) == 1) {
                         var dodgeAction = new BattleAction();
@@ -404,36 +405,36 @@ namespace PokeMaster.Logic.Functions
                         }
                     }
 
-                    lastRetrievedAction = attResp.BattleLog.BattleActions.LastOrDefault(x => x.ActivePokemonId != attResp.ActiveAttacker.PokemonData.Id);
+                    lastRetrievedAction = attResp.BattleUpdate.BattleLog.BattleActions.LastOrDefault(x => x.ActivePokemonId != attResp.BattleUpdate.ActiveAttacker.PokemonData.Id);
 
                     var str = string.Join(",", battleActions);
                     Logger.Debug("(Gym) - battleActions: " + str);
-                    attResp = client.Fort.AttackGym(gym.Id, resp.BattleId, battleActions, lastRetrievedAction);
+                    attResp = client.Fort.GymBattleAttack(gym.Id, resp.Battle.BattleId, battleActions, lastRetrievedAction);
                     Logger.Debug("attResp: " + attResp);
                     Logger.Debug("attResp BattleActions: ");
-                    ShowBattleActions(attResp.BattleLog.BattleActions);
-                    inBattle = (attResp.Result == AttackGymResponse.Types.Result.Success);
+                    ShowBattleActions(attResp.BattleUpdate.BattleLog.BattleActions);
+                    inBattle = (attResp.Result == GymBattleAttackResponse.Types.Result.Success);
                     if (inBattle) {
 
-                        inBattle = (attResp.BattleLog.State == BattleState.Active);
+                        inBattle = (attResp.BattleUpdate.BattleLog.State == BattleState.Active);
 
-                        if (attResp.ActiveAttacker != null) {
-                            energy = attResp.ActiveAttacker.CurrentEnergy;
-                            var health = attResp.ActiveAttacker.CurrentHealth;
-                            var activeAttacker = attResp.ActiveAttacker.PokemonData.PokemonId;
+                        if (attResp.BattleUpdate.ActiveAttacker != null) {
+                            energy = attResp.BattleUpdate.ActiveAttacker.CurrentEnergy;
+                            var health = attResp.BattleUpdate.ActiveAttacker.CurrentHealth;
+                            var activeAttacker = attResp.BattleUpdate.ActiveAttacker.PokemonData.PokemonId;
                             Logger.Debug($"(Gym) - Attacker: {activeAttacker} Energy={energy}, Health={health}");
                         }
 
-                        if (attResp.ActiveDefender != null) {
-                            var energyDef = attResp.ActiveDefender.CurrentEnergy;
-                            var health = attResp.ActiveDefender.CurrentHealth;
-                            var activeDefender = attResp.ActiveDefender.PokemonData.PokemonId;
+                        if (attResp.BattleUpdate.ActiveDefender != null) {
+                            var energyDef = attResp.BattleUpdate.ActiveDefender.CurrentEnergy;
+                            var health = attResp.BattleUpdate.ActiveDefender.CurrentHealth;
+                            var activeDefender = attResp.BattleUpdate.ActiveDefender.PokemonData.PokemonId;
                             Logger.Debug($"(Gym) - Defender: {activeDefender} Energy={energyDef}, Health={health}");
                         }
 
                         count++;
                         // Wait until all attack are done. but not more than 1.5 seconds.
-                        var waitTime = (int)(baseAction.ActionStartMs - attResp.BattleLog.ServerMs);
+                        var waitTime = (int)(baseAction.ActionStartMs - attResp.BattleUpdate.BattleLog.ServerMs);
                         if (waitTime < 0)
                             waitTime = 0;
                         else if (waitTime > 1200)
@@ -443,8 +444,8 @@ namespace PokeMaster.Logic.Functions
                 }
 
                 Logger.ColoredConsoleWrite(gymColorLog, $"(Gym) - Battle Finished in {count} Rounds.");
-                if (attResp.Result == AttackGymResponse.Types.Result.Success) {
-                    switch (attResp.BattleLog.State) {
+                if (attResp.Result == GymBattleAttackResponse.Types.Result.Success) {
+                    switch (attResp.BattleUpdate.BattleLog.State) {
                         case BattleState.Defeated:
                             Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - We have lost");
                             if (numDefenders > 1)
@@ -453,7 +454,7 @@ namespace PokeMaster.Logic.Functions
                         case BattleState.Victory:
                             Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - We have won");
                             var nextDefenderID = -1L;
-                            foreach (var element in attResp.BattleLog.BattleActions) {
+                            foreach (var element in attResp.BattleUpdate.BattleLog.BattleActions) {
                                 if (element.BattleResults != null) {
                                     Logger.Info("(Gym) - Gym points: " + element.BattleResults.GymPointsDelta);
                                     Logger.Info("(Gym) - Experience Awarded: " + element.BattleResults.PlayerXpAwarded);
@@ -467,7 +468,7 @@ namespace PokeMaster.Logic.Functions
                                 do {
                                     attResp = LeaveBattle(gym, client, resp, attResp, lastRetrievedAction, nextDefenderID);
                                     times--;
-                                } while (attResp.Result != AttackGymResponse.Types.Result.Success && times > 0);
+                                } while (attResp.Result != GymBattleAttackResponse.Types.Result.Success && times > 0);
                                 const int secondsBetweenAttacks = 300;
                                 Logger.Info($"Waiting {secondsBetweenAttacks} seconds before of a new battle.");
                                 for (var i = 0; i < secondsBetweenAttacks + 1; i++) {
@@ -515,19 +516,19 @@ namespace PokeMaster.Logic.Functions
             }
         }
 
-        public static StartGymBattleResponse StartGymBattle(Client client, string gymId, ulong defendingPokemonId,
+        public static GymStartSessionResponse StartGymBattle(Client client, string gymId, ulong defendingPokemonId,
             IEnumerable<ulong> attackingPokemonIds)
         {
-            StartGymBattleResponse resp = null;
+            GymStartSessionResponse resp = null;
             var numTries = 3;
             var startOk = false;
             do {
                 try {
-                    resp = client.Fort.StartGymBattle(gymId, defendingPokemonId, attackingPokemonIds).Result;
+                    resp = client.Fort.GymStartSession (gymId, defendingPokemonId, attackingPokemonIds).Result;
                     if (resp == null) {
                         Logger.Debug("(Gym) - Response to start battle was null.");
                     } else {
-                        if (resp.BattleLog == null) {
+                        if (resp.Battle.BattleLog == null) {
                             Logger.Debug("(Gym) - BatlleLog to start battle was null");
                         } else {
                             startOk = true;
@@ -577,28 +578,28 @@ namespace PokeMaster.Logic.Functions
             return resp;
         }
 
-        private static  AttackGymResponse LeaveBattle(FortData gym, Client client, StartGymBattleResponse resp, AttackGymResponse attResp, BattleAction lastRetrievedAction, long nextDefenderID)
+        private static  GymBattleAttackResponse LeaveBattle(FortData gym, Client client, GymStartSessionResponse resp, GymBattleAttackResponse attResp, BattleAction lastRetrievedAction, long nextDefenderID)
         {
-            AttackGymResponse ret = attResp;
+            GymBattleAttackResponse ret = attResp;
             var times = 3;
             var exit = false;
             do {
-                var timeMs = ret.BattleLog.ServerMs;
+                var timeMs = ret.BattleUpdate.BattleLog.ServerMs;
                 var attack = new BattleAction();
                 attack.Type = BattleActionType.ActionPlayerQuit;
                 attack.TargetPokemonId = (ulong)nextDefenderID;
-                if (attResp.ActiveAttacker != null)
-                    attack.ActivePokemonId = attResp.ActiveAttacker.PokemonData.Id;
+                if (attResp.BattleUpdate.ActiveAttacker != null)
+                    attack.ActivePokemonId = attResp.BattleUpdate.ActiveAttacker.PokemonData.Id;
                 var battleActions = new List<BattleAction>();
                 battleActions.Add(attack);
                 lastRetrievedAction = new BattleAction();
-                ret = client.Fort.AttackGym(gym.Id, resp.BattleId, battleActions, lastRetrievedAction);
+                ret = client.Fort.GymBattleAttack(gym.Id, resp.Battle.BattleId, battleActions, lastRetrievedAction);
                 Logger.Debug($"ret {times}: {ret}");
                 Logger.Debug("ret BattleActions: ");
-                ShowBattleActions(attResp.BattleLog.BattleActions);
+                ShowBattleActions(attResp.BattleUpdate.BattleLog.BattleActions);
                 times--;
-                if (ret.Result == AttackGymResponse.Types.Result.Success) {
-                    foreach (var element in  ret.BattleLog.BattleActions) {
+                if (ret.Result == GymBattleAttackResponse.Types.Result.Success) {
+                    foreach (var element in  ret.BattleUpdate.BattleLog.BattleActions) {
                         if (element.Type == BattleActionType.ActionPlayerQuit) {
                             Logger.Info("(Gym) - Gym points: " + element.BattleResults.GymPointsDelta);
                             Logger.Info("(Gym) - Experience Awarded: " + element.BattleResults.PlayerXpAwarded);
