@@ -69,6 +69,7 @@ namespace PokeMaster.Logic.Functions
             
             var gymsWithinRangeStanding = gyms.Where(i => LocationUtils.CalculateDistanceInMeters(Logic.objClient.CurrentLatitude, Logic.objClient.CurrentLongitude, i.Latitude, i.Longitude) <= 40);
             var inRange = gymsWithinRangeStanding.Count();
+            
             Logger.Debug("gymsWithinRangeStanding: " + inRange + " (of " + gyms.Count() + ")");
 
             if (gymsWithinRangeStanding.Any()) {
@@ -78,6 +79,11 @@ namespace PokeMaster.Logic.Functions
                     var gym = element;
                     if (gymsVisited.Contains(gym.Id)) {
                         Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "(Gym) - This gym was already visited.");
+                        continue;
+                    }
+                    if (gym.RaidInfo != null && !gym.RaidInfo.IsRaidHidden)
+                    {
+                        AddVisited(gym.Id, 60000);
                         continue;
                     }
                     var attackCount = 1;
@@ -110,7 +116,7 @@ namespace PokeMaster.Logic.Functions
             var mapObjectsResponse = Logic.objClient.Map.GetMapObjects().Result;
 
             var pokeGyms1 = mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
-                .Where(i => (i.Type == FortType.Gym) && (i.RaidInfo == null) );
+                .Where(i => i.Type == FortType.Gym );
 
             var pokeGyms2 = pokeGyms1
                 .OrderBy(i => LocationUtils.CalculateDistanceInMeters(Logic.objClient.CurrentLatitude, Logic.objClient.CurrentLongitude, i.Latitude, i.Longitude));
