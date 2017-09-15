@@ -85,7 +85,7 @@ namespace POGOProtos.Networking.Requests.Messages {
     public const int ItemBeenSeenFieldNumber = 2;
     private int itemBeenSeen_;
     /// <summary>
-    ///  TODO: Find out what this is.
+    /// TODO: Find out what this is.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int ItemBeenSeen {

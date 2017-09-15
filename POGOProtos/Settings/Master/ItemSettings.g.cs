@@ -176,7 +176,7 @@ namespace POGOProtos.Settings.Master {
     public const int PokeballFieldNumber = 6;
     private global::POGOProtos.Settings.Master.Item.PokeballAttributes pokeball_;
     /// <summary>
-    ///  One of the below attributes will be set in the response, the others will be null.
+    /// One of the below attributes will be set in the response, the others will be null.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::POGOProtos.Settings.Master.Item.PokeballAttributes Pokeball {

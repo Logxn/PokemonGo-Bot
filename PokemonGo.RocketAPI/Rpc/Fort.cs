@@ -70,21 +70,20 @@ namespace PokemonGo.RocketAPI.Rpc
             return PostProtoPayloadCommonR<Request, AddFortModifierResponse>(RequestType.AddFortModifier, message).Result;
         }
 
-        public AttackGymResponse AttackGym(string fortId, string battleId, List<BattleAction> battleActions, BattleAction lastRetrievedAction)
+        public GymBattleAttackResponse GymBattleAttack(string fortId, string battleId, List<BattleAction> battleActions,
+            BattleAction lastRetrievedAction)
         {
-            var message = new AttackGymMessage
+            var message = new GymBattleAttackMessage
             {
                 BattleId = battleId,
                 GymId = fortId,
                 LastRetrievedAction = lastRetrievedAction,
-                PlayerLatitude = Client.CurrentLatitude,
-                PlayerLongitude = Client.CurrentLongitude,
+                PlayerLatDegrees = Client.CurrentLatitude,
+                PlayerLngDegrees = Client.CurrentLongitude,
                 AttackActions = { battleActions }
             };
 
-            message.AttackActions.AddRange(battleActions);
-
-            return PostProtoPayloadCommonR<Request, AttackGymResponse>(RequestType.GymBattleAttack, message).Result;
+            return PostProtoPayloadCommonR<Request, GymBattleAttackResponse>(RequestType.GymBattleAttack, message).Result;
         }
 
         public GymDeployResponse GymDeployPokemon(string fortId, ulong pokemonId)
@@ -139,21 +138,19 @@ namespace PokemonGo.RocketAPI.Rpc
             return PostProtoPayloadCommonR<Request, GymGetInfoResponse>(RequestType.GymGetInfo, message).Result;
         }
 
-        public async Task<GymStartSessionResponse> GymStartBattle(string gymId, ulong defendingPokemonId, IEnumerable<ulong> attackingPokemonIds)
+        public async Task<GymStartSessionResponse> GymStartSession(string gymId, ulong defendingPokemonId, IEnumerable<ulong> attackingPokemonIds)
         {
-            var request = new Request
-            {
-                RequestType = RequestType.GymStartSession,
-                RequestMessage = ((IMessage)new GymStartSessionMessage
-                {
-                    GymId = gymId,
-                    DefendingPokemonId = defendingPokemonId,
-                    AttackingPokemonId = { attackingPokemonIds },
-                    PlayerLatDegrees = Client.CurrentLatitude,
-                    PlayerLngDegrees = Client.CurrentLongitude
-                }).ToByteString()
+            var message = new GymStartSessionMessage {
+                GymId = gymId,
+                DefendingPokemonId = defendingPokemonId,
+                PlayerLatDegrees = Client.CurrentLatitude,
+                PlayerLngDegrees = Client.CurrentLongitude
             };
-            return await PostProtoPayloadCommonR<Request, GymStartSessionResponse>(request).ConfigureAwait(false);
+            foreach (var element in attackingPokemonIds) {
+                message.AttackingPokemonId.Add( element);
+            }
+
+            return await PostProtoPayloadCommonR<Request, GymStartSessionResponse>(RequestType.GymStartSession, message).ConfigureAwait(false);
 
         }
     }

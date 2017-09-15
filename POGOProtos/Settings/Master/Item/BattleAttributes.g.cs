@@ -24,12 +24,13 @@ namespace POGOProtos.Settings.Master.Item {
           string.Concat(
             "CjZQT0dPUHJvdG9zL1NldHRpbmdzL01hc3Rlci9JdGVtL0JhdHRsZUF0dHJp",
             "YnV0ZXMucHJvdG8SH1BPR09Qcm90b3MuU2V0dGluZ3MuTWFzdGVyLkl0ZW0i",
-            "JwoQQmF0dGxlQXR0cmlidXRlcxITCgtzdGFfcGVyY2VudBgBIAEoAmIGcHJv",
-            "dG8z"));
+            "ZQoQQmF0dGxlQXR0cmlidXRlcxITCgtzdGFfcGVyY2VudBgBIAEoAhITCgth",
+            "dGtfcGVyY2VudBgCIAEoAhITCgtkZWZfcGVyY2VudBgDIAEoAhISCgpkdXJh",
+            "dGlvbl9zGAQgASgCYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Settings.Master.Item.BattleAttributes), global::POGOProtos.Settings.Master.Item.BattleAttributes.Parser, new[]{ "StaPercent" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Settings.Master.Item.BattleAttributes), global::POGOProtos.Settings.Master.Item.BattleAttributes.Parser, new[]{ "StaPercent", "AtkPercent", "DefPercent", "DurationS" }, null, null, null)
           }));
     }
     #endregion
@@ -61,6 +62,9 @@ namespace POGOProtos.Settings.Master.Item {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public BattleAttributes(BattleAttributes other) : this() {
       staPercent_ = other.staPercent_;
+      atkPercent_ = other.atkPercent_;
+      defPercent_ = other.defPercent_;
+      durationS_ = other.durationS_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -79,6 +83,39 @@ namespace POGOProtos.Settings.Master.Item {
       }
     }
 
+    /// <summary>Field number for the "atk_percent" field.</summary>
+    public const int AtkPercentFieldNumber = 2;
+    private float atkPercent_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float AtkPercent {
+      get { return atkPercent_; }
+      set {
+        atkPercent_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "def_percent" field.</summary>
+    public const int DefPercentFieldNumber = 3;
+    private float defPercent_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float DefPercent {
+      get { return defPercent_; }
+      set {
+        defPercent_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "duration_s" field.</summary>
+    public const int DurationSFieldNumber = 4;
+    private float durationS_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float DurationS {
+      get { return durationS_; }
+      set {
+        durationS_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as BattleAttributes);
@@ -93,6 +130,9 @@ namespace POGOProtos.Settings.Master.Item {
         return true;
       }
       if (StaPercent != other.StaPercent) return false;
+      if (AtkPercent != other.AtkPercent) return false;
+      if (DefPercent != other.DefPercent) return false;
+      if (DurationS != other.DurationS) return false;
       return true;
     }
 
@@ -100,6 +140,9 @@ namespace POGOProtos.Settings.Master.Item {
     public override int GetHashCode() {
       int hash = 1;
       if (StaPercent != 0F) hash ^= StaPercent.GetHashCode();
+      if (AtkPercent != 0F) hash ^= AtkPercent.GetHashCode();
+      if (DefPercent != 0F) hash ^= DefPercent.GetHashCode();
+      if (DurationS != 0F) hash ^= DurationS.GetHashCode();
       return hash;
     }
 
@@ -114,12 +157,33 @@ namespace POGOProtos.Settings.Master.Item {
         output.WriteRawTag(13);
         output.WriteFloat(StaPercent);
       }
+      if (AtkPercent != 0F) {
+        output.WriteRawTag(21);
+        output.WriteFloat(AtkPercent);
+      }
+      if (DefPercent != 0F) {
+        output.WriteRawTag(29);
+        output.WriteFloat(DefPercent);
+      }
+      if (DurationS != 0F) {
+        output.WriteRawTag(37);
+        output.WriteFloat(DurationS);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
       if (StaPercent != 0F) {
+        size += 1 + 4;
+      }
+      if (AtkPercent != 0F) {
+        size += 1 + 4;
+      }
+      if (DefPercent != 0F) {
+        size += 1 + 4;
+      }
+      if (DurationS != 0F) {
         size += 1 + 4;
       }
       return size;
@@ -133,6 +197,15 @@ namespace POGOProtos.Settings.Master.Item {
       if (other.StaPercent != 0F) {
         StaPercent = other.StaPercent;
       }
+      if (other.AtkPercent != 0F) {
+        AtkPercent = other.AtkPercent;
+      }
+      if (other.DefPercent != 0F) {
+        DefPercent = other.DefPercent;
+      }
+      if (other.DurationS != 0F) {
+        DurationS = other.DurationS;
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -145,6 +218,18 @@ namespace POGOProtos.Settings.Master.Item {
             break;
           case 13: {
             StaPercent = input.ReadFloat();
+            break;
+          }
+          case 21: {
+            AtkPercent = input.ReadFloat();
+            break;
+          }
+          case 29: {
+            DefPercent = input.ReadFloat();
+            break;
+          }
+          case 37: {
+            DurationS = input.ReadFloat();
             break;
           }
         }

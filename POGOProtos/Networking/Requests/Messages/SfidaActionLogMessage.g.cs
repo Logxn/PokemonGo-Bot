@@ -37,7 +37,7 @@ namespace POGOProtos.Networking.Requests.Messages {
   }
   #region Messages
   /// <summary>
-  ///  No message needed.
+  /// No message needed.
   /// </summary>
   public sealed partial class SfidaActionLogMessage : pb::IMessage<SfidaActionLogMessage> {
     private static readonly pb::MessageParser<SfidaActionLogMessage> _parser = new pb::MessageParser<SfidaActionLogMessage>(() => new SfidaActionLogMessage());

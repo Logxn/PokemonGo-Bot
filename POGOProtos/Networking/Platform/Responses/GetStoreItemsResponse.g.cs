@@ -94,7 +94,7 @@ namespace POGOProtos.Networking.Platform.Responses {
     public const int StatusFieldNumber = 1;
     private global::POGOProtos.Networking.Platform.Responses.GetStoreItemsResponse.Types.Status status_ = 0;
     /// <summary>
-    /// unconfirmed
+    ///unconfirmed
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::POGOProtos.Networking.Platform.Responses.GetStoreItemsResponse.Types.Status Status {
@@ -110,7 +110,7 @@ namespace POGOProtos.Networking.Platform.Responses {
         = pb::FieldCodec.ForMessage(18, global::POGOProtos.Networking.Platform.Responses.GetStoreItemsResponse.Types.StoreItem.Parser);
     private readonly pbc::RepeatedField<global::POGOProtos.Networking.Platform.Responses.GetStoreItemsResponse.Types.StoreItem> items_ = new pbc::RepeatedField<global::POGOProtos.Networking.Platform.Responses.GetStoreItemsResponse.Types.StoreItem>();
     /// <summary>
-    ///  Items to show in the shop
+    /// Items to show in the shop
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pbc::RepeatedField<global::POGOProtos.Networking.Platform.Responses.GetStoreItemsResponse.Types.StoreItem> Items {
@@ -123,7 +123,7 @@ namespace POGOProtos.Networking.Platform.Responses {
         = pb::FieldCodec.ForMessage(26, global::POGOProtos.Data.Player.Currency.Parser);
     private readonly pbc::RepeatedField<global::POGOProtos.Data.Player.Currency> playerCurrencies_ = new pbc::RepeatedField<global::POGOProtos.Data.Player.Currency>();
     /// <summary>
-    ///  currencies that player has at the moment
+    /// currencies that player has at the moment
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pbc::RepeatedField<global::POGOProtos.Data.Player.Currency> PlayerCurrencies {
@@ -134,7 +134,7 @@ namespace POGOProtos.Networking.Platform.Responses {
     public const int HashFieldNumber = 4;
     private string hash_ = "";
     /// <summary>
-    ///  hash?
+    /// hash?
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string Hash {
@@ -301,7 +301,7 @@ namespace POGOProtos.Networking.Platform.Responses {
         public const int ItemIdFieldNumber = 1;
         private string itemId_ = "";
         /// <summary>
-        ///  Internal ID (probably for Google Play/App Store) example: "pgorelease.incenseordinary.1"
+        /// Internal ID (probably for Google Play/App Store) example: "pgorelease.incenseordinary.1"
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public string ItemId {
@@ -315,7 +315,7 @@ namespace POGOProtos.Networking.Platform.Responses {
         public const int IsIapFieldNumber = 2;
         private bool isIap_;
         /// <summary>
-        ///  If true, this item is bought with real currency (USD, etc.) through the Play/App Store instead of Pokecoins
+        /// If true, this item is bought with real currency (USD, etc.) through the Play/App Store instead of Pokecoins
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public bool IsIap {
@@ -329,7 +329,7 @@ namespace POGOProtos.Networking.Platform.Responses {
         public const int CurrencyToBuyFieldNumber = 3;
         private global::POGOProtos.Data.Player.Currency currencyToBuy_;
         /// <summary>
-        ///  This defines how much the item costs (with the exception of items that cost real money like Pokecoins, that's defined in the respective store)
+        /// This defines how much the item costs (with the exception of items that cost real money like Pokecoins, that's defined in the respective store)
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public global::POGOProtos.Data.Player.Currency CurrencyToBuy {
@@ -343,7 +343,7 @@ namespace POGOProtos.Networking.Platform.Responses {
         public const int YieldsCurrencyFieldNumber = 4;
         private global::POGOProtos.Data.Player.Currency yieldsCurrency_;
         /// <summary>
-        ///  When bought, this IAP will yield this much currency
+        /// When bought, this IAP will yield this much currency
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public global::POGOProtos.Data.Player.Currency YieldsCurrency {
@@ -357,7 +357,7 @@ namespace POGOProtos.Networking.Platform.Responses {
         public const int YieldsItemFieldNumber = 5;
         private global::POGOProtos.Networking.Platform.Responses.GetStoreItemsResponse.Types.StoreItemInfo yieldsItem_;
         /// <summary>
-        ///  The item and count of such item that this IAP will yield
+        /// The item and count of such item that this IAP will yield
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public global::POGOProtos.Networking.Platform.Responses.GetStoreItemsResponse.Types.StoreItemInfo YieldsItem {
@@ -373,7 +373,7 @@ namespace POGOProtos.Networking.Platform.Responses {
             = pb::FieldCodec.ForMessage(50, global::POGOProtos.Networking.Platform.Responses.GetStoreItemsResponse.Types.StoreTags.Parser);
         private readonly pbc::RepeatedField<global::POGOProtos.Networking.Platform.Responses.GetStoreItemsResponse.Types.StoreTags> tags_ = new pbc::RepeatedField<global::POGOProtos.Networking.Platform.Responses.GetStoreItemsResponse.Types.StoreTags>();
         /// <summary>
-        ///  Stuff like SORT:12, CATEGORY:ITEMS
+        /// Stuff like SORT:12, CATEGORY:ITEMS
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public pbc::RepeatedField<global::POGOProtos.Networking.Platform.Responses.GetStoreItemsResponse.Types.StoreTags> Tags {
@@ -384,7 +384,7 @@ namespace POGOProtos.Networking.Platform.Responses {
         public const int Unknown7FieldNumber = 7;
         private int unknown7_;
         /// <summary>
-        ///  Possibly something to toggle visibility in the store/purchasibility?
+        /// Possibly something to toggle visibility in the store/purchasibility?
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public int Unknown7 {
