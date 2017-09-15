@@ -38,7 +38,7 @@ namespace PokemonGo.RocketAPI.Rpc
             var tries = 0;
             while ( tries <3){
                 try {
-                    Logger.Debug("Before of GetPlatformRequestEnvelope: platfReq :"+ platfReq);
+                    //Logger.Debug("Before of GetPlatformRequestEnvelope: platfReq :"+ platfReq);
                     var requestEnvelops = GetRequestBuilder().GetPlatformRequestEnvelope(platfReq);
                     return Client.PokemonHttpClient.PostProtoPayload<TRequest, TResponsePayload>(Client.ApiUrl, requestEnvelops,
                                 Client.ApiFailure);
@@ -73,7 +73,7 @@ namespace PokemonGo.RocketAPI.Rpc
             var tries = 0;
             while ( tries <3){
                 try {
-                    Logger.Debug("Before of GetRequestEnvelope: type :"+ type);
+                    //Logger.Debug("Before of GetRequestEnvelope: type :"+ type);
 
                     var requestEnvelops = GetRequestBuilder().GetRequestEnvelope(type, message);
                     return Client.PokemonHttpClient.PostProtoPayload<TRequest, TResponsePayload>(Client.ApiUrl, requestEnvelops,
@@ -213,7 +213,8 @@ namespace PokemonGo.RocketAPI.Rpc
             var tries = 0;
             while ( tries <3){
                 try {
-                    Logger.Debug("Before of GetRequestEnvelope: request :"+ request);
+                    //Logger.Debug("Before of GetRequestEnvelope: request :"+ request);
+                    Logger.Debug("[Location] Lat:" + Client.CurrentLatitude + " Long:" + Client.CurrentLongitude);
                        var requestEnvelope = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(request, Client));
                         var response =
                             await

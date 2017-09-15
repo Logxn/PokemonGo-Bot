@@ -463,7 +463,7 @@ namespace PokeMaster
             var pokeGymMaker = new GMarkerGoogle(new PointLatLng(pokeGym.Latitude, pokeGym.Longitude), bitmap);
             if (pokeGym.RaidInfo!=null)
                 str = string.Format("Raid Info: {0}, level: {1}, starts: {2}, ends: {3}"
-                                    ,pokeGym.RaidInfo.RaidPokemon.PokemonId
+                                    ,pokeGym.RaidInfo.RaidPokemon?.PokemonId
                                     ,pokeGym.RaidInfo.RaidLevel
                                     ,StringUtils.TimeMStoString(pokeGym.RaidInfo.RaidBattleMs, @"mm\:ss")
                                     ,StringUtils.TimeMStoString(pokeGym.RaidInfo.RaidEndMs, @"mm\:ss"));

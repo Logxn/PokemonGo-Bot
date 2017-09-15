@@ -79,6 +79,12 @@ namespace PokeMaster.Logic.Functions
                         Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "(Gym) - This gym was already visited.");
                         continue;
                     }
+
+                    if (gym.RaidInfo != null && !gym.RaidInfo.IsRaidHidden)
+                    {
+                        AddVisited(gym.Id, 60000);
+                        continue;
+                    }
                     var attackCount = 1;
                     while (attackCount <= GlobalVars.Gyms.MaxAttacks && !gymsVisited.Contains(gym.Id)) {
                         Logger.Debug("(Gym) - Attack number " + attackCount);
@@ -109,7 +115,7 @@ namespace PokeMaster.Logic.Functions
             var mapObjectsResponse = Logic.objClient.Map.GetMapObjects().Result;
 
             var pokeGyms1 = mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
-                .Where(i => (i.Type == FortType.Gym) && (i.RaidInfo == null) );
+                .Where(i => i.Type == FortType.Gym);
 
             var pokeGyms2 = pokeGyms1
                 .OrderBy(i => LocationUtils.CalculateDistanceInMeters(Logic.objClient.CurrentLatitude, Logic.objClient.CurrentLongitude, i.Latitude, i.Longitude));
@@ -306,7 +312,7 @@ namespace PokeMaster.Logic.Functions
             var pokeAttackersIds = pokeAttackers.Select(x => x.Id);
             var moveSettings = GetMoveSettings(client);
             GymGetInfoResponse gymDetails = null;
-            StartGymBattleResponse resp = null;
+            GymStartSessionResponse resp = null;
 
             // Sometimes we get a null from startgymBattle so we try to start battle 3 times
             var numTries = 3;
@@ -315,8 +321,8 @@ namespace PokeMaster.Logic.Functions
                 gymDetails = client.Fort.GymGetInfo(gym.Id, gym.Latitude, gym.Longitude);
                 RandomHelper.RandomSleep(200);
                 try {
-                    resp = client.Fort.StartGymBattle(gym.Id, defenderId, pokeAttackersIds).Result;
-                    if (resp != null && resp.BattleLog != null) {
+                    resp = client.Fort.GymStartBattle(gym.Id, defenderId, pokeAttackersIds).Result;
+                    if (resp != null && resp.Battle.BattleId != null) {
                         startOk = true;
                     } else {
                         Logger.Info("(Gym) - Start Gym Failed.");
@@ -333,13 +339,13 @@ namespace PokeMaster.Logic.Functions
                 return null;
             }
 
-            if (resp.BattleLog.State == BattleState.Active) {
+            if (resp.Battle.BattleLog.State == BattleLogProto.Types.State.Active) {
                 Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Battle Started");
                 RandomHelper.RandomSleep(2000);
                 var battleActions = new List<BattleAction>();
                 var lastRetrievedAction = new BattleAction();
-                var battleStartMs = resp.BattleLog.BattleStartTimestampMs;
-                var attResp = client.Fort.AttackGym(gym.Id, resp.BattleId, battleActions, lastRetrievedAction);
+                var battleStartMs = resp.Battle.BattleLog.BattleStartMs;
+                var attResp = client.Fort.AttackGym(gym.Id, resp.Battle.BattleId, battleActions, lastRetrievedAction);
                 var inBattle = (attResp.Result == AttackGymResponse.Types.Result.Success);
                 inBattle = inBattle && (attResp.BattleLog.State == BattleState.Active);
                 var count = 1;
@@ -408,7 +414,7 @@ namespace PokeMaster.Logic.Functions
 
                     var str = string.Join(",", battleActions);
                     Logger.Debug("(Gym) - battleActions: " + str);
-                    attResp = client.Fort.AttackGym(gym.Id, resp.BattleId, battleActions, lastRetrievedAction);
+                    attResp = client.Fort.AttackGym(gym.Id, resp.Battle.BattleId, battleActions, lastRetrievedAction);
                     Logger.Debug("attResp: " + attResp);
                     Logger.Debug("attResp BattleActions: ");
                     ShowBattleActions(attResp.BattleLog.BattleActions);
@@ -515,19 +521,19 @@ namespace PokeMaster.Logic.Functions
             }
         }
 
-        public static StartGymBattleResponse StartGymBattle(Client client, string gymId, ulong defendingPokemonId,
+        public static GymStartSessionResponse StartGymBattle(Client client, string gymId, ulong defendingPokemonId,
             IEnumerable<ulong> attackingPokemonIds)
         {
-            StartGymBattleResponse resp = null;
+            GymStartSessionResponse resp = null;
             var numTries = 3;
             var startOk = false;
             do {
                 try {
-                    resp = client.Fort.StartGymBattle(gymId, defendingPokemonId, attackingPokemonIds).Result;
+                    resp = client.Fort.GymStartBattle(gymId, defendingPokemonId, attackingPokemonIds).Result;
                     if (resp == null) {
                         Logger.Debug("(Gym) - Response to start battle was null.");
                     } else {
-                        if (resp.BattleLog == null) {
+                        if (resp.Battle.BattleLog == null) {
                             Logger.Debug("(Gym) - BatlleLog to start battle was null");
                         } else {
                             startOk = true;
@@ -577,7 +583,7 @@ namespace PokeMaster.Logic.Functions
             return resp;
         }
 
-        private static  AttackGymResponse LeaveBattle(FortData gym, Client client, StartGymBattleResponse resp, AttackGymResponse attResp, BattleAction lastRetrievedAction, long nextDefenderID)
+        private static  AttackGymResponse LeaveBattle(FortData gym, Client client, GymStartSessionResponse resp, AttackGymResponse attResp, BattleAction lastRetrievedAction, long nextDefenderID)
         {
             AttackGymResponse ret = attResp;
             var times = 3;
@@ -592,7 +598,7 @@ namespace PokeMaster.Logic.Functions
                 var battleActions = new List<BattleAction>();
                 battleActions.Add(attack);
                 lastRetrievedAction = new BattleAction();
-                ret = client.Fort.AttackGym(gym.Id, resp.BattleId, battleActions, lastRetrievedAction);
+                ret = client.Fort.AttackGym(gym.Id, resp.Battle.BattleId, battleActions, lastRetrievedAction);
                 Logger.Debug($"ret {times}: {ret}");
                 Logger.Debug("ret BattleActions: ");
                 ShowBattleActions(attResp.BattleLog.BattleActions);

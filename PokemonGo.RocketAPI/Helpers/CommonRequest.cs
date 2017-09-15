@@ -331,21 +331,21 @@ namespace PokemonGo.RocketAPI.Helpers
 
         public static async void ProcessGetInboxResponseAsync(Client client, GetInboxResponse response)
         {
-            if (response == null)
-                return;
-            Logger.Debug("Result:" + response.Result);
-            Logger.Debug("Inbox => " + response.Inbox.BuiltinVariables.Count + " BuiltIn Variables and " + response.Inbox.Notifications.Count + " Notifications.");
-            var i = 0;
-            /*foreach (var element in response.Inbox.BuiltinVariables) {
-                Logger.Debug($"BuiltinVariable {i}: {element}");
-                i++;
-            }*/
-            i = 0;
-            foreach (var element in response.Inbox.Notifications)
-            {
-                Logger.Debug($"Notification {i}: {element}");
-                i++;
-            }
+            //if (response == null)
+            //    return;
+            //Logger.Debug("Result:" + response.Result);
+            //Logger.Debug("Inbox => " + response.Inbox.BuiltinVariables.Count + " BuiltIn Variables and " + response.Inbox.Notifications.Count + " Notifications.");
+            //var i = 0;
+            ///*foreach (var element in response.Inbox.BuiltinVariables) {
+            //    Logger.Debug($"BuiltinVariable {i}: {element}");
+            //    i++;
+            //}*/
+            //i = 0;
+            //foreach (var element in response.Inbox.Notifications)
+            //{
+            //    Logger.Debug($"Notification {i}: {element}");
+            //    i++;
+            //}
 
             // Explain about notifications received and so.
         }

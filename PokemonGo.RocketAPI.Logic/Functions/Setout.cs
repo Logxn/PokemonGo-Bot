@@ -210,7 +210,7 @@ namespace PokeMaster.Logic.Functions
                 {
                     var getPokemonName = pokemon.PokemonId.ToString();
                     var cp = pokemon.Cp;
-                    var calcPerf = PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00");
+                    var calcPerf = PokemonGo.RocketAPI.PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00");
                     var getEvolvedName = StringUtils.getPokemonNameByLanguage(evolvePokemonOutProto.EvolvedPokemonData.PokemonId);
                     var getEvolvedCP = evolvePokemonOutProto.EvolvedPokemonData.Cp;
                     gotXP = gotXP + evolvePokemonOutProto.ExperienceAwarded;
@@ -232,7 +232,7 @@ namespace PokeMaster.Logic.Functions
                     Logic.Instance.BotStats.AddExperience(evolvePokemonOutProto.ExperienceAwarded);
 
                     if (Logic.Instance.Telegram != null)
-                        Logic.Instance.Telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Evolve, StringUtils.getPokemonNameByLanguage( pokemon.PokemonId), pokemon.Cp, PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00"), StringUtils.getPokemonNameByLanguage( evolvePokemonOutProto.EvolvedPokemonData.PokemonId), evolvePokemonOutProto.EvolvedPokemonData.Cp, evolvePokemonOutProto.ExperienceAwarded.ToString("N0"));
+                        Logic.Instance.Telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Evolve, StringUtils.getPokemonNameByLanguage( pokemon.PokemonId), pokemon.Cp, PokemonGo.RocketAPI.PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00"), StringUtils.getPokemonNameByLanguage( evolvePokemonOutProto.EvolvedPokemonData.PokemonId), evolvePokemonOutProto.EvolvedPokemonData.Cp, evolvePokemonOutProto.ExperienceAwarded.ToString("N0"));
                     evolvecount++;
 
                     if (GlobalVars.UseAnimationTimes)
@@ -310,12 +310,12 @@ namespace PokeMaster.Logic.Functions
                     Logger.Debug("***");
                     if (GlobalVars.LogEggs)
                     {
-                        var MaxCP = PokemonInfo.CalculateMaxCP(hatched);
-                        var Level = PokemonInfo.GetLevel(hatched);
-                        var IVPercent = PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00");
+                        var MaxCP = PokemonGo.RocketAPI.PokemonInfo.CalculateMaxCP(hatched);
+                        var Level = PokemonGo.RocketAPI.PokemonInfo.GetLevel(hatched);
+                        var IVPercent = PokemonGo.RocketAPI.PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00");
                         File.AppendAllText(GlobalVars.FileForEggs, $"[{date}] - Hatched a {kmsEgg} Km egg, and we got a {hatched.PokemonId} (CP: {hatched.Cp} | MaxCP: {MaxCP} | Level: {Level} | IV: {IVPercent}% )" + Environment.NewLine);
                     }
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Hatched a " + kmsEgg + "Km egg, and we got a" + hatched.PokemonId + " CP: " + hatched.Cp + " MaxCP: " + PokemonInfo.CalculateMaxCP(hatched) + " Level: " + PokemonInfo.GetLevel(hatched) + " IV: " + PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00") + "%");
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Hatched a " + kmsEgg + "Km egg, and we got a" + hatched.PokemonId + " CP: " + hatched.Cp + " MaxCP: " + PokemonGo.RocketAPI.PokemonInfo.CalculateMaxCP(hatched) + " Level: " + PokemonGo.RocketAPI.PokemonInfo.GetLevel(hatched) + " IV: " + PokemonGo.RocketAPI.PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00") + "%");
                 }
 
                 if ((unusedEggsUnlimitInc.Count < 1) && (unusedEggsUnlimitInc.Count < 1))
@@ -817,11 +817,11 @@ namespace PokeMaster.Logic.Functions
                 foreach (var duplicatePokemon in duplicatePokemons)
                 {
                     var Pokename = duplicatePokemon.PokemonId.ToString();
-                    var IVPercent = PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00");
+                    var IVPercent = PokemonGo.RocketAPI.PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00");
 
                     if (!GlobalVars.pokemonsToHold.Contains(duplicatePokemon.PokemonId))
                     {
-                        if (duplicatePokemon.Cp >= GlobalVars.DontTransferWithCPOver || PokemonInfo.CalculatePokemonPerfection(duplicatePokemon) >= GlobalVars.ivmaxpercent)
+                        if (duplicatePokemon.Cp >= GlobalVars.DontTransferWithCPOver || PokemonGo.RocketAPI.PokemonInfo.CalculatePokemonPerfection(duplicatePokemon) >= GlobalVars.ivmaxpercent)
                         {
                             continue; // go to next itearion from foreach
                         }
@@ -842,7 +842,7 @@ namespace PokeMaster.Logic.Functions
 
                         if (transferFirstLowIv)
                         {
-                            var BestIV = PokemonInfo.CalculatePokemonPerfection(bestPokemonsIvOfType.First()).ToString("0.00");
+                            var BestIV = PokemonGo.RocketAPI.PokemonInfo.CalculatePokemonPerfection(bestPokemonsIvOfType.First()).ToString("0.00");
                             if (GlobalVars.LogTransfer)
                             {
                                 File.AppendAllText(GlobalVars.FileForTransfers, $"[{date}] - Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Your best is: {BestIV}% IV)" + Environment.NewLine);
@@ -859,7 +859,7 @@ namespace PokeMaster.Logic.Functions
                         }
 
                         if (Logic.Instance.Telegram != null)
-                            Logic.Instance.Telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Transfer, StringUtils.getPokemonNameByLanguage(duplicatePokemon.PokemonId), duplicatePokemon.Cp, PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00"), bestPokemonOfType);
+                            Logic.Instance.Telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Transfer, StringUtils.getPokemonNameByLanguage(duplicatePokemon.PokemonId), duplicatePokemon.Cp, PokemonGo.RocketAPI.PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00"), bestPokemonOfType);
 
                         RandomHelper.RandomSleep(400, 600);
                     }

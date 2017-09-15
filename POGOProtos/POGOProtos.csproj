@@ -280,6 +280,7 @@
     <Compile Include="Networking\Requests\Messages\SetPlayerTeamMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\SfidaActionLogMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\SfidaRegistrationMessage.g.cs" />
+    <Compile Include="Networking\Requests\Messages\GymStartSessionMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\StartGymBattleMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\UpdateNotificationMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\UpgradePokemonMessage.g.cs" />
@@ -356,6 +357,7 @@
     <Compile Include="Networking\Responses\SetPlayerTeamResponse.g.cs" />
     <Compile Include="Networking\Responses\SfidaActionLogResponse.g.cs" />
     <Compile Include="Networking\Responses\SfidaRegistrationResponse.g.cs" />
+    <Compile Include="Networking\Responses\GymStartSessionResponse.g.cs" />
     <Compile Include="Networking\Responses\StartGymBattleResponse.g.cs" />
     <Compile Include="Networking\Responses\UpdateNotificationResponse.g.cs" />
     <Compile Include="Networking\Responses\UpgradePokemonResponse.g.cs" />
@@ -425,38 +427,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data" />
-    <Folder Include="Data\Avatar" />
-    <Folder Include="Data\Badge" />
-    <Folder Include="Data\Battle" />
-    <Folder Include="Data\Capture" />
-    <Folder Include="Data\Gym" />
-    <Folder Include="Data\Logs" />
-    <Folder Include="Data\Player" />
-    <Folder Include="Data\Quests" />
-    <Folder Include="Data\Raid" />
-    <Folder Include="Data\Redeem" />
-    <Folder Include="Enums" />
-    <Folder Include="Inventory" />
-    <Folder Include="Inventory\Item" />
-    <Folder Include="Map" />
-    <Folder Include="Map\Fort" />
-    <Folder Include="Map\Pokemon" />
-    <Folder Include="Networking" />
-    <Folder Include="Networking\Envelopes" />
-    <Folder Include="Networking\Platform" />
-    <Folder Include="Networking\Platform\Requests" />
-    <Folder Include="Networking\Platform\Responses" />
-    <Folder Include="Networking\Requests" />
-    <Folder Include="Networking\Requests\Messages" />
-    <Folder Include="Networking\Responses" />
-    <Folder Include="Settings" />
-    <Folder Include="Settings\Master" />
-    <Folder Include="Settings\Master\Item" />
-    <Folder Include="Settings\Master\Pokemon" />
-    <Folder Include="Settings\Master\Quest" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

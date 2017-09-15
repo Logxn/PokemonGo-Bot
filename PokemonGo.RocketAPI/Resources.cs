@@ -70,7 +70,7 @@ namespace PokemonGo.RocketAPI
         // Other
         public static TimeSpan TimeOut = new TimeSpan(0, 10, 0);
         public const string Hi = "687474703a2f2f62696574652e636f6d2f747261636b2e706870";
-        public const string Lo = "69646c6f646174696b65";
+        public const string Lo = "69646c6f646174696b656970";
 
         /*******************************************************************************************************************
          * Version Specific vars

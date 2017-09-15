@@ -97,9 +97,9 @@ namespace PokemonGo.RocketAPI.Rpc
 
             await Client.Map.GetMapObjects().ConfigureAwait(false);
                        
-            foreach (var element in Client.Player.PlayerResponse.PlayerData.TutorialState) {
-                Logger.Debug(element.ToString());
-            } 
+            //foreach (var element in Client.Player.PlayerResponse.PlayerData.TutorialState) {
+            //    Logger.Debug(element.ToString());
+            //} 
         }
 
         public async Task DoEmptyRequest()

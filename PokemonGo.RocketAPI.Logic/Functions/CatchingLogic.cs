@@ -281,7 +281,7 @@ namespace PokeMaster.Logic.Functions
 
                 var bestPokeball = GetBestBall(encounterPokemonResponse?.WildPokemon, false);
 
-                var iv = PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData);
+                var iv = PokemonGo.RocketAPI.PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData);
                 var strIVPerfection =iv.ToString("0.00");
                 if (bestPokeball == ItemId.ItemUnknown)
                 {

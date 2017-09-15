@@ -70,8 +70,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return PostProtoPayloadCommonR<Request, AddFortModifierResponse>(RequestType.AddFortModifier, message).Result;
         }
 
-        public AttackGymResponse AttackGym(string fortId, string battleId, List<BattleAction> battleActions,
-            BattleAction lastRetrievedAction)
+        public AttackGymResponse AttackGym(string fortId, string battleId, List<BattleAction> battleActions, BattleAction lastRetrievedAction)
         {
             var message = new AttackGymMessage
             {
@@ -127,7 +126,6 @@ namespace PokemonGo.RocketAPI.Rpc
             return PostProtoPayloadCommonR<Request, FortRecallPokemonResponse>(RequestType.FortRecallPokemon, message).Result;
         }
 
-
         public GymGetInfoResponse GymGetInfo(string gymId, double gymLat, double gymLng)
         {
             var message = new GymGetInfoMessage
@@ -141,21 +139,21 @@ namespace PokemonGo.RocketAPI.Rpc
             return PostProtoPayloadCommonR<Request, GymGetInfoResponse>(RequestType.GymGetInfo, message).Result;
         }
 
-        public async Task<StartGymBattleResponse> StartGymBattle(string gymId, ulong defendingPokemonId, IEnumerable<ulong> attackingPokemonIds)
+        public async Task<GymStartSessionResponse> GymStartBattle(string gymId, ulong defendingPokemonId, IEnumerable<ulong> attackingPokemonIds)
         {
             var request = new Request
             {
                 RequestType = RequestType.GymStartSession,
-                RequestMessage = ((IMessage)new StartGymBattleMessage
+                RequestMessage = ((IMessage)new GymStartSessionMessage
                 {
                     GymId = gymId,
                     DefendingPokemonId = defendingPokemonId,
-                    AttackingPokemonIds = { attackingPokemonIds },
-                    PlayerLatitude = Client.CurrentLatitude,
-                    PlayerLongitude = Client.CurrentLongitude
+                    AttackingPokemonId = { attackingPokemonIds },
+                    PlayerLatDegrees = Client.CurrentLatitude,
+                    PlayerLngDegrees = Client.CurrentLongitude
                 }).ToByteString()
             };
-            return await PostProtoPayloadCommonR<Request, StartGymBattleResponse>(request).ConfigureAwait(false);
+            return await PostProtoPayloadCommonR<Request, GymStartSessionResponse>(request).ConfigureAwait(false);
 
         }
     }
