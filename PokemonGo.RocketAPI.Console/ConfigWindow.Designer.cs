@@ -374,6 +374,7 @@ namespace PokeMaster
             this.MinimizeButton = new System.Windows.Forms.Button();
             this.buttonSaveStart = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.checkBox_TransferSlashPokemons = new System.Windows.Forms.CheckBox();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBoxItems.SuspendLayout();
@@ -1261,6 +1262,7 @@ namespace PokeMaster
             // groupBox3
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox3.Controls.Add(this.checkBox_TransferSlashPokemons);
             this.groupBox3.Controls.Add(this.label14);
             this.groupBox3.Controls.Add(this.MinProbToCatch);
             this.groupBox3.Controls.Add(this.labelMinProb);
@@ -4636,6 +4638,18 @@ namespace PokeMaster
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
+            // checkBox_TransferSlashPokemons
+            // 
+            this.checkBox_TransferSlashPokemons.AutoSize = true;
+            this.checkBox_TransferSlashPokemons.Checked = true;
+            this.checkBox_TransferSlashPokemons.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_TransferSlashPokemons.Location = new System.Drawing.Point(603, 19);
+            this.checkBox_TransferSlashPokemons.Name = "checkBox_TransferSlashPokemons";
+            this.checkBox_TransferSlashPokemons.Size = new System.Drawing.Size(165, 17);
+            this.checkBox_TransferSlashPokemons.TabIndex = 21;
+            this.checkBox_TransferSlashPokemons.Text = "Auto transfer slash pokemons";
+            this.checkBox_TransferSlashPokemons.UseVisualStyleBackColor = true;
+            // 
             // ConfigWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -5149,5 +5163,6 @@ namespace PokeMaster
         private System.Windows.Forms.ComboBox comboLocale;
         private System.Windows.Forms.ComboBox comboTimeZone;
         private System.Windows.Forms.CheckBox checkBox_UseItemAtEvolve;
+        private System.Windows.Forms.CheckBox checkBox_TransferSlashPokemons;
     }
 }

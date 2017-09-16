@@ -864,6 +864,13 @@ namespace PokeMaster.Logic.Functions
                         RandomHelper.RandomSleep(400, 600);
                     }
                 }
+                if (GlobalVars.TransferSlashPokemons){
+                    var slashPokemons = Logic.objClient.Inventory.GetPokemons().Where(x => x.IsBad);
+                    foreach (var slashPokemon in slashPokemons) {
+                        if (!pokemonsToTransfer.Contains(slashPokemon.Id))
+                            pokemonsToTransfer.Add(slashPokemon.Id);
+                    }
+                }
                 if (pokemonsToTransfer.Any())
                 {
                     var _response = Logic.objClient.Inventory.ReleasePokemon(pokemonsToTransfer);

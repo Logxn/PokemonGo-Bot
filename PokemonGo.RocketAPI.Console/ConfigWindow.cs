@@ -320,6 +320,7 @@ namespace PokeMaster
             checkBox_UseSpritesFolder.Checked = config.UseSpritesFolder;
             checkBox_ShowPokemons.Checked = config.ShowPokemons;
             nud_EvolveAt.Value = config.EvolveAt;
+            checkBox_TransferSlashPokemons.Checked = config.TransferSlashPokemons;
             #endregion
 
             #region Tab 3 - Throws
@@ -778,6 +779,7 @@ namespace PokeMaster
             // bot settings
             ActiveProfile.Settings.TransferDoublePokemons = checkBox_AutoTransferDoublePokemon.Checked;
             ActiveProfile.Settings.TransferFirstLowIV = checkBox_TransferFirstLowIV.Checked;
+            ActiveProfile.Settings.TransferSlashPokemons = checkBox_TransferSlashPokemons.Checked;
 
             ret &= textBoxToActiveProfInt(text_MaxDuplicatePokemon, "HoldMaxDoublePokemons");
 
