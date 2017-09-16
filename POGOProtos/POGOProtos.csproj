@@ -288,7 +288,6 @@
     <Compile Include="Networking\Requests\Messages\SetPlayerTeamMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\SfidaActionLogMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\SfidaRegistrationMessage.g.cs" />
-    <Compile Include="Networking\Requests\Messages\GymStartSessionMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\StartGymBattleMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\UpdateNotificationMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\UpgradePokemonMessage.g.cs" />
@@ -366,7 +365,6 @@
     <Compile Include="Networking\Responses\SetPlayerTeamResponse.g.cs" />
     <Compile Include="Networking\Responses\SfidaActionLogResponse.g.cs" />
     <Compile Include="Networking\Responses\SfidaRegistrationResponse.g.cs" />
-    <Compile Include="Networking\Responses\GymStartSessionResponse.g.cs" />
     <Compile Include="Networking\Responses\StartGymBattleResponse.g.cs" />
     <Compile Include="Networking\Responses\UpdateNotificationResponse.g.cs" />
     <Compile Include="Networking\Responses\UpgradePokemonResponse.g.cs" />

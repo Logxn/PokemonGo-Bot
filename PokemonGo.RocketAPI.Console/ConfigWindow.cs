@@ -19,6 +19,7 @@ using PokeMaster.Logic.Shared;
 using PokeMaster.Dialogs;
 using PokeMaster.Helper;
 using System.ComponentModel;
+using System.Collections;
 
 namespace PokeMaster
 {
@@ -26,6 +27,7 @@ namespace PokeMaster
     {
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
+        private const string NEW_YORK_COORS = "40.764883;-73.972967";
 
         [DllImportAttribute("user32.dll")]
         public static extern int SendMessage(IntPtr hWnd,
@@ -53,13 +55,6 @@ namespace PokeMaster
             InitializeComponent();
         }
         
-        public double StrCordToDouble(string str)
-        {
-            double ret = 0.0;
-            double.TryParse(str.Replace(",", "."), NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out ret);
-            return ret;
-        }
-
         private void GUI_Load(object sender, EventArgs e)
         {
 
@@ -103,6 +98,7 @@ namespace PokeMaster
             tabControl1.SizeMode = TabSizeMode.Fixed;
             #endregion
 
+            #region Populate Defaults & Lists
             comboLocale.DataSource = new LocaleHelper().getLocales();
             comboLocale.Text = "en-US";
 
@@ -143,8 +139,9 @@ namespace PokeMaster
                     i++;
                 }
             }
+            #endregion
 
-            #region Loading Everything into GUI
+            #region Load Profile & Config
 
             Profiles = new Collection<Profile>();
             ActiveProfile = new Profile();
@@ -156,15 +153,16 @@ namespace PokeMaster
             var filenameProf = "";
             Profile selectedProfile = null;
             var result = "";
+
             if (File.Exists(GlobalVars.FileForProfiles)) {
-                string JSONstring = File.ReadAllText(@GlobalVars.FileForProfiles);
-                Profiles = JsonConvert.DeserializeObject<Collection<Profile>>(JSONstring);
+
+                Profiles = JsonConvert.DeserializeObject<Collection<Profile>>(File.ReadAllText(@GlobalVars.FileForProfiles));
+
                 foreach (Profile _profile in Profiles) {
                     if (_profile.IsDefault)
                         selectedProfile = _profile;
 
                     foundDefaultProfile |= _profile.ProfileName == "DefaultProfile";
-
                     filenameProf = Path.Combine(GlobalVars.PathToConfigs, _profile.ProfileName + ".json");
                     if (File.Exists(filenameProf)) {
                         try {
@@ -187,6 +185,7 @@ namespace PokeMaster
                     
                 }
             }
+
             if (!foundDefaultProfile)
                 Profiles.Add(ActiveProfile);
 
@@ -207,7 +206,9 @@ namespace PokeMaster
                 var message = th.TS("Loading Config failed\n{0} Check settings before running!", result);
                 MessageBox.Show(message);
             }
+            #endregion
 
+            #region Version Check
             var currVersion = Assembly.GetExecutingAssembly().GetName().Version;
             var newestVersion = Program.getNewestVersion();
 
@@ -434,6 +435,7 @@ namespace PokeMaster
             checkBox_BlockAltitude.Checked = config.BlockAltitude;
 
             AdvancedBreaks.Checked = config.AdvancedBreaks;
+
             if (AdvancedBreaks.Checked)
             {
                 BreakGridView.Visible = true;
@@ -443,12 +445,16 @@ namespace PokeMaster
 
                 BreakSettingsBindingSource.DataSource = config.Breaks;
                 BreakGridView.DataSource = BreakSettingsBindingSource;
-                BreakSettingsBindingSource.Sort = "BreakSequenceId";
+                BreakSettingsBindingSource.Sort = "BreakSequenceId ASC";
                 BreakGridView.Columns["BreakSequenceId"].HeaderText = "ID";
                 BreakGridView.Columns["BreakWalkTime"].HeaderText = "Walking Time";
                 BreakGridView.Columns["BreakIdleTime"].HeaderText = "Idle Time";
                 BreakGridView.Columns["BreakEnabled"].HeaderText = "Enabled";
+                BreakGridView.Columns["BreakSettingsCatchPokemon"].HeaderText = "Catch";
+                BreakGridView.Columns["BreakSettingsMaxSpeed"].HeaderText = "Max";
+                BreakGridView.Columns["BreakSettingsMinSpeed"].HeaderText = "Min";
             }
+
             if (config.Breaks == null) config.Breaks = new List<BreakSettings>();
             #endregion
 
@@ -521,7 +527,7 @@ namespace PokeMaster
                 index = 2;
             if (lang == "Español")
                 index = 3;
-            if (lang == "Catalá") // Catalunya triomfant...:D 1-O no tinc por!
+            if (lang == "Catalá")
                 index = 4;
             comboLanguage.SelectedIndex = index;
         }
@@ -554,12 +560,13 @@ namespace PokeMaster
             }
         }
 
-        //Account Type Changed Event
+        // Account Type Changed Event
         private void comboAccType_SelectedIndexChanged(object sender, EventArgs e)
         {
             label2.Text = comboBox_AccountType.SelectedIndex == 0 ? "E-Mail:" : th.TS("User Name:");
         }
 
+        // Profile Selection Changed
         private void ProfileSelect_SelectedIndexChanged(object sender, EventArgs e)
         {
             var selectedProfile = (Profile)Profiles.FirstOrDefault(i => i == ProfileSelect.SelectedItem);
@@ -592,8 +599,6 @@ namespace PokeMaster
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
                 e.Handled = true;
         }
-
-        private const string NEW_YORK_COORS = "40.764883;-73.972967";
 
         private void buttonSaveStart_Click(object sender, EventArgs e)
         {
@@ -1127,12 +1132,13 @@ namespace PokeMaster
             Environment.Exit(0);
         }
 
+        #region External Links 
+
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("https://github.com/Logxn/PokemonGo-Bot");
         }
-        
-        // https://high-minded.net/threads/pokemon-go-c-bot-safer-better.50731/
+
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("http://slaughter-gaming.de/");
@@ -1142,6 +1148,74 @@ namespace PokeMaster
         {
             Process.Start("https://discord.gg/phu3GNN/");
         }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RUNUBQEANCAGQ");
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://pokemaster.me");
+        }
+
+        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://twitter.com/Ar1iDev");
+        }
+
+        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://twitter.com/MattKnight4355");
+        }
+
+
+        private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://proxylist.hidemyass.com");
+        }
+
+        private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var sInfo = new ProcessStartInfo("https://developers.google.com/maps/documentation/directions/start#get-a-key/");
+            Process.Start(sInfo);
+        }
+
+        private void linkLabel2_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://github.com/Ar1i/");
+        }
+
+        private void linkLabel9_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://github.com/Logxn/");
+        }
+
+        private void linkLabel10_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://github.com/MTK4355/");
+        }
+
+        private void linkLabel14_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var sInfo = new ProcessStartInfo("https://talk.pogodev.org/d/55-api-hashing-service-f-a-q/");
+            Process.Start(sInfo);
+        }
+        void linkLabel15_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://honorbuddy.myshopify.com/cart/29160991442:1?attributes[resellerId]=93");
+        }
+        void linkLabel16_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://github.com/Logxn/PokemonGo-Bot/");
+        }
+
+        void linkLabelPokemaster_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://pokemaster.me");
+        }
+
+        #endregion
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -1197,83 +1271,30 @@ namespace PokeMaster
             }
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-            Process.Start("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RUNUBQEANCAGQ");
-        }
+        //public class ExtendedWebClient : WebClient
+        //{
 
-        private void pictureBox2_Click(object sender, EventArgs e)
-        {
-            Process.Start("https://pokemaster.me");
-            //Process.Start("https://high-minded.net/threads/pokemon-go-c-bot-safer-better.50731/");
-        }
-
-        public static void Extract(string nameSpace, string outDir, string internalFilePath, string resourceName)
-        {
-            Assembly ass = Assembly.GetCallingAssembly();
-            if (File.Exists(outDir + "\\" + resourceName)) {
-                File.Delete(outDir + "\\" + resourceName);
-            }
-
-            using (var s = ass.GetManifestResourceStream(nameSpace + "." + (internalFilePath == string.Empty ? string.Empty : internalFilePath + ".") + resourceName)) {
-                if (s != null) {
-                    using (var r = new BinaryReader(s))
-                        using (var fs = new FileStream(outDir + "\\" + resourceName, FileMode.OpenOrCreate))
-                            using (var w = new BinaryWriter(fs))
-                                w.Write(r.ReadBytes((int)s.Length));
-                }
-            }
+        //    public int Timeout {
+        //        get;
+        //        set;
+        //    }
             
-        }
+        //    public ExtendedWebClient()
+        //    {
+        //        this.Timeout = 2000;//In Milli seconds
+        //    }
+        //    protected override WebRequest GetWebRequest(Uri address)
+        //    {
+        //        var objWebRequest = base.GetWebRequest(address);
+        //        objWebRequest.Timeout = this.Timeout;
+        //        return objWebRequest;
+        //    }
+        //}
 
-        // Code cleanup we can do later
-
-        public class ExtendedWebClient : WebClient
-        {
-
-            public int Timeout {
-                get;
-                set;
-            }
-            
-            public ExtendedWebClient()
-            {
-                this.Timeout = 2000;//In Milli seconds
-            }
-            protected override WebRequest GetWebRequest(Uri address)
-            {
-                var objWebRequest = base.GetWebRequest(address);
-                objWebRequest.Timeout = this.Timeout;
-                return objWebRequest;
-            }
-        }
-
-        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start("https://twitter.com/Ar1iDev");
-        }
-
-        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start("https://twitter.com/MattKnight4355");
-        }
-
-
-        private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start("http://proxylist.hidemyass.com");
-        }
-
-        private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            var sInfo = new ProcessStartInfo("https://developers.google.com/maps/documentation/directions/start#get-a-key/");
-            Process.Start(sInfo);
-        }
-
-        public bool AcceptAllCertifications(object sender, System.Security.Cryptography.X509Certificates.X509Certificate certification, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)
-        {
-            return true;
-        }
+        //public bool AcceptAllCertifications(object sender, System.Security.Cryptography.X509Certificates.X509Certificate certification, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)
+        //{
+        //    return true;
+        //}
 
         private void button4_Click(object sender, EventArgs e)
         {
@@ -1296,40 +1317,11 @@ namespace PokeMaster
         }
 
 
-        private void linkLabel2_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start("https://github.com/Ar1i/");
-        }
-
-        private void linkLabel9_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start("https://github.com/Logxn/");
-        }
-
-        private void linkLabel10_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start("https://github.com/MTK4355/");
-        }
-
         void TextBoxes_TextChanged(object sender, EventArgs e)
         {
             ((TextBox)sender).BackColor = SystemColors.Window;
         }
 
-
-        private void linkLabel14_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            var sInfo = new ProcessStartInfo("https://talk.pogodev.org/d/55-api-hashing-service-f-a-q/");
-            Process.Start(sInfo);
-        }
-        void linkLabel15_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start("https://honorbuddy.myshopify.com/cart/29160991442:1?attributes[resellerId]=93");
-        }
-        void linkLabel16_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start("https://github.com/Logxn/PokemonGo-Bot/");
-        }
 
         private void button_Information_Click(object sender, EventArgs e)
         {
@@ -1473,16 +1465,14 @@ namespace PokeMaster
                 textBoxSaveLocationsFile.Text = saveFileDialog1.FileName;
             }
         }
-        void linkLabelPokemaster_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start("https://pokemaster.me");
-        }
+
         void buttonTest_Click(object sender, EventArgs e)
         {
             var port = 80;
             int.TryParse(prxyPort.Text, out port);
             MessageBox.Show(th.TS(testProxy(prxyIP.Text, port, prxyUser.Text, prxyPass.Text)));
         }
+
         private string testProxy(string proxyHost, int proxyPort, string proxyUsername, string proxyPassword)
         {
             if ((proxyHost == "") || (proxyPort == 0))
@@ -1589,6 +1579,13 @@ namespace PokeMaster
         {
             if (text_MinWalkSpeed.Text.Length >= 1 && text_MinWalkSpeed.Text.All(char.IsDigit))
                 toolTip1.SetToolTip(text_MinWalkSpeed, Convert.ToDouble(text_MinWalkSpeed.Text) * 1000 / 3600 + " m/s");
+        }
+
+        private double StrCordToDouble(string str)
+        {
+            double ret = 0.0;
+            double.TryParse(str.Replace(",", "."), NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out ret);
+            return ret;
         }
     }
 }

@@ -115,7 +115,7 @@ namespace PokeMaster.Logic
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, $"LogLevel set to {Logger.SelectedLevel}. Many logs will be generated.");
             }
 
-            StringUtils.PidToFile(BotSettings);
+            //StringUtils.PidToFile(BotSettings);
 
             #region Log Logger
 
@@ -310,6 +310,9 @@ namespace PokeMaster.Logic
 
         private int GetRandomWalkspeed()
         {
+            BotSettings.WalkingSpeedInKilometerPerHour = GlobalVars.WalkingSpeedInKilometerPerHour;
+            BotSettings.MinWalkSpeed = GlobalVars.MinWalkSpeed;
+
             var walkspeed = (int)BotSettings.WalkingSpeedInKilometerPerHour;
             if (!BotSettings.RandomReduceSpeed) return walkspeed;
 
