@@ -32,7 +32,7 @@ namespace PokemonGo.RocketAPI.Logging
             public string text;
             public ConsoleColor color;
         }
-        public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
+        public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
         public static string log = Path.Combine(path, "log.txt");
         public static Queue messages = new Queue();
         

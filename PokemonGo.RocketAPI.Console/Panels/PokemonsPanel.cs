@@ -280,10 +280,10 @@ namespace PokeMaster
                         listViewItem.SubItems.Add(string.Format("{0}", pokemon.Cp));
 
                         if (checkBox_ShortName.Checked)
-                            listViewItem.SubItems.Add(string.Format("{0}% {1}{2}{3} ({4})", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"), (45 - pokemon.IndividualAttack- pokemon.IndividualDefense- pokemon.IndividualStamina) ));
+                            listViewItem.SubItems.Add(string.Format("{0}% {1}{2}{3} ({4})", PokemonGo.RocketAPI.PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"), (45 - pokemon.IndividualAttack- pokemon.IndividualDefense- pokemon.IndividualStamina) ));
                         else
-                            listViewItem.SubItems.Add(string.Format("{0}% {1}-{2}-{3}", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina));
-                        listViewItem.SubItems.Add(string.Format("{0}", PokemonInfo.GetLevel(pokemon)));
+                            listViewItem.SubItems.Add(string.Format("{0}% {1}-{2}-{3}", PokemonGo.RocketAPI.PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina));
+                        listViewItem.SubItems.Add(string.Format("{0}", PokemonGo.RocketAPI.PokemonInfo.GetLevel(pokemon)));
 
                         # region Evolve Column
                         var settings = pokemonSettings.FirstOrDefault(x => x.PokemonId == pokemon.PokemonId);
@@ -304,9 +304,9 @@ namespace PokeMaster
                         listViewItem.SubItems.Add(string.Format("{0}", Math.Round(pokemon.WeightKg, 2)));
                         listViewItem.SubItems.Add(string.Format("{0}/{1}", pokemon.Stamina, pokemon.StaminaMax));
                         listViewItem.SubItems.Add(string.Format("{0}", pokemon.Move1));
-                        listViewItem.SubItems.Add(string.Format("{0} ({1})", pokemon.Move2, PokemonInfo.GetAttack(pokemon.Move2)));
+                        listViewItem.SubItems.Add(string.Format("{0} ({1})", pokemon.Move2, PokemonGo.RocketAPI.PokemonInfo.GetAttack(pokemon.Move2)));
                         listViewItem.SubItems.Add(string.Format("{0}", (int)pokemon.PokemonId));
-                        listViewItem.SubItems.Add(string.Format("{0}", PokemonInfo.CalculatePokemonPerfectionCP(pokemon).ToString("0.00")));
+                        listViewItem.SubItems.Add(string.Format("{0}", PokemonGo.RocketAPI.PokemonInfo.CalculatePokemonPerfectionCP(pokemon).ToString("0.00")));
 
                         AdditionalPokeData addData = additionalPokeData.FirstOrDefault(x => x.PokedexNumber == (int)pokemon.PokemonId);
                         if (addData != null)
@@ -437,8 +437,6 @@ namespace PokeMaster
             int total = selectedItems.Count;
             string failed = string.Empty;
             var date = DateTime.Now.ToString();
-            string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
-            string evolvelog = Path.Combine(logPath, "EvolveLog.txt");
             int gotXP = 0;
             
             var resp = new EvolvePokemonResponse();
@@ -480,7 +478,7 @@ namespace PokeMaster
                     var name = pokemoninfo.PokemonId;
                     var getPokemonName = StringUtils.getPokemonNameByLanguage(pokemoninfo.PokemonId);
                     var cp = pokemoninfo.Cp;
-                    var calcPerf = PokemonInfo.CalculatePokemonPerfection(pokemoninfo).ToString("0.00");
+                    var calcPerf = PokemonGo.RocketAPI.PokemonInfo.CalculatePokemonPerfection(pokemoninfo).ToString("0.00");
                     var getEvolvedName = th.TS((resp.EvolvedPokemonData.PokemonId).ToString());
                     var getEvolvedCP = resp.EvolvedPokemonData.Cp;
                     gotXP = gotXP + resp.ExperienceAwarded;
@@ -502,7 +500,7 @@ namespace PokeMaster
             {
                 if (GlobalVars.LogEvolve)
                 {
-                    File.AppendAllText(evolvelog, $"[{date}] - MANUAL - Sucessfully evolved {evolved}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
+                    File.AppendAllText(GlobalVars.FileForEvolve, $"[{date}] - MANUAL - Sucessfully evolved {evolved}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
                 }
                 MessageBox.Show(th.TS("Succesfully evolved {0}/{1} Pokemons. Failed: {2}",evolved,total,failed), th.TS("Evolve status"), MessageBoxButtons.OK, MessageBoxIcon.Information,MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
             }
@@ -510,7 +508,7 @@ namespace PokeMaster
             {
                 if (GlobalVars.LogEvolve)
                 {
-                    File.AppendAllText(evolvelog, $"[{date}] - MANUAL - Sucessfully evolved {evolved}/{total} Pokemons." + Environment.NewLine);
+                    File.AppendAllText(GlobalVars.FileForEvolve, $"[{date}] - MANUAL - Sucessfully evolved {evolved}/{total} Pokemons." + Environment.NewLine);
                 }
                 MessageBox.Show(th.TS("Succesfully evolved {0}/{1} Pokemons.",evolved,total), th.TS("Evolve status"), MessageBoxButtons.OK, MessageBoxIcon.Information,MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
             }
@@ -540,8 +538,6 @@ namespace PokeMaster
                 int total = selectedItems.Count;
                 string failed = string.Empty;
                 
-                string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
-                string logs = Path.Combine(logPath, "TransferLog.txt");
                 string date = DateTime.Now.ToString();
                 
                 if (GlobalVars.pauseAtEvolve2)  // stop walking
@@ -573,8 +569,8 @@ namespace PokeMaster
 
                             transfered++;
 
-                            File.AppendAllText(logs, $"[{date}] - MANUAL - Enqueuing to BULK transfer pokemon {transfered}/{total}: { pokemon.PokemonId}" + Environment.NewLine);
-                            var strPerfection = PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00");
+                            File.AppendAllText(GlobalVars.FileForTransfers, $"[{date}] - MANUAL - Enqueuing to BULK transfer pokemon {transfered}/{total}: { pokemon.PokemonId}" + Environment.NewLine);
+                            var strPerfection = PokemonGo.RocketAPI.PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00");
                             var strTransfer = $"Enqueuing to BULK transfer pokemon {transfered}/{total}: {strPokename} CP {pokemon.Cp} IV {strPerfection}";
                             Logger.ColoredConsoleWrite(ConsoleColor.Yellow, strTransfer, LogLevel.Info);
                             
@@ -595,7 +591,7 @@ namespace PokeMaster
                         {
                             if (GlobalVars.LogTransfer)
                             {
-                                File.AppendAllText(logs, $"[{date}] - MANUAL - Sucessfully Bulk transfered {transfered}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
+                                File.AppendAllText(GlobalVars.FileForTransfers, $"[{date}] - MANUAL - Sucessfully Bulk transfered {transfered}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
                             }
                             Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer Successful of {transfered}/{total} pokemons => {_response.CandyAwarded.ToString()} candy/ies awarded.");
                             statusTexbox.Text = $"Succesfully Bulk transfered {total} Pokemons.";
@@ -712,7 +708,7 @@ namespace PokeMaster
             string nickname;
             nickname = useShortFormat ?
                 string.Format("{0}{1}{2}{3}", pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"), (45 - pokemon.IndividualAttack - pokemon.IndividualDefense - pokemon.IndividualStamina))
-                : string.Format("{0}.{1}.{2}.{3}", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina);
+                : string.Format("{0}.{1}.{2}.{3}", PokemonGo.RocketAPI.PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina);
             int lenDiff = 12 - nickname.Length;
             if (croppedName.Length > lenDiff)
                 croppedName = croppedName.Substring(0, lenDiff);
@@ -757,7 +753,7 @@ namespace PokeMaster
             if (PokemonListView.SelectedItems.Count < 1)
                 return;
             var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
-            if (MessageBox.Show(this, th.TS( " {0} with {1} CP thats {2} % perfect",pokemon.PokemonId,pokemon.Cp,Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon))), th.TS("Are you sure you want to power it up?"), MessageBoxButtons.OKCancel) == DialogResult.OK)
+            if (MessageBox.Show(this, th.TS( " {0} with {1} CP thats {2} % perfect",pokemon.PokemonId,pokemon.Cp,Math.Round(PokemonGo.RocketAPI.PokemonInfo.CalculatePokemonPerfection(pokemon))), th.TS("Are you sure you want to power it up?"), MessageBoxButtons.OKCancel) == DialogResult.OK)
                 if ( PowerUp(pokemon))
                     Execute();
         }

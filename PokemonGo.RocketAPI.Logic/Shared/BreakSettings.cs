@@ -1,12 +1,6 @@
-﻿using System;
+﻿using PokemonGo.RocketAPI;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using PokemonGo.RocketAPI;
-using PokemonGo.RocketAPI.Helpers;
-using PokeMaster.Logic.Functions;
 
 namespace PokeMaster.Logic.Shared
 {
@@ -14,6 +8,9 @@ namespace PokeMaster.Logic.Shared
     {
         private static int breaksCount = 0;
         private static int invokeCount = 0;
+        private static double MaxSpeedDefault = GlobalVars.WalkingSpeedInKilometerPerHour;
+        private static double MinSpeedDefault = GlobalVars.MinWalkSpeed;
+
         private static List<BreakSettings> OrderedBreaks = new List<BreakSettings>();
         private System.Timers.Timer walkTimer = new System.Timers.Timer();
         private System.Timers.Timer idleTimer = new System.Timers.Timer();
@@ -22,15 +19,40 @@ namespace PokeMaster.Logic.Shared
         public int BreakWalkTime { get; set; }
         public int BreakIdleTime { get; set; }
         public bool BreakEnabled { get; set; }
+        public bool BreakSettingsCatchPokemon { get; set; }
+        public double BreakSettingsMaxSpeed { get; set; }
+        public double BreakSettingsMinSpeed { get; set; }
 
         private void SetWalkTimer(BreakSettings _break)
         {
-            //var autoEvent = new AutoResetEvent(false);
-            //var stateTimer = new Timer(NextInterval, null, 0, _break.BreakWalkTime);
             walkTimer.Interval = _break.BreakWalkTime * 1000 * 60;
             walkTimer.AutoReset = false;
             walkTimer.Start();
-            Logger.Info("[" + invokeCount + "] Walking Timer for sequence " + _break.BreakSequenceId + " started. We are going to walk during: " + _break.BreakWalkTime + " minutes.");
+
+            Logger.Debug("[" + invokeCount + "] Sequence " + _break.BreakSequenceId + " started." 
+                + " GlobalVars Catch: " + (GlobalVars.CatchPokemon ? "Yes" : "No")
+                + " GlobalVars Walk: " + GlobalVars.WalkingSpeedInKilometerPerHour + "/" + GlobalVars.MinWalkSpeed
+                + " Catch: " + (_break.BreakSettingsCatchPokemon ? "Yes" : "No")
+                + " Walk: "  + _break.BreakSettingsMaxSpeed + "/" + _break.BreakSettingsMinSpeed
+                + " MaxSpeedDefault: " + MaxSpeedDefault + " MinSpeedDefault: " + MinSpeedDefault);
+
+            if (_break.BreakSettingsCatchPokemon) GlobalVars.CatchPokemon = true;
+            else GlobalVars.CatchPokemon = false;
+
+            if (_break.BreakSettingsMaxSpeed > 0 && _break.BreakSettingsMinSpeed < _break.BreakSettingsMaxSpeed)
+            {
+                GlobalVars.WalkingSpeedInKilometerPerHour = _break.BreakSettingsMaxSpeed;
+                GlobalVars.MinWalkSpeed = _break.BreakSettingsMinSpeed;
+            }
+            else
+            {
+                GlobalVars.WalkingSpeedInKilometerPerHour = MaxSpeedDefault;
+                GlobalVars.MinWalkSpeed = MinSpeedDefault;
+            }
+
+            Logger.Info("[" + invokeCount + "] Walking Timer for sequence " + _break.BreakSequenceId + " started. We are going to walk during: " + _break.BreakWalkTime + " minutes." 
+                + " Catch: " + (_break.BreakSettingsCatchPokemon ? "Yes" : "No") 
+                + " Walk: " + GlobalVars.WalkingSpeedInKilometerPerHour +"(" + _break.BreakSettingsMaxSpeed + "/" + GlobalVars.MinWalkSpeed + "(" +_break.BreakSettingsMinSpeed +")");
         }
         
         private void SetIdleTimer(BreakSettings _break)
@@ -43,7 +65,6 @@ namespace PokeMaster.Logic.Shared
 
         private void IdleTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            Console.WriteLine("[" + invokeCount + "] ===== MUST START WALKING NOW =====");
             idleTimer.Stop();
             NextInterval();
             // Ojo con el useprevioussettings !! -> inicia desde el principio
@@ -52,7 +73,6 @@ namespace PokeMaster.Logic.Shared
 
         private void WalkTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            Console.WriteLine("[" + invokeCount + "] ===== MUST PAUSE WALKING NOW =====");
             walkTimer.Stop();
             SetIdleTimer(OrderedBreaks[invokeCount % OrderedBreaks.Count()]);
             GlobalVars.ForceAdvancedBreakNow = true;
@@ -68,7 +88,10 @@ namespace PokeMaster.Logic.Shared
         {
             return OrderedBreaks[invokeCount % OrderedBreaks.Count()];
         }
-
+        /// <summary>
+        /// Checks if AdvancedBreaks is enabled and loads first break
+        /// </summary>
+        /// <param name="BotSettings"></param>
         public void CheckEnabled(ISettings BotSettings)
         {
             if (BotSettings.AdvancedBreaks && breaksCount == 0)
@@ -79,6 +102,8 @@ namespace PokeMaster.Logic.Shared
                 walkTimer.Elapsed += WalkTimer_Elapsed;
                 idleTimer.Elapsed += IdleTimer_Elapsed;
                 SetWalkTimer(OrderedBreaks[invokeCount]);
+                MaxSpeedDefault = GlobalVars.WalkingSpeedInKilometerPerHour;
+                MinSpeedDefault = GlobalVars.MinWalkSpeed;
             }
         }
     }

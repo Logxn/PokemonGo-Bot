@@ -362,7 +362,7 @@ namespace PokeMaster
             this.linkLabel17 = new System.Windows.Forms.LinkLabel();
             this.linkLabel10 = new System.Windows.Forms.LinkLabel();
             this.linkLabel9 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel11 = new System.Windows.Forms.LinkLabel();
+            this.linkLabelXelwon = new System.Windows.Forms.LinkLabel();
             this.linkLabel7 = new System.Windows.Forms.LinkLabel();
             this.linkLabel4 = new System.Windows.Forms.LinkLabel();
             this.buttonSvProf = new System.Windows.Forms.Button();
@@ -2290,7 +2290,7 @@ namespace PokeMaster
             this.BreakGridView.DefaultCellStyle = dataGridViewCellStyle2;
             this.BreakGridView.Location = new System.Drawing.Point(28, 289);
             this.BreakGridView.Name = "BreakGridView";
-            this.BreakGridView.Size = new System.Drawing.Size(326, 242);
+            this.BreakGridView.Size = new System.Drawing.Size(512, 242);
             this.BreakGridView.TabIndex = 75;
             // 
             // groupBoxForts
@@ -4444,7 +4444,7 @@ namespace PokeMaster
             this.groupBox20.Controls.Add(this.linkLabel17);
             this.groupBox20.Controls.Add(this.linkLabel10);
             this.groupBox20.Controls.Add(this.linkLabel9);
-            this.groupBox20.Controls.Add(this.linkLabel11);
+            this.groupBox20.Controls.Add(this.linkLabelXelwon);
             this.groupBox20.Controls.Add(this.linkLabel7);
             this.groupBox20.Controls.Add(this.linkLabel4);
             this.groupBox20.Location = new System.Drawing.Point(178, 14);
@@ -4459,7 +4459,7 @@ namespace PokeMaster
             // linkLabel17
             // 
             this.linkLabel17.AutoSize = true;
-            this.linkLabel17.Location = new System.Drawing.Point(209, 63);
+            this.linkLabel17.Location = new System.Drawing.Point(30, 39);
             this.linkLabel17.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.linkLabel17.Name = "linkLabel17";
             this.linkLabel17.Size = new System.Drawing.Size(44, 13);
@@ -4470,7 +4470,7 @@ namespace PokeMaster
             // linkLabel10
             // 
             this.linkLabel10.AutoSize = true;
-            this.linkLabel10.Location = new System.Drawing.Point(108, 39);
+            this.linkLabel10.Location = new System.Drawing.Point(30, 65);
             this.linkLabel10.Name = "linkLabel10";
             this.linkLabel10.Size = new System.Drawing.Size(90, 13);
             this.linkLabel10.TabIndex = 42;
@@ -4481,7 +4481,7 @@ namespace PokeMaster
             // linkLabel9
             // 
             this.linkLabel9.AutoSize = true;
-            this.linkLabel9.Location = new System.Drawing.Point(30, 39);
+            this.linkLabel9.Location = new System.Drawing.Point(30, 52);
             this.linkLabel9.Name = "linkLabel9";
             this.linkLabel9.Size = new System.Drawing.Size(72, 13);
             this.linkLabel9.TabIndex = 41;
@@ -4489,21 +4489,21 @@ namespace PokeMaster
             this.linkLabel9.Text = "GitHub Logxn";
             this.linkLabel9.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel9_LinkClicked);
             // 
-            // linkLabel11
+            // linkLabelXelwon
             // 
-            this.linkLabel11.AutoSize = true;
-            this.linkLabel11.Location = new System.Drawing.Point(209, 39);
-            this.linkLabel11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.linkLabel11.Name = "linkLabel11";
-            this.linkLabel11.Size = new System.Drawing.Size(42, 13);
-            this.linkLabel11.TabIndex = 0;
-            this.linkLabel11.TabStop = true;
-            this.linkLabel11.Text = "Xelwon";
+            this.linkLabelXelwon.AutoSize = true;
+            this.linkLabelXelwon.Location = new System.Drawing.Point(30, 24);
+            this.linkLabelXelwon.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.linkLabelXelwon.Name = "linkLabelXelwon";
+            this.linkLabelXelwon.Size = new System.Drawing.Size(42, 13);
+            this.linkLabelXelwon.TabIndex = 0;
+            this.linkLabelXelwon.TabStop = true;
+            this.linkLabelXelwon.Text = "Xelwon";
             // 
             // linkLabel7
             // 
             this.linkLabel7.AutoSize = true;
-            this.linkLabel7.Location = new System.Drawing.Point(108, 62);
+            this.linkLabel7.Location = new System.Drawing.Point(150, 65);
             this.linkLabel7.Name = "linkLabel7";
             this.linkLabel7.Size = new System.Drawing.Size(89, 13);
             this.linkLabel7.TabIndex = 39;
@@ -4513,7 +4513,7 @@ namespace PokeMaster
             // linkLabel4
             // 
             this.linkLabel4.AutoSize = true;
-            this.linkLabel4.Location = new System.Drawing.Point(30, 63);
+            this.linkLabel4.Location = new System.Drawing.Point(150, 50);
             this.linkLabel4.Name = "linkLabel4";
             this.linkLabel4.Size = new System.Drawing.Size(71, 13);
             this.linkLabel4.TabIndex = 39;
@@ -5001,7 +5001,7 @@ namespace PokeMaster
         private System.Windows.Forms.GroupBox groupBox22;
         private System.Windows.Forms.LinkLabel linkLabel13;
         private System.Windows.Forms.LinkLabel linkLabel12;
-        private System.Windows.Forms.LinkLabel linkLabel11;
+        private System.Windows.Forms.LinkLabel linkLabelXelwon;
         private System.Windows.Forms.TextBox MinIVtoCatch;
         private System.Windows.Forms.Label label54;
         private System.Windows.Forms.Label label55;

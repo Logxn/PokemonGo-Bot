@@ -13,7 +13,8 @@ namespace PokemonGo.RocketAPI.Logging
     public static class LoggerC 
     {
         public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
-        public static string log = Path.Combine(path, "GeneralLog.txt");
+        public static string LogFile = Path.Combine(path, "GeneralLog.txt");
+
         public static LogLevel SelectedLevel = LogLevel.Info;
 
         public static void Write(string message, LogLevel level = LogLevel.Info)
@@ -59,19 +60,10 @@ namespace PokemonGo.RocketAPI.Logging
 
         public static void AddLog(string text, LogLevel level =LogLevel.Info)
         { 
-            //if (!File.Exists(log))
-            //{
-            //    if(!Directory.Exists(path))
-            //    {
-            //        Directory.CreateDirectory(path);
-            //    }
-
-            //    File.Create(log);
-            //} 
             try
             {
                 // here you know that the file exists
-                TextWriter tw = new StreamWriter(log, true); //  we need to add a new line (aka. i am the brain)
+                TextWriter tw = new StreamWriter(LogFile, true); //  we need to add a new line (aka. i am the brain)
                 tw.WriteLine($"[{level}][{DateTime.Now.ToString("HH:mm:ss")}] "+ text); 
                 tw.Close();
             } catch (Exception)

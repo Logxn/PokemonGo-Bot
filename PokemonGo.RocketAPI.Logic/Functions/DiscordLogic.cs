@@ -82,7 +82,7 @@ namespace PokeMaster.Logic.Functions
            var ivIcon = (iv >= 90 ? iv == 100 ? ":100:" : ":ok_hand:" : "");
            var prob = (int) probability;
            var cp = pokemonData.Cp;
-           var level = PokemonInfo.GetLevel(pokemonData);
+           var level = PokemonGo.RocketAPI.PokemonInfo.GetLevel(pokemonData);
            var gender = "";
            var genderIcon = "";
            if (pokemonData.PokemonDisplay.Gender == Gender.Male) {

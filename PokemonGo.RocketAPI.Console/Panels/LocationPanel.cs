@@ -277,7 +277,7 @@ namespace PokeMaster
         {
             var file = GlobalVars.FortsFile;
             if (file == "" || !System.IO.File.Exists(file))
-                file = System.IO.Path.Combine(GlobalVars.ConfigsPath, "forts.json");
+                file = System.IO.Path.Combine(GlobalVars.PathToConfigs, "forts.json");
             var array = new List<MarkerInfo>();
             var infoJSON = "";
             if (System.IO.File.Exists(file)) {
@@ -318,7 +318,7 @@ namespace PokeMaster
         {
             var file = GlobalVars.FortsFile;
             if (file == "")
-                file = System.IO.Path.Combine(GlobalVars.ConfigsPath, "forts.json");
+                file = System.IO.Path.Combine(GlobalVars.PathToConfigs, "forts.json");
             
             if (System.IO.File.Exists(file)) {
                 var infoJSON = System.IO.File.ReadAllText(file);

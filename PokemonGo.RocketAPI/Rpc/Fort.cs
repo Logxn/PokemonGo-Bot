@@ -125,7 +125,6 @@ namespace PokemonGo.RocketAPI.Rpc
             return PostProtoPayloadCommonR<Request, FortRecallPokemonResponse>(RequestType.FortRecallPokemon, message).Result;
         }
 
-
         public GymGetInfoResponse GymGetInfo(string gymId, double gymLat, double gymLng)
         {
             var message = new GymGetInfoMessage

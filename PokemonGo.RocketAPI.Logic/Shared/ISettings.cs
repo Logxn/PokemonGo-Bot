@@ -48,10 +48,10 @@ namespace PokeMaster.Logic.Shared
         int XPFarmedLimit { get; set; }
         int BreakInterval { get; set; }
         int BreakLength { get; set; }
-        double MinWalkSpeed { get; set; }
         int PokemonCatchLimit { get; set; }
         int PokestopFarmLimit { get; set; }
         int navigation_option { get; set; }
+        double MinWalkSpeed { get; set; }
         double WalkingSpeedInKilometerPerHour { get; set; }
         bool AdvancedBreaks { get; set; }
         List<BreakSettings> Breaks { get; set; }

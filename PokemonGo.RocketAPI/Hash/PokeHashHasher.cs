@@ -33,15 +33,18 @@ namespace PokemonGo.RocketAPI.Hash
         bool NoValidKey = false;
         // Will be true if no valid key is found (testing)
 
-        private static readonly Uri _baseAddress = new Uri("https://pokehash.buddyauth.com/");
-        private static readonly Uri _baseAddress2 = new Uri("http://pokehash.buddyauth.com/");
+        private static Uri _baseAddress;
+        //private static readonly Uri _baseAddress = new Uri("https://pokehash.buddyauth.com/");
+        //private static readonly Uri _baseAddress2 = new Uri("http://pokehash.buddyauth.com/");
 
-        private Uri _availableHashVersionsCheck = new Uri("https://pokehash.buddyauth.com/api/hash/versions");
+        //private Uri _availableHashVersionsCheck = new Uri("https://pokehash.buddyauth.com/api/hash/versions");
         private readonly string _endpoint;
         private string apiKey;
 
         public PokeHashHasher(string apiKey)
         {
+            Resources.Api.SetAPIKeyHashServerURL(apiKey);
+            _baseAddress = new Uri(Resources.Api.HashServerInfo.URL.ToString());
             _endpoint = Resources.Api.EndPoint;
             this.apiKey = apiKey;
         }
@@ -72,6 +75,8 @@ namespace PokemonGo.RocketAPI.Hash
                     var nextKey = Shared.KeyCollection.nextKey();
                     if (nextKey != "") {
                         this.apiKey = nextKey;
+                        Resources.Api.SetAPIKeyHashServerURL(apiKey);
+                        _baseAddress = new Uri(Resources.Api.HashServerInfo.URL.ToString());
                         Logger.Debug("Changing KEY to: " + this.apiKey.Substring(0, 5));
                     } else {
                         NoValidKey = true;
@@ -104,8 +109,8 @@ namespace PokemonGo.RocketAPI.Hash
                 try {
                     response = client.PostAsync(_endpoint, content).Result;
                 } catch (Exception) {
-                    client.BaseAddress = _baseAddress2;
-                    response = client.PostAsync(_endpoint, content).Result;
+                    //client.BaseAddress = _baseAddress2;
+                    //response = client.PostAsync(_endpoint, content).Result;
                 }
 
                 switch (response.StatusCode) {
@@ -148,14 +153,19 @@ namespace PokemonGo.RocketAPI.Hash
                 }
             }
         }
-        public static string[] GetInformation(string key)
+
+        public static string[] GetInformation(string apiKey)
         {
             var result = new []{"",""};
             var client = new System.Net.Http.HttpClient();
+
+            Resources.Api.SetAPIKeyHashServerURL(apiKey);
+            _baseAddress = Resources.Api.HashServerInfo.URL;
+
             client.BaseAddress = _baseAddress;
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            client.DefaultRequestHeaders.Add("X-AuthToken", key);
+            client.DefaultRequestHeaders.Add("X-AuthToken", apiKey);
             
             var hashRequest = new HashRequestContent();
             
@@ -166,8 +176,8 @@ namespace PokemonGo.RocketAPI.Hash
             try {
                 response = client.PostAsync(Resources.Api.EndPoint, content).Result;
             } catch (Exception) {
-                client.BaseAddress = _baseAddress2;
-                response = client.PostAsync(Resources.Api.EndPoint, content).Result;
+                //client.BaseAddress = _baseAddress2;
+                //response = client.PostAsync(Resources.Api.EndPoint, content).Result;
             }
             try {
                     var AuthTokenExpiration = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc).AddSeconds(Convert.ToUInt32(((String[])response.Headers.GetValues("X-AuthTokenExpiration"))[0])).ToLocalTime();
@@ -176,7 +186,7 @@ namespace PokemonGo.RocketAPI.Hash
                     var RateRequestRemaining = Convert.ToUInt16(((string[])response.Headers.GetValues("X-RateRequestsRemaining"))[0]);
                     var RateLimitSeconds = Convert.ToUInt16(((string[])response.Headers.GetValues("X-RateLimitSeconds"))[0]);
                     var remainingSeconds = (DateTime.Now - RatePeriodEnd).TotalSeconds * -1;
-                    Logger.Info($"{key} : {RateRequestRemaining}/{MaxRequestCount} requests remaining for the next {remainingSeconds} seconds. Key expires on: {AuthTokenExpiration}");
+                    Logger.Info($"{apiKey} : {RateRequestRemaining}/{MaxRequestCount} requests remaining for the next {remainingSeconds} seconds. Key expires on: {AuthTokenExpiration}");
                     result[0] = MaxRequestCount.ToString();
                     result[1] = AuthTokenExpiration.ToString("dd/MM/yyyy HH:mm:ss");
                 

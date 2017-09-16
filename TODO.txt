@@ -7,30 +7,15 @@
 26/8							Remove notifications
 27/8							Add a 20% random speed up/down when walking
 27/8							Detect shadowban
-05/9							Fix extra log paths
 
 =========== NOTES =============
 CatchingLogic.cs	L109	Disabled DoLogin => May be we do not refresh pokemons, atttention
 
-v1.3.6.7 Changes (by @Xelwon & @Quarthy)
+v1.3.8.3 Changes (by @Xelwon & @Quarthy)
 ----------------------------------------
-= Adding some debug info on Tutorial #3
-+ Combobox for TimeZones and Locales (Language + Country)
-= Optimized the speed calc and movement between Pokestations
-= Fixed the GetRandomSpeed as to reach MaxSpeed
-= Fixed some egg log entries (@Zederia)
-= Fixed "Time to Run" break event (@Mad Martian)
-
-v1.3.6.8 Changes (by @Xelwon & @Quarthy)
-----------------------------------------
-= Fixed some excessive logs between Pokestops (@Zederia)
-= Fixed Egg Km bug (@Zederia)
-+ Ready for v0.73.1
-+ Added UK27
-+ Now changes navigation before arriving to exact pokestation and after farming it, saving few meters
-= Few visual arrangements in AdvancedBreaks grid view
-+ ToolTip for speed in m/s
-+ Test new implementation of gym battle (beta)
-+ Bot now checks first if it exists a new version, and then for compatibility (@suljo)
++ Completed change of logs per profile (need test)
++ Now you can set if you want to catch pokemon, Max/Min walking speed for each Walking period in Advanced Breaks
++ User your Go Manager key in Pokemaster BOT
+= Fixed a problem loading location on profile selection, now it gets last coords file of selected profile
 
 =========== ISSUES ============

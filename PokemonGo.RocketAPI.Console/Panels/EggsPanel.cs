@@ -81,10 +81,10 @@ namespace PokeMaster
                         } else {
                             listViewItem.SubItems.Add(th.TS(item.PokemonId.ToString()));
                         }
-                        listViewItem.SubItems.Add(string.Format("{0}% {1}-{2}-{3}", PokemonInfo.CalculatePokemonPerfection(item).ToString("0"), item.IndividualAttack, item.IndividualDefense, item.IndividualStamina));
+                        listViewItem.SubItems.Add(string.Format("{0}% {1}-{2}-{3}", PokemonGo.RocketAPI.PokemonInfo.CalculatePokemonPerfection(item).ToString("0"), item.IndividualAttack, item.IndividualDefense, item.IndividualStamina));
                         listViewItem.SubItems.Add(GetCreationTime(item.CreationTimeMs));
                         listViewItem.SubItems.Add(string.Format("{0}", item.Move1));
-                        listViewItem.SubItems.Add(string.Format("{0} ({1})", item.Move2, PokemonInfo.GetAttack(item.Move2)));
+                        listViewItem.SubItems.Add(string.Format("{0} ({1})", item.Move2, PokemonGo.RocketAPI.PokemonInfo.GetAttack(item.Move2)));
                         if (incubator != null)
                             listViewItem.SubItems.Add(string.Format("Uses:{0}", incubator.UsesRemaining));
                         listView.Items.Add(listViewItem);

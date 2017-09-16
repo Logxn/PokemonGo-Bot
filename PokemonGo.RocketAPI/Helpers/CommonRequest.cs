@@ -88,6 +88,7 @@ namespace PokemonGo.RocketAPI.Helpers
                 }
             };
         }
+
         public static Request[] FillRequest(Request request, Client client, bool appendBuddyWalked = true, bool appendInBox = true)
         {
             var requests = new List<Request>
@@ -111,6 +112,7 @@ namespace PokemonGo.RocketAPI.Helpers
                 },
                 GetDownloadSettingsMessageRequest(client),
             };
+
             if (appendBuddyWalked){
                 var reqBuddy = new Request
                 {
@@ -298,6 +300,7 @@ namespace PokemonGo.RocketAPI.Helpers
                 }
             }
         }
+
         public static void ProcessGetHatchedEggsResponse(Client client, GetHatchedEggsResponse response)
         {
             if (response == null)
@@ -311,15 +314,16 @@ namespace PokemonGo.RocketAPI.Helpers
             response.PokemonId;
             response.StardustAwarded;
             */
-            /*
+            
              Logger.Debug("CandyAwarded:" +response.CandyAwarded);
              Logger.Debug("EggKmWalked:" +response.EggKmWalked);
              Logger.Debug("ExperienceAwarded:" +response.ExperienceAwarded);
              Logger.Debug("HatchedPokemon:" +response.HatchedPokemon);
              Logger.Debug("PokemonId:" +response.PokemonId);
              Logger.Debug("StardustAwarded:" +response.StardustAwarded);
-             */
+            
         }
+
         public static void ProcessGetBuddyWalkedResponse(Client client, GetBuddyWalkedResponse response)
         {
             if (response == null)
@@ -331,21 +335,21 @@ namespace PokemonGo.RocketAPI.Helpers
 
         public static async void ProcessGetInboxResponseAsync(Client client, GetInboxResponse response)
         {
-            if (response == null)
-                return;
-            Logger.Debug("Result:" + response.Result);
-            Logger.Debug("Inbox => " + response.Inbox.BuiltinVariables.Count + " BuiltIn Variables and " + response.Inbox.Notifications.Count + " Notifications.");
-            var i = 0;
-            /*foreach (var element in response.Inbox.BuiltinVariables) {
-                Logger.Debug($"BuiltinVariable {i}: {element}");
-                i++;
-            }*/
-            i = 0;
-            foreach (var element in response.Inbox.Notifications)
-            {
-                Logger.Debug($"Notification {i}: {element}");
-                i++;
-            }
+            //if (response == null)
+            //    return;
+            //Logger.Debug("Result:" + response.Result);
+            //Logger.Debug("Inbox => " + response.Inbox.BuiltinVariables.Count + " BuiltIn Variables and " + response.Inbox.Notifications.Count + " Notifications.");
+            //var i = 0;
+            ///*foreach (var element in response.Inbox.BuiltinVariables) {
+            //    Logger.Debug($"BuiltinVariable {i}: {element}");
+            //    i++;
+            //}*/
+            //i = 0;
+            //foreach (var element in response.Inbox.Notifications)
+            //{
+            //    Logger.Debug($"Notification {i}: {element}");
+            //    i++;
+            //}
 
             // Explain about notifications received and so.
         }
@@ -424,7 +428,6 @@ namespace PokemonGo.RocketAPI.Helpers
                 }
             }
         }
-
 
         public static Request LevelUpRewardsMessageRequest( int level = 0)
         {
@@ -506,6 +509,7 @@ namespace PokemonGo.RocketAPI.Helpers
                 RequestMessage = downloadItemTemplatesMessage.ToByteString()
             };
         }
+
         public static void ProcessDownloadItemTemplatesResponse(Client client, DownloadItemTemplatesResponse response)
         {
             if (response == null)
@@ -533,6 +537,7 @@ namespace PokemonGo.RocketAPI.Helpers
             };
         
         }
+
         public static void ProcessGetDownloadUrlsResponse(Client client, GetDownloadUrlsResponse response)
         {
             if (response == null)
@@ -543,5 +548,80 @@ namespace PokemonGo.RocketAPI.Helpers
                 i++;
             }
         }
+
+        #region Collect Bonus
+        public static Request CollectDailyBonus()
+        {
+            return new Request
+            {
+                RequestType = RequestType.CollectDailyBonus,
+                RequestMessage = new CollectDailyBonusMessage()
+                {
+                }.ToByteString()
+            };
+        }
+
+        public static void ProcessCollectDailyBonus(Client client, CollectDailyBonusResponse response)
+        {
+            if (response == null)
+                return;
+
+            switch (response.Result)
+            {
+                case CollectDailyBonusResponse.Types.Result.Unset:
+                    Logger.Info("Collect Daily Bonus UNSET");
+                    break;
+                case CollectDailyBonusResponse.Types.Result.Success:
+                    Logger.Info("Collect Daily Bonus SUCCESS");
+                    break;
+                case CollectDailyBonusResponse.Types.Result.Failure:
+                    Logger.Info("Collect Daily Bonus FAILURE");
+                    break;
+                case CollectDailyBonusResponse.Types.Result.TooSoon:
+                    Logger.Info("Collect Daily Bonus TOO SOON");
+                    break;
+                default: break;
+            }
+        }
+
+        public static Request CollectDailyDefenderBonus()
+        {
+            return new Request
+            {
+                RequestType = RequestType.CollectDailyDefenderBonus,
+                RequestMessage = new CollectDailyDefenderBonusMessage()
+                {
+                }.ToByteString()
+            };
+        }
+
+        public static void ProcessCollectDailyDefenderBonus(Client client, CollectDailyDefenderBonusResponse response)
+        {
+            if (response == null)
+                return;
+
+            switch (response.Result)
+            {
+                case CollectDailyDefenderBonusResponse.Types.Result.Unset:
+                    Logger.Info("Collect Daily Defender Bonus UNSET");
+                    break;
+                case CollectDailyDefenderBonusResponse.Types.Result.Success:
+                    Logger.Info("Collect Daily Defender Bonus SUCCESS");
+                    break;
+                case CollectDailyDefenderBonusResponse.Types.Result.Failure:
+                    Logger.Info("Collect Daily Defender Bonus FAILURE");
+                    break;
+                case CollectDailyDefenderBonusResponse.Types.Result.TooSoon:
+                    Logger.Info("Collect Daily Defender Bonus TOO SOON");
+                    break;
+                case CollectDailyDefenderBonusResponse.Types.Result.NoDefenders:
+                    Logger.Info("Collect Daily Defender Bonus NO DEFENDERS");
+                    break;
+                default: break;
+            }
+
+            Logger.Debug("CollectDailyDefenderBonusResponse: " + response.ToString());
+        }
+        #endregion
     }
 }
