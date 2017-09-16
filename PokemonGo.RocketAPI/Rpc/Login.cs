@@ -80,9 +80,14 @@ namespace PokemonGo.RocketAPI.Rpc
             await DoEmptyRequest().ConfigureAwait(false);
             await GetPlayer().ConfigureAwait(false);
             await DownloadRemoteConfig().ConfigureAwait(false);
-            // await GetAssetDigest().ConfigureAwait(false);
-            // await DownloadItemTemplates().ConfigureAwait(false);
-            // await GetDownloadUrls().ConfigureAwait(false);
+            
+            // Do not work atm
+            //await CollectBonus().ConfigureAwait(false);
+
+            //await GetAssetDigest().ConfigureAwait(false);
+            //await DownloadItemTemplates().ConfigureAwait(false);
+            //await GetDownloadUrls().ConfigureAwait(false);
+
             // Call Tutorial Checks
             Client.OnMakeTutorial();
 
@@ -123,6 +128,10 @@ namespace PokemonGo.RocketAPI.Rpc
             }
         }
 
+        /// <summary>
+        /// Checks if there's a change in the session (Invalidated, AuthToken, PlatformRequest, Redirect...)
+        /// </summary>
+        /// <param name="serverResponse"></param>
         public void ParseServerResponse ( ResponseEnvelope serverResponse)
         {
             var platfResponses = serverResponse.PlatformReturns;
@@ -345,6 +354,37 @@ namespace PokemonGo.RocketAPI.Rpc
                     getDownloadUrlsResponse.MergeFrom(responses[0]);
                     CommonRequest.ProcessGetDownloadUrlsResponse( Client, getDownloadUrlsResponse);
                     CommonRequest.ProcessCommonResponses( Client, responses, false, true);
+                }
+        }
+
+        public async Task CollectBonus()
+        {
+            var request = CommonRequest.CollectDailyBonus();
+            //var request = CommonRequest.CollectDailyDefenderBonus();
+
+            var serverRequest = GetRequestBuilder().GetRequestEnvelope(new[] { request });
+
+            //var requests = CommonRequest.FillRequest(request, Client, false, true);
+
+            //var serverRequest = GetRequestBuilder().GetRequestEnvelope(requests);
+            var serverResponse = await PostProto<Request>(serverRequest).ConfigureAwait(false);
+
+            ParseServerResponse(serverResponse);
+
+            if (serverResponse.StatusCode == ResponseEnvelope.Types.StatusCode.Redirect)
+            {
+                await CollectBonus().ConfigureAwait(false);
+                return;
+            }
+
+            var responses = serverResponse.Returns;
+
+            if (responses != null)
+                if (responses.Count > 0)
+                {
+                    var getCollectDailyBonusResponse = new CollectDailyBonusResponse();
+                    getCollectDailyBonusResponse.MergeFrom(responses[0]);
+                    CommonRequest.ProcessCommonResponses(Client, responses, false, true);
                 }
         }
     }

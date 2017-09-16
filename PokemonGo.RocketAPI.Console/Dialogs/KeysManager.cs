@@ -57,10 +57,11 @@ namespace PokeMaster.Dialogs
 
         void AddKey(string key){
             var listItem = listView.Items.Add(key);
+            //var hasher = new PokeHashHasher(key);
             var hashInfo = PokeHashHasher.GetInformation(key);
             listItem.SubItems.Add( hashInfo[0]);
             listItem.SubItems.Add( hashInfo[1]);
-            Task.Delay(300).Wait();
+            //Task.Delay(300).Wait();
         }
 
         void buttonAdd_Click(object sender, EventArgs e)

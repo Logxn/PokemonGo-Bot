@@ -115,7 +115,12 @@ namespace PokeMaster.Logic
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, $"LogLevel set to {Logger.SelectedLevel}. Many logs will be generated.");
             }
 
+
+            // Quarthy PID
             //StringUtils.PidToFile(BotSettings);
+
+            // Here we set which server to be used for the hashing service
+            Logger.Info("Using " + Resources.Api.HashServerInfo.ID + " for Hash Key service.");
 
             #region Log Logger
 
@@ -123,17 +128,17 @@ namespace PokeMaster.Logic
 
             if (BotSettings.LogPokemons)
             {
-                Logger.Info("You enabled Pokemonlogging. It will be saved to " + GlobalVars.FileForPokemonsCaught);
+                Logger.Info("Pokemon Log will be saved to " + GlobalVars.FileForPokemonsCaught);
             }
 
             if (BotSettings.LogTransfer)
             {
-                Logger.Info("You enabled manual transfer logging. It will be saved to " + GlobalVars.FileForTransfers);
+                Logger.Info("Transfer Log will be saved to " + GlobalVars.FileForTransfers);
             }
 
             if (BotSettings.LogEvolve)
             {
-                Logger.Info("You enabled Evolution Logging. It will be saved to " + GlobalVars.FileForEvolve);
+                Logger.Info("Evolution Log will be saved to " + GlobalVars.FileForEvolve);
             }
             #endregion
 

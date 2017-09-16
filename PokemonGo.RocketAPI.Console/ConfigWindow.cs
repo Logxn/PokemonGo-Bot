@@ -539,6 +539,7 @@ namespace PokeMaster
         private void LoadLatestCoords()
         {
             bool CoordsAreLoaded = false;
+            GlobalVars.FileForCoordinates = Path.Combine(GlobalVars.PathToConfigs, $"LastCoords_{ProfileName.Text}.txt");
             if (File.Exists(GlobalVars.FileForCoordinates)) {
                 string[] CoordsFromFileTXT = File.ReadAllText(GlobalVars.FileForCoordinates).Split(':');
 
