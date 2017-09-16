@@ -51,6 +51,7 @@ namespace PokeMaster.Logic.Shared
         public static double MinWalkSpeed = 3;
         public static int radius = 5000;
         public static bool TransferDoublePokemons = true;
+        public static bool TransferSlashPokemons = true;
         public static int HoldMaxDoublePokemons = 3;
         public static bool EvolvePokemonsIfEnoughCandy = true;
         public static int DontTransferWithCPOver = 999;

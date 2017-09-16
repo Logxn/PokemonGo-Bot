@@ -102,6 +102,7 @@ namespace PokeMaster
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.CheckBox checkBox_UseItemAtEvolve;
+        private System.Windows.Forms.CheckBox checkBox_TransferSlashPokemons;
         
         /// <summary>
         /// Disposes resources used by the control.
@@ -138,6 +139,7 @@ namespace PokeMaster
             this.label6 = new System.Windows.Forms.Label();
             this.buttonUpdate = new System.Windows.Forms.Button();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.checkBox_UseItemAtEvolve = new System.Windows.Forms.CheckBox();
             this.checkBox_AutoTransferDoublePokemon = new System.Windows.Forms.CheckBox();
             this.checkBox_CollectDailyBonus = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -211,7 +213,7 @@ namespace PokeMaster
             this.buttonSelectLocationFile = new System.Windows.Forms.Button();
             this.textBoxSaveLocationsFile = new System.Windows.Forms.TextBox();
             this.CheckBox_SaveLocations = new System.Windows.Forms.CheckBox();
-            this.checkBox_UseItemAtEvolve = new System.Windows.Forms.CheckBox();
+            this.checkBox_TransferSlashPokemons = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTravelSpeed)).BeginInit();
             this.groupBox10.SuspendLayout();
@@ -384,6 +386,7 @@ namespace PokeMaster
             // 
             // groupBox10
             // 
+            this.groupBox10.Controls.Add(this.checkBox_TransferSlashPokemons);
             this.groupBox10.Controls.Add(this.checkBox_UseItemAtEvolve);
             this.groupBox10.Controls.Add(this.checkBox_AutoTransferDoublePokemon);
             this.groupBox10.Controls.Add(this.checkBox_CollectDailyBonus);
@@ -406,6 +409,18 @@ namespace PokeMaster
             this.groupBox10.TabIndex = 93;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Other Settings";
+            // 
+            // checkBox_UseItemAtEvolve
+            // 
+            this.checkBox_UseItemAtEvolve.Checked = true;
+            this.checkBox_UseItemAtEvolve.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_UseItemAtEvolve.Location = new System.Drawing.Point(16, 317);
+            this.checkBox_UseItemAtEvolve.Name = "checkBox_UseItemAtEvolve";
+            this.checkBox_UseItemAtEvolve.Size = new System.Drawing.Size(238, 17);
+            this.checkBox_UseItemAtEvolve.TabIndex = 60;
+            this.checkBox_UseItemAtEvolve.Text = "Try to use Item at evolve";
+            this.checkBox_UseItemAtEvolve.UseVisualStyleBackColor = true;
+            this.checkBox_UseItemAtEvolve.CheckedChanged += new System.EventHandler(this.CheckBoxes_CheckedChanged);
             // 
             // checkBox_AutoTransferDoublePokemon
             // 
@@ -1341,17 +1356,18 @@ namespace PokeMaster
             this.CheckBox_SaveLocations.UseVisualStyleBackColor = true;
             this.CheckBox_SaveLocations.CheckedChanged += new System.EventHandler(this.CheckBoxes_CheckedChanged);
             // 
-            // checkBox_UseItemAtEvolve
+            // checkBox_TransferSlashPokemons
             // 
-            this.checkBox_UseItemAtEvolve.Checked = true;
-            this.checkBox_UseItemAtEvolve.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_UseItemAtEvolve.Location = new System.Drawing.Point(16, 317);
-            this.checkBox_UseItemAtEvolve.Name = "checkBox_UseItemAtEvolve";
-            this.checkBox_UseItemAtEvolve.Size = new System.Drawing.Size(238, 17);
-            this.checkBox_UseItemAtEvolve.TabIndex = 60;
-            this.checkBox_UseItemAtEvolve.Text = "Try to use Item at evolve";
-            this.checkBox_UseItemAtEvolve.UseVisualStyleBackColor = true;
-            this.checkBox_UseItemAtEvolve.CheckedChanged += new System.EventHandler(this.CheckBoxes_CheckedChanged);
+            this.checkBox_TransferSlashPokemons.AutoSize = true;
+            this.checkBox_TransferSlashPokemons.Checked = true;
+            this.checkBox_TransferSlashPokemons.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_TransferSlashPokemons.Location = new System.Drawing.Point(16, 339);
+            this.checkBox_TransferSlashPokemons.Name = "checkBox_TransferSlashPokemons";
+            this.checkBox_TransferSlashPokemons.Size = new System.Drawing.Size(165, 17);
+            this.checkBox_TransferSlashPokemons.TabIndex = 61;
+            this.checkBox_TransferSlashPokemons.Tag = "TransferSlashPokemons";
+            this.checkBox_TransferSlashPokemons.Text = "Auto transfer slash pokemons";
+            this.checkBox_TransferSlashPokemons.UseVisualStyleBackColor = true;
             // 
             // ChangesPanel
             // 

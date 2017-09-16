@@ -30,8 +30,8 @@ namespace PokeMaster
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigWindow));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabProxies = new System.Windows.Forms.TabPage();
             this.buttonTest = new System.Windows.Forms.Button();
             this.labelPrxPass = new System.Windows.Forms.Label();
@@ -374,6 +374,7 @@ namespace PokeMaster
             this.MinimizeButton = new System.Windows.Forms.Button();
             this.buttonSaveStart = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.checkBox_TransferSlashPokemons = new System.Windows.Forms.CheckBox();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBoxItems.SuspendLayout();
@@ -1261,6 +1262,7 @@ namespace PokeMaster
             // groupBox3
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox3.Controls.Add(this.checkBox_TransferSlashPokemons);
             this.groupBox3.Controls.Add(this.label14);
             this.groupBox3.Controls.Add(this.MinProbToCatch);
             this.groupBox3.Controls.Add(this.labelMinProb);
@@ -2269,23 +2271,23 @@ namespace PokeMaster
             this.BreakGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
             this.BreakGridView.BackgroundColor = System.Drawing.SystemColors.InactiveCaption;
             this.BreakGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.BreakGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.BreakGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.BreakGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.BreakGridView.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.BreakGridView.DefaultCellStyle = dataGridViewCellStyle2;
             this.BreakGridView.Location = new System.Drawing.Point(28, 289);
             this.BreakGridView.Name = "BreakGridView";
             this.BreakGridView.Size = new System.Drawing.Size(326, 242);
@@ -4636,6 +4638,18 @@ namespace PokeMaster
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
+            // checkBox_TransferSlashPokemons
+            // 
+            this.checkBox_TransferSlashPokemons.AutoSize = true;
+            this.checkBox_TransferSlashPokemons.Checked = true;
+            this.checkBox_TransferSlashPokemons.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_TransferSlashPokemons.Location = new System.Drawing.Point(603, 19);
+            this.checkBox_TransferSlashPokemons.Name = "checkBox_TransferSlashPokemons";
+            this.checkBox_TransferSlashPokemons.Size = new System.Drawing.Size(165, 17);
+            this.checkBox_TransferSlashPokemons.TabIndex = 21;
+            this.checkBox_TransferSlashPokemons.Text = "Auto transfer slash pokemons";
+            this.checkBox_TransferSlashPokemons.UseVisualStyleBackColor = true;
+            // 
             // ConfigWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -5149,5 +5163,6 @@ namespace PokeMaster
         private System.Windows.Forms.ComboBox comboLocale;
         private System.Windows.Forms.ComboBox comboTimeZone;
         private System.Windows.Forms.CheckBox checkBox_UseItemAtEvolve;
+        private System.Windows.Forms.CheckBox checkBox_TransferSlashPokemons;
     }
 }

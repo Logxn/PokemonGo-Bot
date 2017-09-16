@@ -105,6 +105,7 @@ namespace PokeMaster.Logic.Shared
         public int HoldMaxDoublePokemons { get; set; }
         public bool AvoidRegionLock { get; set; }
         public int EvolveAt { get; set; }
+        public bool TransferSlashPokemons { get; set; }
         public System.Collections.Generic.List<POGOProtos.Enums.PokemonId> pokemonsToHold { get; set; }
         public System.Collections.Generic.List<POGOProtos.Enums.PokemonId> pokemonsToAlwaysTransfer { get; set; }
         public System.Collections.Generic.List<POGOProtos.Enums.PokemonId> pokemonsToEvolve { get; set; }
