@@ -75,6 +75,8 @@ namespace PokemonGo.RocketAPI.Hash
                     var nextKey = Shared.KeyCollection.nextKey();
                     if (nextKey != "") {
                         this.apiKey = nextKey;
+                        Resources.Api.SetAPIKeyHashServerURL(apiKey);
+                        _baseAddress = new Uri(Resources.Api.HashServerInfo.URL.ToString());
                         Logger.Debug("Changing KEY to: " + this.apiKey.Substring(0, 5));
                     } else {
                         NoValidKey = true;
