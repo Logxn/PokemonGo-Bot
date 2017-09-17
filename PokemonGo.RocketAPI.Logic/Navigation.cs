@@ -90,7 +90,7 @@ namespace PokeMaster.Logic
 
                 sourceLocation = new GeoCoordinate(_client.CurrentLatitude, _client.CurrentLongitude);
                 var currentDistanceToTarget = LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation);
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkGreen, $"Distance to destination: {currentDistanceToTarget.ToString("F", CultureInfo.InvariantCulture)}m " +
+                Logger.Debug( $"Distance to destination: {currentDistanceToTarget.ToString("F", CultureInfo.InvariantCulture)}m " +
                     $"({speedInMetersPerSecond.ToString("F", CultureInfo.InvariantCulture)}m/s) " +
                     $"=> {(currentDistanceToTarget / speedInMetersPerSecond).ToString("F", CultureInfo.InvariantCulture)}s");
 
