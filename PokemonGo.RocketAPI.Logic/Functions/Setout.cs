@@ -53,7 +53,7 @@ namespace PokeMaster.Logic.Functions
         public static DateTime LastIncenselog;
         public static double startingXp = -10000;
         public static double currentxp = -10000;
-        public static  int level = -1;
+        public static int level = -1;
         public static double timetorunstamp = -10000;
         public static double pausetimestamp = -10000;
         public static double resumetimestamp = -10000;
@@ -274,6 +274,7 @@ namespace PokeMaster.Logic.Functions
 
         // To store incubators with eggs
         private static List<IncubatorUsage> rememberedIncubators = new List<IncubatorUsage>();
+
         private static void StartIncubation()
         {
             try
@@ -303,19 +304,20 @@ namespace PokeMaster.Logic.Functions
                     if (hatched == null) continue;
 
                     var kmsEgg = (hatched.EggKmWalkedTarget - hatched.EggKmWalkedStart);
-                    Logger.Debug("***");
-                    Logger.Debug("EggKmWalkedTarget: " + hatched.EggKmWalkedTarget);
-                    Logger.Debug("EggKmWalkedStart: " + hatched.EggKmWalkedStart);
-                    Logger.Debug("kmsEgg: " + kmsEgg);
-                    Logger.Debug("***");
+                    //Logger.Debug("***");
+                    //Logger.Debug("EggKmWalkedTarget: " + hatched.EggKmWalkedTarget);
+                    //Logger.Debug("EggKmWalkedStart: " + hatched.EggKmWalkedStart);
+                    //Logger.Debug("kmsEgg: " + kmsEgg);
+                    //Logger.Debug("***");
+                    var MaxCP = PokemonGo.RocketAPI.PokemonInfo.CalculateMaxCP(hatched);
+                    var Level = PokemonGo.RocketAPI.PokemonInfo.GetLevel(hatched);
+                    var IVPercent = PokemonGo.RocketAPI.PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00");
+
                     if (GlobalVars.LogEggs)
                     {
-                        var MaxCP = PokemonGo.RocketAPI.PokemonInfo.CalculateMaxCP(hatched);
-                        var Level = PokemonGo.RocketAPI.PokemonInfo.GetLevel(hatched);
-                        var IVPercent = PokemonGo.RocketAPI.PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00");
                         File.AppendAllText(GlobalVars.FileForEggs, $"[{date}] - Hatched a {kmsEgg} Km egg, and we got a {hatched.PokemonId} (CP: {hatched.Cp} | MaxCP: {MaxCP} | Level: {Level} | IV: {IVPercent}% )" + Environment.NewLine);
                     }
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Hatched a " + kmsEgg + "Km egg, and we got a" + hatched.PokemonId + " CP: " + hatched.Cp + " MaxCP: " + PokemonGo.RocketAPI.PokemonInfo.CalculateMaxCP(hatched) + " Level: " + PokemonGo.RocketAPI.PokemonInfo.GetLevel(hatched) + " IV: " + PokemonGo.RocketAPI.PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00") + "%");
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, $"Hatched a {kmsEgg} Km egg, and we got a {hatched.PokemonId} (CP: {hatched.Cp} | MaxCP: {MaxCP} | Level: {Level} | IV: {IVPercent}% )");
                 }
 
                 if ((unusedEggsUnlimitInc.Count < 1) && (unusedEggsUnlimitInc.Count < 1))
@@ -507,8 +509,6 @@ namespace PokeMaster.Logic.Functions
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "------------------------------------------------------------");
 
             client.ShowingStats = false;
-
-
         }
 
         private static void CheckLevelUp(Client client)
@@ -562,6 +562,9 @@ namespace PokeMaster.Logic.Functions
                 Math.Round(curexppercent, 2) + @"%) Stardust: " + profile.PlayerData.Currencies.ToArray()[1].Amount + @" " +
                 Logic.Instance.BotStats.ToString(expleft) +
                 (profile.Banned ? "[BANNED]": profile.Warn ? "[FLAGGED]": "");
+
+            if (GlobalVars.AdvancedBreaks)
+                TitleText = TitleText + new BreakSettings().TimerStatus();
 
             if (!GlobalVars.EnableConsoleInTab) System.Console.Title = TitleText;
 
@@ -941,6 +944,7 @@ namespace PokeMaster.Logic.Functions
             //    Logger.Debug("Client is ready to use");
             //}
         }
+
         private static DateTime _lastegguse;
 
         public static void UseLuckyEgg(Client client)

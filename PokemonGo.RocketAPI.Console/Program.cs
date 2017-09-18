@@ -38,8 +38,8 @@ namespace PokeMaster
                     if (arg.Contains("-nogui"))
                     {
                         openGUI = false;
-                        Profile selectedProfile = null;
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "You added -nogui!");
+                        Profile selectedProfile = new Profile();
+                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Argument: -nogui");
                         if (!arg.Contains(":")) // Load Default Profile
                         {
                             #region Read bot settings
@@ -89,7 +89,7 @@ namespace PokeMaster
                             }
                         }
 
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Using Profile: " + GlobalVars.ProfileName + ". Check logs in this profile log folder.");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Argument: profile. Using " + GlobalVars.ProfileName + ". Check logs in this profile log folder.");
                         CheckLogDirectories(Path.Combine(GlobalVars.PathToLogs, GlobalVars.ProfileName));
 
                         if (GlobalVars.UsePwdEncryption) GlobalVars.Password = Encryption.Decrypt(GlobalVars.Password);
@@ -109,8 +109,8 @@ namespace PokeMaster
                         string[] crdParts = arg.Split(',');
                         GlobalVars.latitude = double.Parse(crdParts[0].Replace(',', '.'), ConfigWindow.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
                         GlobalVars.longitude = double.Parse(crdParts[1].Replace(',', '.'), ConfigWindow.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
-                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Found coordinates in command line. Starting at: {GlobalVars.latitude},{GlobalVars.longitude},{GlobalVars.altitude}");
-                        //we assume -noguie
+                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Argument: coordinates. Starting at: {GlobalVars.latitude},{GlobalVars.longitude},{GlobalVars.altitude}");
+                        //we assume -nogui
                         openGUI = false;
                     }
                     #endregion
@@ -142,14 +142,15 @@ namespace PokeMaster
 
             // Checking if current BOT API implementation supports NIANTIC current API (unless there's an override command line switch)
             var currentAPIVersion = new CurrentAPIVersion();
-            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "------------------------------------------------------------");
-            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "-                                                          -");
-            Logger.ColoredConsoleWrite(ConsoleColor.Red, "!!!! BOTTING IS NOT SAFE - YOUR ACCOUNT WILL BE FLAGGED !!!!");
-            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "----- You have been warned => Your decision, your risk -----");
-            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "____________________________________________________________");
-            Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Current version: {Resources.BotVersion}");
-            Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Supported API version: {Resources.BotApiSupportedVersion}");
-            Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Current API version: {currentAPIVersion.GetNianticAPIVersion()}");
+            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "------------------------------------------------------------");
+            Logger.ColoredConsoleWrite(ConsoleColor.Red, "-                                                          -");
+            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "!!!! BOTTING IS NOT SAFE - YOUR ACCOUNT WILL BE FLAGGED !!!!");
+            Logger.ColoredConsoleWrite(ConsoleColor.Red, "----- You have been warned => Your decision, your risk -----");
+            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "____________________________________________________________");
+            Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Bot Current version: {Resources.BotVersion}");
+            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Bot Supported API version: {Resources.BotApiSupportedVersion}");
+            Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Current API version: {currentAPIVersion.GetNianticAPIVersion()}");
+            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "------------------------------------------------------------");
 
             // Check if a new version of BOT is available
             CheckForNewBotVersion();
@@ -199,7 +200,9 @@ namespace PokeMaster
 
             GlobalVars.infoObservable.HandleNewHuntStats += SaveHuntStats;
 
-            Task.Run(() =>
+            Task MainTask;
+
+            MainTask = Task.Run(() =>
             {
                do
                {
@@ -230,12 +233,16 @@ namespace PokeMaster
                      Application.Run( new TabbedSystem());
                 }
             }
-            else
-            {
-                Console.WriteLine("Press any key to continue.");
-                Console.ReadKey();
-            }
+            //else
+            //{
+            //    Console.WriteLine("Press any key to continue.");
+            //    Console.ReadKey();
+            //}
+
+            MainTask.Wait();
+
             SleepHelper.AllowSleep();
+
         }
 
         private static void SaveHuntStats(string newHuntStat)

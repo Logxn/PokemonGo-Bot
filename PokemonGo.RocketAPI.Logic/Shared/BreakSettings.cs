@@ -1,4 +1,5 @@
 ﻿using PokemonGo.RocketAPI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -23,18 +24,21 @@ namespace PokeMaster.Logic.Shared
         public double BreakSettingsMaxSpeed { get; set; }
         public double BreakSettingsMinSpeed { get; set; }
 
+        private static DateTime DueTime;
+        private static bool WalkOrIdle;
+
         private void SetWalkTimer(BreakSettings _break)
         {
             walkTimer.Interval = _break.BreakWalkTime * 1000 * 60;
             walkTimer.AutoReset = false;
             walkTimer.Start();
 
-            Logger.Debug("[" + invokeCount + "] Sequence " + _break.BreakSequenceId + " started." 
-                + " GlobalVars Catch: " + (GlobalVars.CatchPokemon ? "Yes" : "No")
-                + " GlobalVars Walk: " + GlobalVars.WalkingSpeedInKilometerPerHour + "/" + GlobalVars.MinWalkSpeed
-                + " Catch: " + (_break.BreakSettingsCatchPokemon ? "Yes" : "No")
-                + " Walk: "  + _break.BreakSettingsMaxSpeed + "/" + _break.BreakSettingsMinSpeed
-                + " MaxSpeedDefault: " + MaxSpeedDefault + " MinSpeedDefault: " + MinSpeedDefault);
+            //Logger.Debug("[" + invokeCount + "] Sequence " + _break.BreakSequenceId + " started." 
+            //    + " GlobalVars Catch: " + (GlobalVars.CatchPokemon ? "Yes" : "No")
+            //    + " GlobalVars Walk: " + GlobalVars.WalkingSpeedInKilometerPerHour + "/" + GlobalVars.MinWalkSpeed
+            //    + " Catch: " + (_break.BreakSettingsCatchPokemon ? "Yes" : "No")
+            //    + " Walk: "  + _break.BreakSettingsMaxSpeed + "/" + _break.BreakSettingsMinSpeed
+            //    + " MaxSpeedDefault: " + MaxSpeedDefault + " MinSpeedDefault: " + MinSpeedDefault);
 
             if (_break.BreakSettingsCatchPokemon) GlobalVars.CatchPokemon = true;
             else GlobalVars.CatchPokemon = false;
@@ -49,6 +53,8 @@ namespace PokeMaster.Logic.Shared
                 GlobalVars.WalkingSpeedInKilometerPerHour = MaxSpeedDefault;
                 GlobalVars.MinWalkSpeed = MinSpeedDefault;
             }
+            DueTime = DateTime.Now.AddMilliseconds(walkTimer.Interval);
+            WalkOrIdle = true;
 
             Logger.Info("[" + invokeCount + "] Walking Timer for sequence " + _break.BreakSequenceId + " started. We are going to walk during: " + _break.BreakWalkTime + " minutes." 
                 + " Catch: " + (_break.BreakSettingsCatchPokemon ? "Yes" : "No") 
@@ -60,6 +66,10 @@ namespace PokeMaster.Logic.Shared
             idleTimer.Interval = _break.BreakIdleTime * 1000 * 60;
             idleTimer.AutoReset = false;
             idleTimer.Start();
+
+            DueTime = DateTime.Now.AddMilliseconds(walkTimer.Interval);
+            WalkOrIdle = false;
+
             Logger.Warning("[" + invokeCount + "] Idle Timer for sequence " + _break.BreakSequenceId + " started. We are going to idle during: " + _break.BreakIdleTime + " minutes as soon as we finish what we are doing.");
         }
 
@@ -105,6 +115,14 @@ namespace PokeMaster.Logic.Shared
                 MaxSpeedDefault = GlobalVars.WalkingSpeedInKilometerPerHour;
                 MinSpeedDefault = GlobalVars.MinWalkSpeed;
             }
+        }
+
+        public string TimerStatus()
+        {
+            TimeSpan TimeLeft = TimeSpan.FromMilliseconds((DueTime - DateTime.Now).TotalMilliseconds);
+
+            if (WalkOrIdle) return " Walk " + TimeLeft.ToString(@"hh\:mm\:ss");
+            else return " Idle " + TimeLeft.ToString(@"hh\:mm\:ss");
         }
     }
 

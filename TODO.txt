@@ -11,11 +11,11 @@
 =========== NOTES =============
 CatchingLogic.cs	L109	Disabled DoLogin => May be we do not refresh pokemons, atttention
 
-v1.3.8.3 Changes (by @Xelwon & @Quarthy)
+v1.3.8.4 Changes (by @Xelwon & @Quarthy)
 ----------------------------------------
-+ Completed change of logs per profile (need test)
-+ Now you can set if you want to catch pokemon, Max/Min walking speed for each Walking period in Advanced Breaks
-+ User your Go Manager key in Pokemaster BOT
-= Fixed a problem loading location on profile selection, now it gets last coords file of selected profile
++ Walking/Idle time remaining is shown in status bar
+! Fixed a bug when running not without gui (Unhandled exception when loading profile)
+= Added TimeStampMS on GymBattleAttack
+= New message when an egg is hatched (debugging, still gives too much info)
 
 =========== ISSUES ============
