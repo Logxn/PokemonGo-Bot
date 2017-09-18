@@ -214,8 +214,8 @@ namespace PokemonGo.RocketAPI.Rpc
             while ( tries <3){
                 try {
                     //Logger.Debug("Before of GetRequestEnvelope: request :"+ request);
-                    Logger.Debug("[Location] Lat:" + Client.CurrentLatitude + " Long:" + Client.CurrentLongitude);
-                       var requestEnvelope = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(request, Client));
+                    //Logger.Debug("[Location] Lat:" + Client.CurrentLatitude + " Long:" + Client.CurrentLongitude);
+                        var requestEnvelope = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(request, Client));
                         var response =
                             await
                             PostProtoPayload<TRequest>(requestEnvelope,typeof(T1)

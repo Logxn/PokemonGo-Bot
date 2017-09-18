@@ -80,7 +80,8 @@ namespace PokemonGo.RocketAPI.Rpc
                 LastRetrievedAction = lastRetrievedAction,
                 PlayerLatDegrees = Client.CurrentLatitude,
                 PlayerLngDegrees = Client.CurrentLongitude,
-                AttackActions = { battleActions }
+                AttackActions = { battleActions },
+                TimestampMs = (long)(Utils.GetTime(true))
             };
 
             return PostProtoPayloadCommonR<Request, GymBattleAttackResponse>(RequestType.GymBattleAttack, message).Result;
@@ -147,7 +148,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 PlayerLngDegrees = Client.CurrentLongitude
             };
             foreach (var element in attackingPokemonIds) {
-                message.AttackingPokemonId.Add( element);
+                message.AttackingPokemonId.Add(element);
             }
 
             return await PostProtoPayloadCommonR<Request, GymStartSessionResponse>(RequestType.GymStartSession, message).ConfigureAwait(false);

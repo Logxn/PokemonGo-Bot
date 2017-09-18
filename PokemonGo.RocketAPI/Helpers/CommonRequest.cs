@@ -10,6 +10,7 @@ using PokemonGo.RocketAPI.Exceptions;
 using System.Linq;
 using System;
 using PokemonGo.RocketAPI.Shared;
+using POGOProtos.Data;
 
 #endregion
 
@@ -303,25 +304,16 @@ namespace PokemonGo.RocketAPI.Helpers
 
         public static void ProcessGetHatchedEggsResponse(Client client, GetHatchedEggsResponse response)
         {
-            if (response == null)
+            if (response.HatchedPokemon.Count == 0)
                 return;
-            // TODO: 
-            /*
-            response.CandyAwarded;
-            response.EggKmWalked;
-            response.ExperienceAwarded;
-            response.HatchedPokemon;
-            response.PokemonId;
-            response.StardustAwarded;
-            */
-            
-             Logger.Debug("CandyAwarded:" +response.CandyAwarded);
-             Logger.Debug("EggKmWalked:" +response.EggKmWalked);
-             Logger.Debug("ExperienceAwarded:" +response.ExperienceAwarded);
-             Logger.Debug("HatchedPokemon:" +response.HatchedPokemon);
-             Logger.Debug("PokemonId:" +response.PokemonId);
-             Logger.Debug("StardustAwarded:" +response.StardustAwarded);
-            
+            PokemonData hatched = response.HatchedPokemon[0];
+            var MaxCP = PokemonGo.RocketAPI.PokemonInfo.CalculateMaxCP(hatched);
+            var Level = PokemonGo.RocketAPI.PokemonInfo.GetLevel(hatched);
+            var IVPercent = PokemonGo.RocketAPI.PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00");
+
+            Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, $"Hatched a {response.EggKmWalked} Km egg, and we got a " +
+                $"{hatched.PokemonId} (CP: {hatched.Cp} | MaxCP: {MaxCP} | Level: {Level} | IV: {IVPercent}% )" +
+                $" [{response.CandyAwarded} candies/{response.StardustAwarded} stardust/{response.ExperienceAwarded} XP]");
         }
 
         public static void ProcessGetBuddyWalkedResponse(Client client, GetBuddyWalkedResponse response)
