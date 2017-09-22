@@ -707,36 +707,52 @@ namespace PokeMaster.Logic.Functions
         #region Revive & Cure
         private static void ReviveAndCurePokemons(Client client)
         {
-            var moreRevives = true;
-            try {
+            try
+            {
                 RandomHelper.RandomSleep(7000); // If we don`t wait, getpokemons return null.
                 var pokemons = client.Inventory.GetPokemons().Where(x => x.Stamina < x.StaminaMax);
-                foreach (var pokemon in pokemons) {
-                    if (pokemon.Stamina <= 0) {
-                        if (moreRevives) {
-                            var revive = GetNextAvailableRevive(client);
-                            Logger.Debug("Revive:" + revive);
-                            if (revive != 0) {
-                                RandomHelper.RandomSleep(250);
-                                var response = client.Inventory.UseItemRevive(revive, pokemon.Id);
-                                if (response.Result == UseItemReviveResponse.Types.Result.Success) {
-                                    Logger.ColoredConsoleWrite(gymColorLog, "(Gym) Pokemon " + pokemon.PokemonId + " revived.");
-                                    if (revive == ItemId.ItemRevive) {
-                                        pokemon.Stamina = pokemon.StaminaMax / 2;
-                                        CurePokemon(client, pokemon);
-                                    } else
-                                        pokemon.Stamina = pokemon.StaminaMax;
-                                } else
-                                    Logger.Debug("Use revive result: " + response.Result);
-                            } else {
-                                moreRevives = false;
-                            }
-                        }
-                    } else if (pokemon.Stamina < pokemon.StaminaMax)
-                        CurePokemon(client, pokemon);
+
+                // Revive & Cure all pokemons which Stamina not maximum
+                foreach (var pokemon in pokemons)
+                {
+                    if (pokemon.Stamina <= 0)
+                        RevivePokemon(client, pokemon);
+                    else CurePokemon(client, pokemon);
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Logger.ExceptionInfo(e.ToString());
+            }
+        }
+
+        private static void RevivePokemon (Client client, PokemonData pokemon)
+        {
+            ItemId ReviveItem = GetNextAvailableRevive(client);
+
+            if (ReviveItem != ItemId.ItemUnknown)
+            {
+                RandomHelper.RandomSleep(250);
+
+                UseItemReviveResponse useItemReviveResponse = client.Inventory.UseItemRevive(ReviveItem, pokemon.Id);
+
+                if (useItemReviveResponse.Result == UseItemReviveResponse.Types.Result.Success)
+                {
+                    Logger.ColoredConsoleWrite(gymColorLog, "(Gym) " + pokemon.PokemonId + " revived with " + ReviveItem + ", with an Stamina of " + useItemReviveResponse.Stamina);
+                    if (ReviveItem == ItemId.ItemRevive)
+                    {
+                        pokemon.Stamina = useItemReviveResponse.Stamina;
+                        CurePokemon(client, pokemon);
+                    }
+                    else
+                        pokemon.Stamina = pokemon.StaminaMax;
+                }
+                else
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "(Gym) Error reviving " + pokemon.PokemonId + ": " + useItemReviveResponse.Result);
+            }
+            else
+            {
+                Logger.ColoredConsoleWrite(gymColorLog, "(Gym) Cannot revive " + pokemon.PokemonId + ". No more Items Revive/ReviveMax.");
             }
         }
 
@@ -745,11 +761,11 @@ namespace PokeMaster.Logic.Functions
             var potion = GetNextAvailablePotion(client);
             var fails = 0;
             Logger.Debug("potion:" + potion);
-            while (pokemon.Stamina < pokemon.StaminaMax && potion != 0 && fails < 3) {
+            while (pokemon.Stamina < pokemon.StaminaMax && potion != ItemId.ItemUnknown && fails < 3) {
                 RandomHelper.RandomSleep(2000);
                 var response = client.Inventory.UseItemPotion(potion, pokemon.Id);
                 if (response.Result == UseItemPotionResponse.Types.Result.Success) {
-                    Logger.ColoredConsoleWrite(gymColorLog, $"(Gym) - Pokemon {pokemon.PokemonId} cured. Stamina: {response.Stamina}/{pokemon.StaminaMax}" );
+                    Logger.ColoredConsoleWrite(gymColorLog, $"(Gym) Pokemon {pokemon.PokemonId} cured with {potion}. Stamina: {response.Stamina}/{pokemon.StaminaMax}" );
                     pokemon.Stamina = response.Stamina;
                     fails = 0;
                 } else {
@@ -777,19 +793,22 @@ namespace PokeMaster.Logic.Functions
                 return ItemId.ItemHyperPotion;
             count = client.Inventory.GetItemData(ItemId.ItemMaxPotion).Count;
             Logger.Debug("count ItemMaxPotion:" + count);
-            return count > 0 ? ItemId.ItemMaxPotion : 0;
+            return count > 0 ? ItemId.ItemMaxPotion : ItemId.ItemUnknown;
         }
 
         private static ItemId GetNextAvailableRevive(Client client)
         {
             RandomHelper.RandomSleep(250);
+
             var count = client.Inventory.GetItemData(ItemId.ItemRevive).Count;
             Logger.Debug("count ItemRevive:" + count);
             if (count > 0)
                 return ItemId.ItemRevive;
+
             count = client.Inventory.GetItemData(ItemId.ItemMaxRevive).Count;
             Logger.Debug("count ItemMaxRevive:" + count);
-            return count > 0 ? ItemId.ItemMaxRevive : 0;
+
+            return count > 0 ? ItemId.ItemMaxRevive : ItemId.ItemUnknown;
         }
         #endregion
 

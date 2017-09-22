@@ -17,5 +17,6 @@ v1.3.8.4 Changes (by @Xelwon & @Quarthy)
 ! Fixed a bug when running not without gui (Unhandled exception when loading profile)
 = Added TimeStampMS on GymBattleAttack
 = New message when an egg is hatched (debugging, still gives too much info)
++ Added Nito.Asyncex library
 
 =========== ISSUES ============
