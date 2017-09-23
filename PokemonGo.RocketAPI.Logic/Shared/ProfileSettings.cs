@@ -34,6 +34,7 @@ namespace PokeMaster.Logic.Shared
         public bool AutoUpdate { get; set; }
         public ProxySettings proxySettings { get; set; }
         public string SelectedLanguage { get; set; }
+        public long LastTimePlayedTs { get; set; }
         #endregion
 
         #region Location & walking

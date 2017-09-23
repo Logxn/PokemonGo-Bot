@@ -229,7 +229,7 @@ namespace PokemonGo.RocketAPI.Rpc
                         CommonRequest.ProcessCheckAwardedBadgesResponse(Client, response[4] as  CheckAwardedBadgesResponse);
                         CommonRequest.ProcessDownloadSettingsResponse(Client, response[5] as  DownloadSettingsResponse);
                         CommonRequest.ProcessGetBuddyWalkedResponse(Client, response[6] as  GetBuddyWalkedResponse);
-                        CommonRequest.ProcessGetInboxResponseAsync(Client, response[7] as  GetInboxResponse);
+                        CommonRequest.ProcessGetInboxResponse(Client, response[7] as  GetInboxResponse);
                         return response[0] as T1 ;
                 } catch (AccessTokenExpiredException) {
                     Logger.Warning("Invalid Token. Retrying in 1 second");

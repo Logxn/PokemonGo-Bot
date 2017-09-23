@@ -59,6 +59,11 @@ namespace PokeMaster
             get { return GlobalVars.Password; }
             set { GlobalVars.Password = value; }
         }
+        public long LastTimePlayedTs
+        {
+            get { return GlobalVars.LastTimePlayedTs; }
+            set { GlobalVars.LastTimePlayedTs = value; }
+        }
         #endregion
 
         /* COORDINATES & LOCATION */

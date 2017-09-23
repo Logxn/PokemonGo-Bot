@@ -725,6 +725,8 @@ namespace PokeMaster
             ret &= textBoxToActiveProf(text_Password, "Password");
             ActiveProfile.Settings.UsePwdEncryption = checkbox_PWDEncryption.Checked;
 
+            ActiveProfile.Settings.LastTimePlayedTs = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
+
             // Location
             ret &= textBoxToActiveProfDouble(text_Latidude, "DefaultLatitude");
             ret &= textBoxToActiveProfDouble(text_Longitude, "DefaultLongitude");

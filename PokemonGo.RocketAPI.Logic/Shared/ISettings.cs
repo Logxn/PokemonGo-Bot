@@ -23,6 +23,7 @@ namespace PokeMaster.Logic.Shared
         string Password { get; set; }
 
         bool UsePwdEncryption { get; set; }
+        long LastTimePlayedTs { get; set; }   // Last TS the bot was run with this player
 
         /* COORDINATES & LOCATION */
         double DefaultLatitude { get; set; }

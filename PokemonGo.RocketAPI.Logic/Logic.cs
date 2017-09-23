@@ -63,7 +63,7 @@ namespace PokeMaster.Logic
             this.BotSettings = botSettings;
             var clientSettings = new PokemonGo.RocketAPI.Shared.ClientSettings(botSettings.pFHashKey, botSettings.DefaultLatitude, botSettings.DefaultLongitude, botSettings.DefaultAltitude,
                       botSettings.proxySettings.hostName, botSettings.proxySettings.port, botSettings.proxySettings.username, botSettings.proxySettings.password,
-                      botSettings.AuthType, botSettings.Username, botSettings.Password, GlobalVars.BotApiSupportedVersion);
+                      botSettings.AuthType, botSettings.Username, botSettings.Password, botSettings.LastTimePlayedTs, GlobalVars.BotApiSupportedVersion);
             objClient = new Client(clientSettings);
             objClient.setFailure(new ApiFailureStrat(objClient));
             objClient.EvMakeTutorial += MakeTutorial;

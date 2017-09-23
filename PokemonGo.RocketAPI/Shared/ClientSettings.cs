@@ -27,12 +27,13 @@ namespace PokemonGo.RocketAPI.Shared
         public AuthType userType{get;set;}
         public string userName{get;set;}
         public string password{get;set;}
+        public long LastTimePlayedTs { get; set; }
         public Version currentApi{get;set;}
 
         
         public ClientSettings(string hashKey, double latitude , double longitude, double altitude,
                       string proxyUrl, int proxyPort , string proxyUser,string proxyPass,
-                      AuthType userType, string userName, string password, Version currentApi)
+                      AuthType userType, string userName, string password, long lasttimeplayed, Version currentApi)
         {
             this.hashKey= hashKey;
             this.latitude= latitude;
@@ -45,6 +46,7 @@ namespace PokemonGo.RocketAPI.Shared
             this.userType= userType;
             this.userName= userName;
             this.password= password;
+            this.LastTimePlayedTs = lasttimeplayed;
             this.currentApi= currentApi;            
         }
     }

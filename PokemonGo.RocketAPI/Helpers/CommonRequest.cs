@@ -11,6 +11,7 @@ using System.Linq;
 using System;
 using PokemonGo.RocketAPI.Shared;
 using POGOProtos.Data;
+using PokemonGo.RocketAPI.Rpc;
 
 #endregion
 
@@ -126,14 +127,15 @@ namespace PokemonGo.RocketAPI.Helpers
                 var reqInbox = new Request
                 {
                     RequestType = RequestType.GetInbox,
-                    RequestMessage = new GetInboxMessage{
+                    RequestMessage = new GetInboxMessage {
                         IsHistory = false,
                         IsReverse = false,
-                        NotBeforeMs = 0
+                        NotBeforeMs = client.LastTimePlayedTs
                     }.ToByteString()
                 };
                 requests.Add(reqInbox);
             }
+
             return requests.ToArray();
         }
         
@@ -325,23 +327,42 @@ namespace PokemonGo.RocketAPI.Helpers
             Logger.Debug("FamilyCandyId:" +response.FamilyCandyId);
         }
 
-        public static async void ProcessGetInboxResponseAsync(Client client, GetInboxResponse response)
+        public static void ProcessGetInboxResponse(Client client, GetInboxResponse getInboxResponse)
         {
-            //if (response == null)
-            //    return;
-            //Logger.Debug("Result:" + response.Result);
-            //Logger.Debug("Inbox => " + response.Inbox.BuiltinVariables.Count + " BuiltIn Variables and " + response.Inbox.Notifications.Count + " Notifications.");
-            //var i = 0;
-            ///*foreach (var element in response.Inbox.BuiltinVariables) {
-            //    Logger.Debug($"BuiltinVariable {i}: {element}");
-            //    i++;
-            //}*/
-            //i = 0;
-            //foreach (var element in response.Inbox.Notifications)
-            //{
-            //    Logger.Debug($"Notification {i}: {element}");
-            //    i++;
-            //}
+            switch (getInboxResponse.Result)
+            {
+                case GetInboxResponse.Types.Result.Unset:
+                    break;
+                case GetInboxResponse.Types.Result.Failure:
+                    break;
+                case GetInboxResponse.Types.Result.Success:
+                    if (getInboxResponse.Inbox.Notifications.Count > 0)
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"We got {getInboxResponse.Inbox.Notifications.Count} new notification/s:");
+
+                        var i = 0;
+                        RepeatedField<string> notificationIDs = new RepeatedField<string>();
+                        RepeatedField<Int64> createTimestampMsIDs = new RepeatedField<Int64>();
+
+                        foreach (var notification in getInboxResponse.Inbox.Notifications)
+                        {
+                            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Notification {i} {Utils.TimeMStoString(notification.CreateTimestampMs, "")}: " +
+                                $"{notification.NotificationId} | {notification.TitleKey} | {notification.Category} | {notification.Variables} | {notification.Labels} | " +
+                                $"Expires: {Utils.TimeMStoString(notification.ExpireTimeMs, "")}");
+                            notificationIDs.Add(notification.NotificationId);
+                            createTimestampMsIDs.Add(notification.CreateTimestampMs);
+                            i++;
+                        }
+
+                        UpdateNotificationResponse updateNotificationResponse = client.Misc.UpdateNotificationMessage(notificationIDs, createTimestampMsIDs);
+
+                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Notifications {updateNotificationResponse.NotificationIds}");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Notifications {updateNotificationResponse.CreateTimestampMs}");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Notifications {updateNotificationResponse.State}");
+                    }
+
+                    break;
+            }
 
             // Explain about notifications received and so.
         }
@@ -415,7 +436,7 @@ namespace PokemonGo.RocketAPI.Helpers
                     if ( responses.Count > index)
                     {
                         getInboxResponse.MergeFrom(responses[index]);
-                        CommonRequest.ProcessGetInboxResponseAsync( client, getInboxResponse);
+                        CommonRequest.ProcessGetInboxResponse( client, getInboxResponse);
                     }
                 }
             }
