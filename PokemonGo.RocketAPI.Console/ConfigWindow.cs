@@ -1033,6 +1033,8 @@ namespace PokeMaster
                 if (ActiveProfile.Settings.UsePwdEncryption) {
                     ActiveProfile.Settings.Password = Encryption.Encrypt(ActiveProfile.Settings.Password);
                 }
+                if (!Directory.Exists(GlobalVars.PathToConfigs))
+                    Directory.CreateDirectory(GlobalVars.PathToConfigs);
                 var filenameProf = Path.Combine(GlobalVars.PathToConfigs, ProfileName.Text + ".json");
                 ActiveProfile.Settings.SaveToFile(filenameProf);
                 var newProfiles = new Collection<Profile>();
