@@ -71,7 +71,7 @@ namespace PokemonGo.RocketAPI.Rpc
         }
 
         public GymBattleAttackResponse GymBattleAttack(string fortId, string battleId, List<BattleAction> battleActions,
-            BattleAction lastRetrievedAction)
+            BattleAction lastRetrievedAction, long timestampMs)
         {
             var message = new GymBattleAttackMessage
             {
@@ -81,7 +81,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 PlayerLatDegrees = Client.CurrentLatitude,
                 PlayerLngDegrees = Client.CurrentLongitude,
                 AttackActions = { battleActions },
-                TimestampMs = (long)(Utils.GetTime(true))
+                TimestampMs = timestampMs //(long)(Utils.GetTime(true))
             };
 
             return PostProtoPayloadCommonR<Request, GymBattleAttackResponse>(RequestType.GymBattleAttack, message).Result;

@@ -66,6 +66,8 @@ namespace PokeMaster.Logic.Functions
                     if (GlobalVars.Gyms.Farm && (gym.OwnedByTeam == TeamColor.Neutral || gym.OwnedByTeam == Logic.objClient.Player.PlayerResponse.PlayerData.Team))
                     {
                         CheckAndPutInNearbyGym(gym, Logic.objClient);
+
+                        // We can add training later
                     }
 
                     if (GlobalVars.Gyms.Attack && (gym.OwnedByTeam != TeamColor.Neutral && gym.OwnedByTeam != Logic.objClient.Player.PlayerResponse.PlayerData.Team))
@@ -82,9 +84,23 @@ namespace PokeMaster.Logic.Functions
                             while (attackCount <= GlobalVars.Gyms.MaxAttacks)
                             {
                                 Logger.Debug("(Gym) We can attack this gym. Attack number " + attackCount);
-                                GymBattleAttackResponse attackResponse = GymsLogicAttack.AttackGym(gym, Logic.objClient);
-                                if (attackResponse == null)
-                                    Logger.ColoredConsoleWrite(gymColorLog, "(Gym) NULL detected, something failed");
+                                int isVictory = GymsLogicAttack.AttackGym(gym, Logic.objClient);
+                                switch (isVictory)
+                                {
+                                    case -1:
+                                        Logger.ColoredConsoleWrite(gymColorLog, "(Gym) NULL detected, something failed");
+                                        attackCount = GlobalVars.Gyms.MaxAttacks;
+                                        break;
+                                    case 0:
+                                        Logger.ColoredConsoleWrite(gymColorLog, "(Gym) Not enougth pokemons to fight.");
+                                        attackCount = GlobalVars.Gyms.MaxAttacks;
+                                        break;
+                                    default:
+                                        Logger.ColoredConsoleWrite(gymColorLog, "(Gym) We have won the attack.");
+                                        CheckAndPutInNearbyGym(gym, Logic.objClient);
+                                        break;
+                                }
+                                
                                 attackCount++;
                                 Logger.Debug("(Gym) Reviving pokemons.");
                                 ReviveAndCurePokemons(Logic.objClient);
@@ -95,7 +111,6 @@ namespace PokeMaster.Logic.Functions
                     }
 
                     AddVisited(gym.Id);
-
                     Setout.SetCheckTimeToRun();
                 }
                 GlobalVars.PauseTheWalking &= !restoreWalkingAfterLogic;
@@ -315,7 +330,7 @@ namespace PokeMaster.Logic.Functions
         {
             try
             {
-                RandomHelper.RandomSleep(7000); // If we don`t wait, getpokemons return null.
+                //RandomHelper.RandomSleep(7000); // If we don`t wait, getpokemons return null.
                 var pokemons = client.Inventory.GetPokemons().Where(x => x.Stamina < x.StaminaMax);
 
                 // Revive & Cure all pokemons which Stamina not maximum
