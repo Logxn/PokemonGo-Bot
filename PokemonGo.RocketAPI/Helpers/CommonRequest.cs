@@ -322,9 +322,11 @@ namespace PokemonGo.RocketAPI.Helpers
         {
             if (response == null)
                 return;
-            Logger.Debug("Success:" + response.Success);
-            Logger.Debug("CandyEarnedCount:" +response.CandyEarnedCount);
-            Logger.Debug("FamilyCandyId:" +response.FamilyCandyId);
+
+            if (response.CandyEarnedCount > 0)
+            {
+                Logger.Info("Buddy earnt " + response.CandyEarnedCount + " candies walking.");
+            }
         }
 
         public static void ProcessGetInboxResponse(Client client, GetInboxResponse getInboxResponse)

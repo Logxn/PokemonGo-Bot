@@ -774,7 +774,7 @@ namespace PokeMaster.Logic.Functions
                         File.AppendAllText(GlobalVars.FileForTransfers, $"[{date}] - Transfer unwanted {Pokename} CP {pokemon.Cp}" + Environment.NewLine);
                     }
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Enqueuing to BULK Transfer unwanted {Pokename} CP {pokemon.Cp} ");
-                    RandomHelper.RandomSleep(400, 600);
+                    //RandomHelper.RandomSleep(400, 600);
                 }
             }
 
