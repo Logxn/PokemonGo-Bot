@@ -63,7 +63,7 @@ namespace PokeMaster.Logic
             this.BotSettings = botSettings;
             var clientSettings = new PokemonGo.RocketAPI.Shared.ClientSettings(botSettings.pFHashKey, botSettings.DefaultLatitude, botSettings.DefaultLongitude, botSettings.DefaultAltitude,
                       botSettings.proxySettings.hostName, botSettings.proxySettings.port, botSettings.proxySettings.username, botSettings.proxySettings.password,
-                      botSettings.AuthType, botSettings.Username, botSettings.Password, GlobalVars.BotApiSupportedVersion);
+                      botSettings.AuthType, botSettings.Username, botSettings.Password, botSettings.LastTimePlayedTs, GlobalVars.BotApiSupportedVersion);
             objClient = new Client(clientSettings);
             objClient.setFailure(new ApiFailureStrat(objClient));
             objClient.EvMakeTutorial += MakeTutorial;
@@ -895,15 +895,15 @@ namespace PokeMaster.Logic
             if (pokeStop.CooldownCompleteTimestampMs < (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds && BotSettings.FarmPokestops)
             {
                 var fortSearch = objClient.Fort.SearchFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude).Result;
-                Logger.Debug("================[VERBOSE LOGGING - Pokestop Search]================");
-                Logger.Debug($"Result: {fortSearch.Result}");
-                Logger.Debug($"ChainHackSequenceNumber: {fortSearch.ChainHackSequenceNumber}");
-                Logger.Debug($"Cooldown Complete (MS): {fortSearch.CooldownCompleteTimestampMs}");
-                Logger.Debug($"EXP Award: {fortSearch.ExperienceAwarded}");
-                Logger.Debug($"Gems Award: {fortSearch.GemsAwarded}");
-                Logger.Debug($"Item Award: {fortSearch.ItemsAwarded}");
-                Logger.Debug($"Egg Data: {fortSearch.PokemonDataEgg}");
-                Logger.Debug("==================================================================");
+                //Logger.Debug("================[VERBOSE LOGGING - Pokestop Search]================");
+                //Logger.Debug($"Result: {fortSearch.Result}");
+                //Logger.Debug($"ChainHackSequenceNumber: {fortSearch.ChainHackSequenceNumber}");
+                //Logger.Debug($"Cooldown Complete (MS): {fortSearch.CooldownCompleteTimestampMs}");
+                //Logger.Debug($"EXP Award: {fortSearch.ExperienceAwarded}");
+                //Logger.Debug($"Gems Award: {fortSearch.GemsAwarded}");
+                //Logger.Debug($"Item Award: {fortSearch.ItemsAwarded}");
+                //Logger.Debug($"Egg Data: {fortSearch.PokemonDataEgg}");
+                //Logger.Debug("==================================================================");
 
                 switch (fortSearch.Result.ToString())
                 {

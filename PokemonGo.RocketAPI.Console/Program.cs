@@ -233,11 +233,6 @@ namespace PokeMaster
                      Application.Run( new TabbedSystem());
                 }
             }
-            //else
-            //{
-            //    Console.WriteLine("Press any key to continue.");
-            //    Console.ReadKey();
-            //}
 
             MainTask.Wait();
 

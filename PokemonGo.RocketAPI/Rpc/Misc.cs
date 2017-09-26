@@ -48,26 +48,26 @@ namespace PokemonGo.RocketAPI.Rpc
         
         public async Task<MarkTutorialCompleteResponse> AceptLegalScreen()
         {
-            MarkTutorialCompleteResponse res = await MarkTutorialComplete(new RepeatedField<TutorialState>() {
+            MarkTutorialCompleteResponse response = await MarkTutorialComplete(new RepeatedField<TutorialState>() {
                 TutorialState.LegalScreen
             }).ConfigureAwait(false);
 
-            return res;
+            return response;
         }
 
-        public UpdateNotificationResponse UpdateNotificationMessage() // IEnumerable<string> Notification_Ids, IEnumerable<Int64> TimeStampsMS)
+        public UpdateNotificationResponse UpdateNotificationMessage(RepeatedField<string> Notification_Ids, RepeatedField<Int64> TimeStampsMS)
         {
             var request = new Request
             {
                 RequestType = RequestType.UpdateNotificationStatus,
                 RequestMessage = ((IMessage)new UpdateNotificationMessage
                 {
-                    //NotificationIds = { Notification_Ids },
-                    //CreateTimestampMs = { TimeStampsMS },
+                    NotificationIds = { Notification_Ids },
+                    CreateTimestampMs = { TimeStampsMS },
                     State = NotificationState.Viewed
                 }).ToByteString()
             };
-            var response = PostProtoPayloadCommonR<Request, UpdateNotificationResponse>(request).Result;
+            UpdateNotificationResponse response = PostProtoPayloadCommonR<Request, UpdateNotificationResponse>(request).Result;
             return response;
         }
     }

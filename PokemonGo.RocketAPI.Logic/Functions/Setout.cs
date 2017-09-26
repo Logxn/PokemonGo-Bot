@@ -315,9 +315,9 @@ namespace PokeMaster.Logic.Functions
 
                     if (GlobalVars.LogEggs)
                     {
-                        File.AppendAllText(GlobalVars.FileForEggs, $"[{date}] - Hatched a {kmsEgg} Km egg, and we got a {hatched.PokemonId} (CP: {hatched.Cp} | MaxCP: {MaxCP} | Level: {Level} | IV: {IVPercent}% )" + Environment.NewLine);
+                        File.AppendAllText(GlobalVars.FileForEggs, $"[{date}] - Hatched a {hatched.EggKmWalkedTarget} Km egg, and we got a {hatched.PokemonId} (CP: {hatched.Cp} | MaxCP: {MaxCP} | Level: {Level} | IV: {IVPercent}% )" + Environment.NewLine);
                     }
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, $"Hatched a {kmsEgg} Km egg, and we got a {hatched.PokemonId} (CP: {hatched.Cp} | MaxCP: {MaxCP} | Level: {Level} | IV: {IVPercent}% )");
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, $"Hatched a {hatched.EggKmWalkedTarget} Km egg, and we got a {hatched.PokemonId} (CP: {hatched.Cp} | MaxCP: {MaxCP} | Level: {Level} | IV: {IVPercent}% )");
                 }
 
                 if ((unusedEggsUnlimitInc.Count < 1) && (unusedEggsUnlimitInc.Count < 1))
@@ -774,7 +774,7 @@ namespace PokeMaster.Logic.Functions
                         File.AppendAllText(GlobalVars.FileForTransfers, $"[{date}] - Transfer unwanted {Pokename} CP {pokemon.Cp}" + Environment.NewLine);
                     }
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Enqueuing to BULK Transfer unwanted {Pokename} CP {pokemon.Cp} ");
-                    RandomHelper.RandomSleep(400, 600);
+                    //RandomHelper.RandomSleep(400, 600);
                 }
             }
 

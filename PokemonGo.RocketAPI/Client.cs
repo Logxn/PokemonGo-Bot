@@ -39,6 +39,8 @@ namespace PokemonGo.RocketAPI
         public string Username;
         public string Password;
 
+        public long LastTimePlayedTs { get; set; }
+
         public string ApiUrl { get; set; }
         internal readonly PokemonHttpClient PokemonHttpClient;
         internal AuthTicket AuthTicket { get; set; }
@@ -80,6 +82,9 @@ namespace PokemonGo.RocketAPI
             AuthType = settings.userType;
             Username = settings.userName;
             Password = settings.password;
+
+            LastTimePlayedTs = settings.LastTimePlayedTs;
+
             proxy = InitProxy(settings.proxyUrl,settings.proxyPort,settings.proxyUser,settings.proxyPass);
             PokemonHttpClient = new PokemonHttpClient();
             Login = new Rpc.Login(this);

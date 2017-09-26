@@ -52,6 +52,7 @@ namespace PokeMaster.Logic.Shared
         public static AuthType acc = AuthType.Google;
         public static string email = "empty";
         public static string Password = "empty";
+        public static long LastTimePlayedTs = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
         public static bool WalkBackToDefaultLocation = true;
         public static bool uselastcoords = true;
         public static double latitude = 40.764883;

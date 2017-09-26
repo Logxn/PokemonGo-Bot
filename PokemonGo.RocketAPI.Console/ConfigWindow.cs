@@ -117,7 +117,8 @@ namespace PokeMaster
                 th.TS("Random"),
                 th.TS("Best CP"),
                 th.TS("Favourites"),
-                th.TS("Lower than defenders CP")
+                th.TS("Lower than defenders CP"),
+                th.TS("Best HP")
             };
             comboBoxAttackers.SelectedIndex = 0;
 
@@ -724,6 +725,8 @@ namespace PokeMaster
             ret &= textBoxToActiveProf(text_EMail, "Username");
             ret &= textBoxToActiveProf(text_Password, "Password");
             ActiveProfile.Settings.UsePwdEncryption = checkbox_PWDEncryption.Checked;
+
+            ActiveProfile.Settings.LastTimePlayedTs = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
 
             // Location
             ret &= textBoxToActiveProfDouble(text_Latidude, "DefaultLatitude");
