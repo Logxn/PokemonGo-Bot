@@ -22,7 +22,7 @@ namespace PokeMaster.Logic.Functions
         private static Random RandomNumbers = new Random();
         private static ConsoleColor gymColorLog = ConsoleColor.DarkGray;
 
-        public static int AttackGym(FortData gym, Client client)
+        public static BattleState AttackGym(FortData gym, Client client)
         {
             GymsLogic.StopAttack = false;
             GymGetInfoResponse gymGetInfoResponse = null;
@@ -44,14 +44,19 @@ namespace PokeMaster.Logic.Functions
             }
 
             // Get atackers
-            var pokeAttackers = getPokeAttackers(defender.MotivatedPokemon.Pokemon, GlobalVars.Gyms.Attackers);
-            var pokeAttackersIds = pokeAttackers.Select(x => x.Id);
+            IEnumerable<PokemonData> selectedAttackers = getPokeAttackers(defender.MotivatedPokemon.Pokemon, GlobalVars.Gyms.Attackers);
+            var pokeAttackers = selectedAttackers as PokemonData[] ?? selectedAttackers.ToArray();
+            var pokeAttackersIds = selectedAttackers.Select(x => x.Id);
 
-            if (pokeAttackers.Count() < 6) return 0;
+            if (selectedAttackers.Count() < 6)
+            {
+                Logger.ColoredConsoleWrite(gymColorLog, "(Gym) Not enougth pokemons to fight.");
+                return BattleState.StateUnset;
+            }
 
             Logger.ColoredConsoleWrite(gymColorLog, "(Gym) Defender: " + GymsLogic.strPokemon(defender.MotivatedPokemon.Pokemon) + $"[{defender.TrainerPublicProfile.Name} ({defender.TrainerPublicProfile.Level})]");
             Logger.ColoredConsoleWrite(gymColorLog, "(Gym) Selected Atackers: ");
-            GymsLogic.ShowPokemons(pokeAttackers);
+            GymsLogic.ShowPokemons(selectedAttackers);
 
             Logger.Info($"(Gym) {gymGetInfoResponse.Name} => {gym.OwnedByTeam} | {gym.GymPoints} points | {gym.GuardPokemonId} ({gym.GuardPokemonCp} CP)");
 
@@ -69,7 +74,7 @@ namespace PokeMaster.Logic.Functions
                     break;
                 }
 
-                if (gymStartSessionResponse == null || gymStartSessionResponse.Battle == null || gymStartSessionResponse.Result != GymStartSessionResponse.Types.Result.Success) return -1;
+                if (gymStartSessionResponse == null || gymStartSessionResponse.Battle == null || gymStartSessionResponse.Result != GymStartSessionResponse.Types.Result.Success) return BattleState.StateUnset;
 
                 // Battle loop
                 if (gymStartSessionResponse.Battle.BattleLog.State == BattleState.Active)
@@ -83,10 +88,10 @@ namespace PokeMaster.Logic.Functions
                     {
                         currentDefender++;
                     }
-                    else return -1;
+                    else return attackDefender;
                 }
             }
-            return currentDefender;
+            return BattleState.Victory;
         }
 
         private static BattleState AttackDefender(GymStartSessionResponse gymBattleStartResponse, Client client, FortData gym)
@@ -95,9 +100,6 @@ namespace PokeMaster.Logic.Functions
             PokemonData Defender = gymBattleStartResponse.Battle.Defender.ActivePokemon.PokemonData;
 
             Int64 battleStartMs = gymBattleStartResponse.Battle.BattleLog.BattleStartTimestampMs;
-
-            List<BattleAction> battleActions = new List<BattleAction>();
-            BattleAction battleAction = new BattleAction();
 
             IEnumerable<BattleAction> lastActions = gymBattleStartResponse.Battle.BattleLog.BattleActions.ToList();
             BattleAction lastAction = new BattleAction();
@@ -114,6 +116,8 @@ namespace PokeMaster.Logic.Functions
                 lastAction = lastActions.LastOrDefault();
                 var AttackerMove1Settings = moveSettings.FirstOrDefault(x => x.MoveSettings.MovementId == gymBattleStartResponse.Battle.Attacker.ActivePokemon.PokemonData.Move1).MoveSettings;
                 var AttackerMove2Settings = moveSettings.FirstOrDefault(x => x.MoveSettings.MovementId == gymBattleStartResponse.Battle.Attacker.ActivePokemon.PokemonData.Move2).MoveSettings;
+                List<BattleAction> battleActions = new List<BattleAction>();
+                BattleAction battleAction = new BattleAction();
 
                 battleAction.ActionStartMs = DateTime.UtcNow.ToUnixTime(); //battleStartMs + RandomNumbers.Next(110, 170);
                 battleAction.TargetIndex = -1; // What is that?
@@ -284,7 +288,27 @@ namespace PokeMaster.Logic.Functions
                             return BattleState.StateUnset;
                     }
                 }
-                else return BattleState.StateUnset;
+                else
+                {
+                    switch (attackResponse.Result)
+                    {
+                        case GymBattleAttackResponse.Types.Result.ErrorInvalidAttackActions:
+                            Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Attack - ERROR_INVALID_ATTACK_ACTIONS");
+                            Logger.ColoredConsoleWrite(gymColorLog, "(Gym) BattleActions: " + string.Join(", ", (IEnumerable<BattleAction>)battleActions.ToArray()));
+                            break;
+                        case GymBattleAttackResponse.Types.Result.ErrorNotInRange:
+                            Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Attack - ERROR_NOT_IN_RANGE");
+                            break;
+                        case GymBattleAttackResponse.Types.Result.ErrorRaidActive:
+                            Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Attack - ERROR_RAID_ACTIVE");
+                            break;
+                        case GymBattleAttackResponse.Types.Result.ErrorWrongBattleType:
+                            Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Attack - ERROR_WRONG_BATTLE_TYPE");
+                            break;
+                    }
+
+                    return BattleState.StateUnset;
+                }
             }
         }
 
@@ -319,6 +343,11 @@ namespace PokeMaster.Logic.Functions
                     filteratt = filteratt.Concat(filter1.Except(filteratt).OrderBy(x => x.Cp).Take(left));
                 }
                 return filteratt;
+            }
+
+            if (AttackersSelectionmode == 4)
+            {
+                return filter1.OrderByDescending(x => x.Stamina).ThenByDescending(x => x.Cp).Take(6);
             }
 
             var filter2 = filter1.OrderByDescending(x => x.Cp);
@@ -449,86 +478,7 @@ namespace PokeMaster.Logic.Functions
             }
         }
 
-        //public static GymStartSessionResponse StartGymBattle(Client client, string gymId, ulong defendingPokemonId,
-        //    IEnumerable<ulong> attackingPokemonIds)
-        //{
-        //    GymStartSessionResponse resp = null;
-        //    var numTries = 3;
-        //    var startOk = false;
-        //    do
-        //    {
-        //        try
-        //        {
-        //            resp = client.Fort.GymStartSession(gymId, defendingPokemonId, attackingPokemonIds).Result;
-        //            if (resp == null)
-        //            {
-        //                Logger.Debug("(Gym) - Response to start battle was null.");
-        //            }
-        //            else
-        //            {
-        //                if (resp.Battle.BattleLog == null)
-        //                {
-        //                    Logger.Debug("(Gym) - BatlleLog to start battle was null");
-        //                }
-        //                else
-        //                {
-        //                    startOk = true;
-        //                    Logger.Debug("StartGymBattle Response:" + resp);
-        //                }
-        //            }
-        //        }
-        //        catch (Exception ex1)
-        //        {
-        //            Logger.ExceptionInfo("StartGymBattle: " + ex1);
-        //            RandomHelper.RandomSleep(5000);
-        //            if (GlobalVars.Gyms.Testing == "Relogin")
-        //            {
-        //                client.Login.DoLogin().Wait();
-        //            }
-        //            else if (GlobalVars.Gyms.Testing == "GetPlayer")
-        //            {
-        //                client.Player.GetPlayer();
-        //                RandomHelper.RandomSleep(3000);
-        //            }
-        //            else if (GlobalVars.Gyms.Testing == "Wait 2 minutes catching pokemons")
-        //            {
-        //                if (GlobalVars.CatchPokemon)
-        //                    Logger.Info("Trying to catch pokemons until next attack");
-        //                // 0.00001 = 1 meters
-        //                // http://www.um.es/geograf/sigmur/temariohtml/node6_mn.html
-        //                //http://gizmodo.com/how-precise-is-one-degree-of-longitude-or-latitude-1631241162
-        //                var gymloc = new GeoCoordinate(client.CurrentLongitude, client.CurrentLatitude, client.CurrentAltitude);
-        //                for (var times = 1; times < 5; times++)
-        //                {
-        //                    var rnd = RandomHelper.GetLongRandom(8, 9) * 0.00001;
-        //                    Logger.Debug("going to 8 meters far of gym");
-        //                    LocationUtils.updatePlayerLocation(client, gymloc.Longitude + rnd, gymloc.Latitude, gymloc.Altitude);
-        //                    RandomHelper.RandomSleep(10000);
-        //                    CatchingLogic.Execute();
-        //                    rnd = RandomHelper.GetLongRandom(8, 9) * 0.00001;
-        //                    Logger.Debug("going to 8 meters far of gym");
-        //                    LocationUtils.updatePlayerLocation(client, gymloc.Longitude + rnd, gymloc.Latitude, gymloc.Altitude);
-        //                    RandomHelper.RandomSleep(10000);
-        //                    CatchingLogic.Execute();
-        //                    Logger.Debug("returning to gym location");
-        //                    // go back
-        //                    LocationUtils.updatePlayerLocation(client, gymloc.Longitude, gymloc.Latitude, gymloc.Altitude);
-        //                    RandomHelper.RandomSleep(10000);
-        //                    CatchingLogic.Execute();
-        //                }
-        //                RandomHelper.RandomSleep(2000);
-        //            }
-        //            else
-        //            {
-        //                RandomHelper.RandomSleep(115000);
-        //                client.Login.DoLogin().Wait();
-        //            }
-        //        }
-        //        numTries--;
-        //    } while (!startOk && numTries > 0);
-        //    return resp;
-        //}
-
+        
         //private static GymBattleAttackResponse LeaveBattle(FortData gym, Client client, GymStartSessionResponse resp, GymBattleAttackResponse attResp, BattleAction lastRetrievedAction, ulong nextDefenderID)
         //{
         //    GymBattleAttackResponse ret = attResp;

@@ -68,7 +68,8 @@ namespace PokeMaster
                 th.TS("Random"),
                 th.TS("Best CP"),
                 th.TS("Favourites"),
-                th.TS("Lower than defenders CP")
+                th.TS("Lower than defenders CP"),
+                th.TS("Best HP")
             };
             comboBoxAttackers.SelectedIndex = 0;
         }

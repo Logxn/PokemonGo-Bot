@@ -84,15 +84,11 @@ namespace PokeMaster.Logic.Functions
                             while (attackCount <= GlobalVars.Gyms.MaxAttacks)
                             {
                                 Logger.Debug("(Gym) We can attack this gym. Attack number " + attackCount);
-                                int isVictory = GymsLogicAttack.AttackGym(gym, Logic.objClient);
+                                BattleState isVictory = GymsLogicAttack.AttackGym(gym, Logic.objClient);
                                 switch (isVictory)
                                 {
-                                    case -1:
+                                    case BattleState.StateUnset:
                                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) NULL detected, something failed");
-                                        attackCount = GlobalVars.Gyms.MaxAttacks;
-                                        break;
-                                    case 0:
-                                        Logger.ColoredConsoleWrite(gymColorLog, "(Gym) Not enougth pokemons to fight.");
                                         attackCount = GlobalVars.Gyms.MaxAttacks;
                                         break;
                                     default:
@@ -100,14 +96,18 @@ namespace PokeMaster.Logic.Functions
                                         CheckAndPutInNearbyGym(gym, Logic.objClient);
                                         break;
                                 }
-                                
+
                                 attackCount++;
                                 Logger.Debug("(Gym) Reviving pokemons.");
                                 ReviveAndCurePokemons(Logic.objClient);
                             }
-                            Logger.Warning("(Gym) Maximum number of attacks reached. Will be checked after of one minute.");
+                            Logger.Warning($"(Gym) Maximum number of {GlobalVars.Gyms.MaxAttacks} attacks reached. Will be checked after of one minute.");
                         }
-                        else continue;
+                        else
+                        {
+                            Logger.ColoredConsoleWrite(gymColorLog, $"(Gym) This gym has more than {GlobalVars.Gyms.NumDefenders} defenders, skipping.");
+                            continue;
+                        }
                     }
 
                     AddVisited(gym.Id);
