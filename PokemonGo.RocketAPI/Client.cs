@@ -97,10 +97,10 @@ namespace PokemonGo.RocketAPI
             Misc = new Rpc.Misc(this);
             Crypter = new Cipher();
             Hasher = new PokeHashHasher(settings.hashKey);
-            Store = new PokemonGo.RocketAPI.Rpc.Store(this);
+            Store = new Rpc.Store(this);
 
-            Platform = POGOProtos.Enums.Platform.Ios;
-            if (DeviceSetup.SelectedDevice.OSType != "iOS") Platform = POGOProtos.Enums.Platform.Android;
+            Platform = Platform.Ios;
+            if (DeviceSetup.SelectedDevice.OSType != "iOS") Platform = Platform.Android;
             Logger.Info("Platform:" +Platform);
 
             InventoryLastUpdateTimestamp = 0;
@@ -121,16 +121,16 @@ namespace PokemonGo.RocketAPI
                 Logger.Info("proxyUri: "+proxyUri);
                 Logger.Info("proxyUsername: "+proxyUsername);
                 Logger.Info("proxyPassword: "+(proxyPassword != ""));
-                var p = new WebProxy(new System.Uri(proxyUri), false, null);
+                var p = new WebProxy(new Uri(proxyUri), false, null);
 
                 if (proxyUsername!="")
                     p.Credentials = new NetworkCredential(proxyUsername, proxyPassword);
                 return p;
             } catch (Exception ex)
             {
-                Logger.Error("Something in your Proxy Settings is wrong, or the Proxy is down! Exiting in 5 seconds.");
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Exception in Client.cs - InitProxy: " + ex.Message);
-                Thread.Sleep(5000);
+                Logger.Error("Something in your proxy settings is wrong, or the proxy is down! Exiting in 5 seconds.");
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Exception in Client.cs - InitProxy: {ex.Message}");
+                Thread.Sleep(TimeSpan.FromSeconds(5));
                 Environment.Exit(0);
                 return null;
             }
@@ -144,7 +144,8 @@ namespace PokemonGo.RocketAPI
         public void SetAuthTicket(AuthTicket authTicket)
         {
             AuthTicket = authTicket;
-            Logger.Debug("===================> Received AuthTicket: " + AuthTicket + " Expire: " + Utils.TimeMStoString((long)AuthTicket.ExpireTimestampMs, @"mm\:ss"));
+            var expire_time = Utils.TimeMStoString((long)AuthTicket.ExpireTimestampMs, @"mm\:ss");
+            Logger.Debug($"===================> Recieved Auth Ticket: {authTicket} --- Expires in: {expire_time}");
         }
 
         public AuthTicket GetAuthTicket()

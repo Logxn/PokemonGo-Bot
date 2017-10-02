@@ -82,10 +82,10 @@ namespace PokemonGo.RocketAPI
 
         //private static APIVars apiv0691 = new APIVars(0x4AE22D4661C83701, "0.69.1", 6910, "1.39.1", "api/v137_1/hash", InitialPTR8);
         //private static APIVars apiv0731 = new APIVars(unchecked((long)0xF2AA99D7C5AB3DED), "0.73.1", 7310, "1.43.1", "api/v143_1/hash", InitialPTR8);
-        private static APIVars apiv0731 = new APIVars(unchecked((long)0xF2AA99D7C5AB3DED), "0.75.0", 7310, "1.45.0", "api/v143_1/hash", InitialPTR8);
+        private static APIVars apiv0750 = new APIVars(unchecked((long)0xF2AA99D7C5AB3DED), "0.75.0", 7500, "1.45.0", "api/v143_1/hash", InitialPTR8);
 
         //public static APIVars Api = apiv0691;
-        public static APIVars Api = apiv0731;
+        public static APIVars Api = apiv0750;
 
         //BotApiSupportedVersion Must go here to can use Api.ClientVersion value
         public static Version BotApiSupportedVersion = new Version(Api.AndroidClientVersion);

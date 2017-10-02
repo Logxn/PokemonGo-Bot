@@ -20,7 +20,7 @@ namespace PokemonGo.RocketAPI.Rpc
         {
             var message = new DownloadSettingsMessage
             {
-                Hash = "b8fa9757195897aae92c53dbcf8a60fb3d86d745"
+                Hash = "b8fa9757195897aae92c53dbcf8a60fb3d86d745" // Pretty sure this is outdated
             };
             
             return  PostProtoPayload<Request, DownloadSettingsResponse>(RequestType.DownloadSettings, message);
