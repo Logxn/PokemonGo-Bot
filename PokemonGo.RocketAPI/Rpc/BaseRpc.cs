@@ -38,22 +38,21 @@ namespace PokemonGo.RocketAPI.Rpc
             var tries = 0;
             while ( tries <3){
                 try {
-                    //Logger.Debug("Before of GetPlatformRequestEnvelope: platfReq :"+ platfReq);
+                    
                     var requestEnvelops = GetRequestBuilder().GetPlatformRequestEnvelope(platfReq);
                     return Client.PokemonHttpClient.PostProtoPayload<TRequest, TResponsePayload>(Client.ApiUrl, requestEnvelops,
                                 Client.ApiFailure);
                 } catch (AccessTokenExpiredException) {
-                    //Logger.Warning("Invalid Token. Waiting 11 minutes before of reopen");
+
                     Logger.Warning("Invalid Token, Re-Authenticating...");
                     Client.ReadyToUse = false;
-                    //verboseWait(11*60000);
-                    //Client.Login.DoLogin().Wait();
+
                     Client.Login.Reauthenticate().Wait();
                     Client.ReadyToUse = true;
                 } catch (InvalidPlatformException) {
                     Logger.Warning("Invalid Platform, Re-Login...");
                     Client.ReadyToUse = false;
-                    //verboseWait(11*60000);
+
                     Client.Login.DoLogin().Wait();
                     Client.ReadyToUse = true;
                 } catch (RedirectException) {

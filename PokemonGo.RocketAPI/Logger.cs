@@ -11,6 +11,8 @@
         public static void ColoredConsoleWrite(ConsoleColor color, string text, LogLevel level = LogLevel.Info){}
         public static void Write( string text, LogLevel level = LogLevel.Info){}
         public static void AddLog(string str){}*/ 
+
+
 using System;
 using System.IO;
 using PokemonGo.RocketAPI.Logging;
@@ -50,12 +52,10 @@ namespace PokemonGo.RocketAPI
         public static void ExceptionInfo(string line)
         {
             if (type == 0) {
-                //LoggerC.ColoredConsoleWrite(ConsoleColor.Red, "Ignore this: sending exception information to log file.");
                 LoggerC.ColoredConsoleWrite(ConsoleColor.Red, line);
                 LoggerC.AddLog(line);
             }
             if (type == 1) {
-                //LoggerPanel.ColoredConsoleWrite(ConsoleColor.Red, "Ignore this: sending exception information to log file.");
                 LoggerC.ColoredConsoleWrite(ConsoleColor.Red, line);
                 LoggerPanel.AddLog(line);
             }

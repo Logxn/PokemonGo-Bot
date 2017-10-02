@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace PokemonGo.RocketAPI
 {
@@ -10,6 +11,7 @@ namespace PokemonGo.RocketAPI
         public string UnknownPtr8Message { get; set; }
         public string EndPoint { get; set; }
         public uint AndroidClientVersionInt { get; set; }
+
         public ApiKeyHashServerInfo HashServerInfo { get; set; }
 
         public enum HashServerList
@@ -31,7 +33,7 @@ namespace PokemonGo.RocketAPI
             if (ServerKey.Length == 0)
             {
                 Logger.Error("No API HASH KEY defined, review setup. Press a key to Exit.");
-                Console.ReadKey();
+                Thread.Sleep(TimeSpan.FromSeconds(5));
                 Environment.Exit(-1);
             }
 
@@ -49,12 +51,12 @@ namespace PokemonGo.RocketAPI
             return HashServerInfo.ID;
         }
 
-        public APIVars(long uk25, string cv, uint cvInt, string ios_cv, string endPoint, string initialPTR8)
+        public APIVars(long uk25, string clientversion, uint clientversionInt, string ios_clientversion, string endPoint, string initialPTR8)
         {
             IOSUnknown25 = uk25;
-            AndroidClientVersion = cv;
-            AndroidClientVersionInt = cvInt;
-            IOSClientVersion = ios_cv;
+            AndroidClientVersion = clientversion;
+            AndroidClientVersionInt = clientversionInt;
+            IOSClientVersion = ios_clientversion;
             EndPoint = endPoint;
             UnknownPtr8Message = initialPTR8;
         }
