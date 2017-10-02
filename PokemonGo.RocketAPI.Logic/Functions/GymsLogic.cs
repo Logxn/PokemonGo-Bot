@@ -93,6 +93,8 @@ namespace PokeMaster.Logic.Functions
                                         break;
                                     default:
                                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) We have won the attack.");
+                                        gyms = GetNearbyGyms(); 
+                                        // Add: refresh only this gym
                                         CheckAndPutInNearbyGym(gym, Logic.objClient);
                                         break;
                                 }
@@ -232,7 +234,7 @@ namespace PokeMaster.Logic.Functions
             Logger.Debug("(Gym) Pokemon to deploy: " + strPokemon(pokemon));
 
             var gymDetails = client.Fort.GymGetInfo(gym.Id, gym.Latitude, gym.Longitude);
-            Logger.ColoredConsoleWrite(gymColorLog, $"(Gym) Name: {gymDetails.Name} Team: {GetTeamName(gym.OwnedByTeam)}");
+            Logger.ColoredConsoleWrite(gymColorLog, $"(Gym) Name {gymDetails.Name} |Team {GetTeamName(gym.OwnedByTeam)} [{gym.OwnedByTeam}]");
 
             if (gymDetails.GymStatusAndDefenders != null && gymDetails.GymStatusAndDefenders.GymDefender != null && gymDetails.GymStatusAndDefenders.GymDefender.Count > 0)
             {
@@ -421,15 +423,10 @@ namespace PokeMaster.Logic.Functions
         {
             RandomHelper.RandomSleep(250);
 
-            var count = client.Inventory.GetItemData(ItemId.ItemRevive).Count;
-            Logger.Debug("count ItemRevive:" + count);
-            if (count > 0)
+            if (client.Inventory.GetItemData(ItemId.ItemRevive).Count > 0)
                 return ItemId.ItemRevive;
 
-            count = client.Inventory.GetItemData(ItemId.ItemMaxRevive).Count;
-            Logger.Debug("count ItemMaxRevive:" + count);
-
-            return count > 0 ? ItemId.ItemMaxRevive : ItemId.ItemUnknown;
+            return client.Inventory.GetItemData(ItemId.ItemMaxRevive).Count > 0 ? ItemId.ItemMaxRevive : ItemId.ItemUnknown;
         }
         #endregion
 

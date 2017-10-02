@@ -304,11 +304,11 @@ namespace PokeMaster.Logic.Functions
                     if (hatched == null) continue;
 
                     var kmsEgg = (hatched.EggKmWalkedTarget - hatched.EggKmWalkedStart);
-                    //Logger.Debug("***");
-                    //Logger.Debug("EggKmWalkedTarget: " + hatched.EggKmWalkedTarget);
-                    //Logger.Debug("EggKmWalkedStart: " + hatched.EggKmWalkedStart);
-                    //Logger.Debug("kmsEgg: " + kmsEgg);
-                    //Logger.Debug("***");
+                    Logger.Debug("***");
+                    Logger.Debug("EggKmWalkedTarget: " + hatched.EggKmWalkedTarget);
+                    Logger.Debug("EggKmWalkedStart: " + hatched.EggKmWalkedStart);
+                    Logger.Debug("kmsEgg: " + kmsEgg);
+                    Logger.Debug("***");
                     var MaxCP = PokemonGo.RocketAPI.PokemonInfo.CalculateMaxCP(hatched);
                     var Level = PokemonGo.RocketAPI.PokemonInfo.GetLevel(hatched);
                     var IVPercent = PokemonGo.RocketAPI.PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00");

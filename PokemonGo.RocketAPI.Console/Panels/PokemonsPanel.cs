@@ -585,7 +585,7 @@ namespace PokeMaster
                         }
                     }
                     if (pokemonsToTransfer.Any()){
-                        var _response = client.Inventory.ReleasePokemon(pokemonsToTransfer);
+                        ReleasePokemonResponse _response = client.Inventory.ReleasePokemon(pokemonsToTransfer);
                         
                         if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
                         {
@@ -599,7 +599,7 @@ namespace PokeMaster
                         }
                         else
                         {
-                            Logger.Error("Something happened while transferring pokemons: "+_response.Result);
+                            Logger.Error("Something happened while transferring pokemons: " + _response.Result);
                         }
                         
                         Execute();
@@ -607,7 +607,7 @@ namespace PokeMaster
                     
                     if (GlobalVars.pauseAtEvolve)
                     {
-                        Logger.Info("Transferred everything. Time to continue our journey!");
+                        Logger.Info("Everything transfered. Time to continue our journey!");
                         GlobalVars.PauseTheWalking = false;
                     }
                 }
@@ -624,24 +624,26 @@ namespace PokeMaster
 
         private static bool PowerUp(PokemonData pokemon)
         {
-            var ret = false;
             try
             {
-                var evolvePokemonResponse = client.Inventory.UpgradePokemon(pokemon.Id);
+                UpgradePokemonResponse evolvePokemonResponse = client.Inventory.UpgradePokemon(pokemon.Id);
 
                 if (evolvePokemonResponse.Result == UpgradePokemonResponse.Types.Result.Success)
                 {
-                    ret  = true;
-                } else {
+                    Logger.Info($"{pokemon.PokemonId} powered up: CP {pokemon.Cp} => {evolvePokemonResponse.UpgradedPokemon.Cp}, HP {pokemon.StaminaMax} => {evolvePokemonResponse.UpgradedPokemon.StaminaMax}");
+                    return true;
+                }
+                else
+                {
                     Logger.Warning(evolvePokemonResponse.Result.ToString());
                 }
-                RandomHelper.RandomSleep(1000, 2000);
+                RandomHelper.RandomSleep(1000, 1500);
             }
             catch (Exception e)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error Powering Up: " + e.Message);
             }
-            return ret;
+            return false;
         }
 
         private void btnFullPowerUp_Click(object sender, EventArgs e)

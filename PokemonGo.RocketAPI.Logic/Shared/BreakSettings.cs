@@ -56,9 +56,9 @@ namespace PokeMaster.Logic.Shared
             DueTime = DateTime.Now.AddMilliseconds(walkTimer.Interval);
             WalkOrIdle = true;
 
-            Logger.Info("[" + invokeCount + "] Walking Timer for sequence " + _break.BreakSequenceId + " started. We are going to walk during: " + _break.BreakWalkTime + " minutes." 
+            Logger.Info("[" + invokeCount + "] Walking Timer sequence " + _break.BreakSequenceId + " started. We are going to walk during: " + _break.BreakWalkTime + " minutes." 
                 + " Catch: " + (_break.BreakSettingsCatchPokemon ? "Yes" : "No") 
-                + " Walk: " + GlobalVars.WalkingSpeedInKilometerPerHour +"(" + _break.BreakSettingsMaxSpeed + "/" + GlobalVars.MinWalkSpeed + "(" +_break.BreakSettingsMinSpeed +")");
+                + " Walk: " + GlobalVars.WalkingSpeedInKilometerPerHour +"(" + _break.BreakSettingsMaxSpeed + "/" +_break.BreakSettingsMinSpeed +")");
         }
         
         private void SetIdleTimer(BreakSettings _break)
@@ -67,10 +67,10 @@ namespace PokeMaster.Logic.Shared
             idleTimer.AutoReset = false;
             idleTimer.Start();
 
-            DueTime = DateTime.Now.AddMilliseconds(walkTimer.Interval);
+            DueTime = DateTime.Now.AddMilliseconds(idleTimer.Interval);
             WalkOrIdle = false;
 
-            Logger.Warning("[" + invokeCount + "] Idle Timer for sequence " + _break.BreakSequenceId + " started. We are going to idle during: " + _break.BreakIdleTime + " minutes as soon as we finish what we are doing.");
+            Logger.Warning("[" + invokeCount + "] Idle Timer sequence " + _break.BreakSequenceId + " started. We are going to idle during: " + _break.BreakIdleTime + " minutes as soon as we finish what we are doing.");
         }
 
         private void IdleTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)

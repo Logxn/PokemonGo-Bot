@@ -468,7 +468,7 @@ namespace PokeMaster.Logic
                 }
                 else
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "We found " + pokeStops.Count() + " usable PokeStops near your current location.");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, pokeStops.Count() + " usable PokeStops found near your current location.");
                     tries = 0;
                 }
             } while (tries > 0);
@@ -527,9 +527,32 @@ namespace PokeMaster.Logic
             return forts;
         }
 
+        private Queue<FortData> RefreshNearbyPokeStops(Queue<FortData> fortQueue)
+        {
+            FortData[] newPokeStops = GetNearbyPokeStops();
+
+            if (newPokeStops.Any())
+            {
+                var rnd = new Random();
+                var pokeStops = GlobalVars.WalkRandomly ? newPokeStops.OrderBy(x => rnd.Next()).ToArray() : newPokeStops;
+
+                var pokestopsQueue = new Queue<FortData>();
+                foreach (var pokeStop in pokeStops)
+                    pokestopsQueue.Enqueue(pokeStop);
+
+                if (GlobalVars.WalkInLoop)
+                    for (var i = pokeStops.Length - 2; i > 0; i--)
+                        pokestopsQueue.Enqueue(pokeStops[i]);
+
+                return pokestopsQueue;
+            }
+            else return fortQueue;
+        }
 
         private void FncPokeStop(Client client, FortData[] pokeStopsIn, bool metros30)
         {
+            int PokeStopVisitCounter = 0;
+
             var distanceFromStart = LocationUtils
                 .CalculateDistanceInMeters(
                     BotSettings.DefaultLatitude,
@@ -557,26 +580,6 @@ namespace PokeMaster.Logic
                 var pokeStop = pokestopsQueue.Dequeue();
                 if (GlobalVars.WalkInLoop)
                     pokestopsQueue.Enqueue(pokeStop);
-
-                #region Mystery Check by Cicklow
-
-                // in Archimedean spiral only capture PokeStops if distance is < to 30 meters!
-                if (metros30)
-                {
-                    var distance1 = LocationUtils
-                        .CalculateDistanceInMeters(
-                            objClient.CurrentLatitude,
-                            objClient.CurrentLongitude,
-                            pokeStop.Latitude,
-                            pokeStop.Longitude);
-
-                    if (distance1 > 31 && FailedSoftban < 2)
-                    {
-                        continue; //solo agarrar los pokestop que esten a menos de 30 metros
-                    }
-                }
-
-                #endregion
 
                 //make sure user defined limits have not been reached
                 Setout.SetCheckTimeToRun();
@@ -635,7 +638,7 @@ namespace PokeMaster.Logic
                         pokeStop.Latitude,
                         pokeStop.Longitude);
 
-                var fortInfo = objClient.Fort.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude).Result;
+                FortDetailsResponse fortInfo = objClient.Fort.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude).Result;
 
                 //log error if pokestop not found
                 if (fortInfo == null)
@@ -644,7 +647,7 @@ namespace PokeMaster.Logic
                     continue;
                 }
 
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Next Pokestop: {fortInfo.Name} in {distance:0.##}m distance.");
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Next Pokestop is {fortInfo.Name} at {distance:0.##}m. ({fortInfo.Longitude},{fortInfo.Latitude}) [{PokeStopVisitCounter}]");
 
                 #region Break At Lure Logic  
 
@@ -675,6 +678,12 @@ namespace PokeMaster.Logic
                 if (BotSettings.pauseAtPokeStop)
                 {
                     FarmPokestopOnBreak(pokeStops, client);
+                }
+
+                PokeStopVisitCounter++;
+                if ((PokeStopVisitCounter % 10) == 0)
+                {
+                    pokestopsQueue = RefreshNearbyPokeStops(pokestopsQueue);
                 }
             }
         }
@@ -1064,7 +1073,7 @@ namespace PokeMaster.Logic
                     return false;
                 //narrow map data to pokestops within walking distance
                 var pokeStops = GetNearbyPokeStops(false, mapObjectsResponse);
-                var pokestopsWithinRangeStanding = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude) < 40);
+                var pokestopsWithinRangeStanding = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude) < 30);
 
                 var withinRangeStandingList = pokestopsWithinRangeStanding as IList<FortData> ?? pokestopsWithinRangeStanding.ToList();
                 if (withinRangeStandingList.Any())
