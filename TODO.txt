@@ -17,14 +17,15 @@ v1.3.8.6 Changes (by @Xelwon & @Quarthy)
 + Attack a gym is working again
 + UpdateNotification added to mark ingame notifications as read
 
-v1.3.8.8 Changes (by @Xelwon & @Quarthy)
+v1.3.8.7 Changes (by @Xelwon & @Quarthy)
 ----------------------------------------
-+ Pokestop queue is refresesh from time to time (now every 10 stops), this gets pokestations near where you are
++ Pokestop queue is refresesh from time to time (now every 10 stops), this gets more pokestations near where you are and reduce walking the same circuit on long bottings
 = Fix some visual errors on Advanced Breaks
 + During the battle, if the defender has 100% energy for an special attack, your attacher will dodge
 + When we will a battle, we refresh gyms to see if we can put a pokemon in the current gym
 = Some text fixes
 + Added some log info on powerup
++ Compatibility with v0.75.1
 
 
 =========== ISSUES ============
