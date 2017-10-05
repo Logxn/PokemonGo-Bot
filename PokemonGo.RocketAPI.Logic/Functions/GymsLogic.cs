@@ -83,16 +83,16 @@ namespace PokeMaster.Logic.Functions
                             var attackCount = 1;
                             while (attackCount <= GlobalVars.Gyms.MaxAttacks)
                             {
-                                Logger.Debug("(Gym) We can attack this gym. Attack number " + attackCount);
+                                Logger.Debug($"(Gym: {gymDetails.Name}) We can attack this {gym.OwnedByTeam} gym. Attack number: " + attackCount);
                                 BattleState isVictory = GymsLogicAttack.AttackGym(gym, Logic.objClient);
                                 switch (isVictory)
                                 {
                                     case BattleState.StateUnset:
-                                        Logger.ColoredConsoleWrite(gymColorLog, "(Gym) NULL detected, something failed");
+                                        Logger.ColoredConsoleWrite(gymColorLog, "(Gym: {gymDetails.Name}) NULL detected, something failed");
                                         attackCount = GlobalVars.Gyms.MaxAttacks;
                                         break;
                                     default:
-                                        Logger.ColoredConsoleWrite(gymColorLog, "(Gym) We have won the attack.");
+                                        Logger.ColoredConsoleWrite(gymColorLog, "(Gym: {gymDetails.Name}) We have won the attack.");
                                         gyms = GetNearbyGyms(); 
                                         // Add: refresh only this gym
                                         CheckAndPutInNearbyGym(gym, Logic.objClient);
@@ -103,7 +103,7 @@ namespace PokeMaster.Logic.Functions
                                 Logger.Debug("(Gym) Reviving pokemons.");
                                 ReviveAndCurePokemons(Logic.objClient);
                             }
-                            Logger.Warning($"(Gym) Maximum number of {GlobalVars.Gyms.MaxAttacks} attacks reached. Will be checked after of one minute.");
+                            Logger.Warning($"(Gym) Maximum number of {GlobalVars.Gyms.MaxAttacks} attacks reached.");
                         }
                         else
                         {
@@ -202,7 +202,7 @@ namespace PokeMaster.Logic.Functions
 
         public static void ShowPokemons(IEnumerable<PokemonData> pokeAttackers)
         {
-            var str = "";
+            var str = "Attackers: ";
             foreach (PokemonData pokemon in pokeAttackers) {
                 str = $"{str}{strPokemon(pokemon)}, ";
             }

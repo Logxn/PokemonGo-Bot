@@ -647,7 +647,7 @@ namespace PokeMaster.Logic
                     continue;
                 }
 
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Next Pokestop is {fortInfo.Name} at {distance:0.##}m. ({fortInfo.Longitude},{fortInfo.Latitude}) [{PokeStopVisitCounter}]");
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Next Pokestop is {fortInfo.Name} at {distance:0.##}m. ({fortInfo.Longitude}:{fortInfo.Latitude}) [{PokeStopVisitCounter}]");
 
                 #region Break At Lure Logic  
 
