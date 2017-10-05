@@ -489,7 +489,10 @@ namespace PokeMaster
                  _pokeGymsMarks.Remove(pokeGym.Id +"-Guard");
             }
             GMarkerGoogle guardPokemonMarker;
-            Bitmap pokebitMap = PokeImgManager.GetPokemonMediumImage(pokeGym.GuardPokemonId);
+            var pokeID = pokeGym.GuardPokemonId;
+            if (pokeGym.RaidInfo!=null && pokeGym.RaidInfo.RaidPokemon!=null)
+                pokeID = pokeGym.RaidInfo.RaidPokemon.PokemonId;
+            Bitmap pokebitMap = PokeImgManager.GetPokemonMediumImage(pokeID);
             var offsetY = 0;
             if (pokebitMap != null) {
                 for (int idx = 0; idx < pokebitMap.Width; idx++) {
@@ -536,7 +539,38 @@ namespace PokeMaster
                 _pokeGymsOverlay.Markers.Add(FightingMarker);
             }
             #endregion Show figting
+            #region is raid
+            if (_pokeGymsMarks.ContainsKey(pokeGym.Id + "-Raid")){
+                var markerToDel = _pokeGymsMarks[pokeGym.Id + "-Raid"];
+                if (_pokeGymsOverlay.Markers.Contains(markerToDel))
+                    _pokeGymsOverlay.Markers.Remove(markerToDel);
+                 _pokeGymsMarks.Remove(pokeGym.Id +"-Raid");
+            }
+            GMarkerGoogle RaidMarker;
+            if (pokeGym.RaidInfo!=null) {
+                for (int idx = 0; idx < pokebitMap.Width; idx++) {
+                    pokebitMap.SetPixel(idx, 0, color);
+                    pokebitMap.SetPixel(idx, pokebitMap.Height - 1, color);
+                }
+                for (int idx = 0; idx < pokebitMap.Height; idx++) {
+                    pokebitMap.SetPixel(0, idx, color);
+                    pokebitMap.SetPixel(pokebitMap.Width - 1, idx, color);
+                }
+                var raidMarkerType = GMarkerGoogleType.pink;
+                if ( ((int)pokeGym.RaidInfo.RaidLevel >=3) && ((int)pokeGym.RaidInfo.RaidLevel <=4))
+                    raidMarkerType = GMarkerGoogleType.yellow;
+                if ((int)pokeGym.RaidInfo.RaidLevel >=5 )
+                    raidMarkerType = GMarkerGoogleType.blue;  
+                
+                RaidMarker = new GMarkerGoogle(new PointLatLng(pokeGym.Latitude, pokeGym.Longitude),  raidMarkerType );
+                if (pokebitMap != null) {
+                    RaidMarker.Offset = new Point(-bitmap.Width / 2 , 5 - pokebitMap.Height * 2 );
+                }
 
+                _pokeGymsMarks.Add(pokeGym.Id + "-Raid", RaidMarker);
+                _pokeGymsOverlay.Markers.Add(RaidMarker);
+            }
+            #endregion is raid
             }));
 
         }
