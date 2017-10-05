@@ -54,11 +54,8 @@ namespace PokeMaster.Logic.Functions
                 return BattleState.StateUnset;
             }
 
-            Logger.ColoredConsoleWrite(gymColorLog, "(Gym) Defender: " + GymsLogic.strPokemon(defender.MotivatedPokemon.Pokemon) + $"[{defender.TrainerPublicProfile.Name} ({defender.TrainerPublicProfile.Level})]");
-            Logger.ColoredConsoleWrite(gymColorLog, "(Gym) Selected Atackers: ");
+            Logger.ColoredConsoleWrite(gymColorLog, "(Gym) Defender: " + GymsLogic.strPokemon(defender.MotivatedPokemon.Pokemon) + $" [{defender.TrainerPublicProfile.Name} ({defender.TrainerPublicProfile.Level})]");
             GymsLogic.ShowPokemons(selectedAttackers);
-
-            Logger.Info($"(Gym) {gymGetInfoResponse.Name} => {gym.OwnedByTeam} | {gym.GymPoints} points | {gym.GuardPokemonId} ({gym.GuardPokemonCp} CP)");
 
             while (currentDefender < defenders.Count())
             {
@@ -79,7 +76,7 @@ namespace PokeMaster.Logic.Functions
                 // Battle loop
                 if (gymStartSessionResponse.Battle.BattleLog.State == BattleState.Active)
                 {
-                    Logger.ColoredConsoleWrite(gymColorLog, "(Gym) Battle Started");
+                    //Logger.ColoredConsoleWrite(gymColorLog, "(Gym) Battle Started");
                     RandomHelper.RandomSleep(2000);
 
                     // Attack each defender
@@ -96,8 +93,14 @@ namespace PokeMaster.Logic.Functions
 
         private static BattleState AttackDefender(GymStartSessionResponse gymBattleStartResponse, Client client, FortData gym)
         {
-            PokemonData Attacker = gymBattleStartResponse.Battle.Attacker.ActivePokemon.PokemonData;
-            PokemonData Defender = gymBattleStartResponse.Battle.Defender.ActivePokemon.PokemonData;
+            PokemonData Attacker = gymBattleStartResponse.Battle.Attacker?.ActivePokemon.PokemonData;
+            PokemonData Defender = gymBattleStartResponse.Battle.Defender?.ActivePokemon.PokemonData;
+
+            if (Attacker == null || Defender == null)
+            {
+                Logger.Info("(Gym) Attacker or defender is NULL!!");
+                return BattleState.StateUnset;
+            }
 
             Int64 battleStartMs = gymBattleStartResponse.Battle.BattleLog.BattleStartTimestampMs;
 
@@ -110,6 +113,7 @@ namespace PokeMaster.Logic.Functions
                 $" | CP: {gymBattleStartResponse.Battle.Defender.ActivePokemon.PokemonData.Cp}");
 
             int AttackerEnergy = 0;
+            int DefenderEnergy = 0;
 
             while (true)
             {
@@ -126,7 +130,7 @@ namespace PokeMaster.Logic.Functions
 
                 // Selection of attacks
                 // two each ten times we try to evade attack
-                if (RandomNumbers.Next(1, 10) <= 3)
+                if (RandomNumbers.Next(1, 10) <= 2 || DefenderEnergy == 100)
                 {
                     var dodgeAction = new BattleAction();
                     dodgeAction.Type = BattleActionType.ActionDodge;
@@ -182,22 +186,12 @@ namespace PokeMaster.Logic.Functions
                 long TimeAfterAttack = DateTime.UtcNow.ToUnixTime();
 
                 var AttackDuration = battleActions.Sum(x => x.DurationMs);
-                if (battleActions.Any(a => a.Type != BattleActionType.ActionSpecialAttack)) AttackDuration = AttackDuration - (int)(TimeAfterAttack - TimeBeforeAttack);
-                if (battleActions.Any(a => a.Type == BattleActionType.ActionSwapPokemon)) AttackDuration = AttackDuration + 2000;
+                //if (battleActions.Any(a => a.Type != BattleActionType.ActionSpecialAttack)) AttackDuration = AttackDuration - (int)(TimeAfterAttack - TimeBeforeAttack);
+                //if (battleActions.Any(a => a.Type == BattleActionType.ActionSwapPokemon)) AttackDuration = AttackDuration + 2000;
                 if (AttackDuration > 0) RandomHelper.RandomSleep(AttackDuration);
 
-                //lastActions = attackResponse.BattleUpdate.BattleLog.BattleActions.LastOrDefault(x => x.ActivePokemonId != attackResponse.BattleUpdate.ActiveAttacker.PokemonData.Id);
-                //var timeMs = attackResponse.BattleUpdate.BattleLog.ServerMs;
-                //bool inBattle = (attackResponse.Result == GymBattleAttackResponse.Types.Result.Success) && (attackResponse.BattleUpdate.BattleLog.State == BattleState.Active);
-                //Logger.Debug("(Gym) - battleActions: " + string.Join(",", battleActions));
-                //attackResponse = client.Fort.GymBattleAttack(gym.Id, gymBattleStartResponse.Battle.BattleId, battleActions, lastActions);
-                //Logger.Debug("attResp: " + attackResponse);
-                //Logger.Debug("attResp BattleActions: " + string.Join(",", attackResponse.BattleUpdate.BattleLog.BattleActions));
-                //ShowBattleActions(attackResponse.BattleUpdate.BattleLog.BattleActions);
                 if (attackResponse.Result == GymBattleAttackResponse.Types.Result.Success)
                 {
-                    Defender = attackResponse.BattleUpdate.ActiveDefender?.PokemonData;
-
                     if (attackResponse.BattleUpdate.BattleLog != null && attackResponse.BattleUpdate.BattleLog.BattleActions.Count > 0)
                     {
                         lastActions = attackResponse.BattleUpdate.BattleLog.BattleActions.OrderBy(o => o.ActionStartMs).Distinct();
@@ -212,21 +206,27 @@ namespace PokeMaster.Logic.Functions
                                 AttackerEnergy = attackResponse.BattleUpdate.ActiveAttacker.CurrentEnergy;
                                 var AttackerHealth = attackResponse.BattleUpdate.ActiveAttacker.CurrentHealth;
                                 var ActiveAttacker = attackResponse.BattleUpdate.ActiveAttacker.PokemonData.PokemonId;
-                                var DefenderEnergy = attackResponse.BattleUpdate.ActiveDefender.CurrentEnergy;
+                                DefenderEnergy = attackResponse.BattleUpdate.ActiveDefender.CurrentEnergy;
                                 var DefenderHealth = attackResponse.BattleUpdate.ActiveDefender.CurrentHealth;
                                 var ActiveDefender = attackResponse.BattleUpdate.ActiveDefender.PokemonData.PokemonId;
+                                Defender = attackResponse.BattleUpdate.ActiveDefender?.PokemonData;
+                                Attacker = attackResponse.BattleUpdate.ActiveAttacker?.PokemonData;
 
-                                Attacker = attackResponse.BattleUpdate.ActiveAttacker.PokemonData;
-                                Defender = attackResponse.BattleUpdate.ActiveDefender.PokemonData;
+                                Logger.Info($"(Gym) - Attacker: {ActiveAttacker.ToString().PadLeft(15)}|E={AttackerEnergy.ToString().PadLeft(5)}|H={AttackerHealth.ToString().PadLeft(5)} " +
+                                    $"vs. Defender: {ActiveDefender.ToString().PadLeft(15)}|E={DefenderEnergy.ToString().PadLeft(5)}|H={DefenderHealth.ToString().PadLeft(5)}");
 
-                                Logger.Info($"(Gym) - Attacker: {ActiveAttacker} E={AttackerEnergy}, H={AttackerHealth} | Defender: {ActiveDefender} E={DefenderEnergy}, H={DefenderHealth}");
+                                if (true)
+                                {
+                                    //Logger.Info($"(Gym) Battle timing. battleStartMs {battleStartMs} | TimeBefore {TimeBeforeAttack} | TimeAfter {TimeAfterAttack} | Duration {AttackDuration}");
+                                    foreach (BattleAction ba in battleActions)
+                                    {
+                                        Logger.Info($"(Gym) Action -> {ba.ActionStartMs}|{ba.DurationMs.ToString().PadLeft(4)}|{ba.Type}|{ba.DamageWindowsStartTimestampMs}|{ba.DamageWindowsEndTimestampMs}");
+                                    }
+                                }
                             }
                             break;
                         case BattleState.Defeated:
                             Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - We have lost");
-                            //if (gymGetInfoResponse.GymStatusAndDefenders.GymDefender.Count > 1)
-                            //    GymsLogic.AddVisited(gym.Id, 3600000);
-                            //inBattle = false;
                             return BattleState.Defeated;
                         case BattleState.Victory:
                             Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Defender " + Defender.PokemonId + " defeated.");
@@ -239,46 +239,6 @@ namespace PokeMaster.Logic.Functions
                                     Logger.Debug("(Gym) - Next Pokemon: " + element.BattleResults.NextDefenderPokemonId);
                                 }
                             }
-
-                            //if (element.BattleResults.NextDefenderPokemonId == 0)
-                            //{
-                            //    Logger.Debug("(Gym) - Leaving Battle");
-                            //    var times = 3;
-                            //    do
-                            //    {
-                            //        attackResponse = LeaveBattle(gym, client, gymBattleStartResponse, attackResponse, lastActions, defender.MotivatedPokemon.Pokemon.Id);
-                            //        times--;
-                            //    } while (attackResponse.Result != GymBattleAttackResponse.Types.Result.Success && times > 0);
-                            //    //const int secondsBetweenAttacks = 60; //300
-                            //    //Logger.Info($"Waiting {secondsBetweenAttacks} seconds before of a new battle.");
-                            //    //for (var i = 0; i < secondsBetweenAttacks + 1; i++)
-                            //    //{
-                            //    //    if (GymsLogic.StopAttack)
-                            //    //    {
-                            //    //        GymsLogic.AddVisited(gym.Id, 3600000);
-                            //    //        break;
-                            //    //    }
-                            //    //    if ((i != 0) && (i % 10 == 0))
-                            //    //        Logger.Info($"Seconds Left {secondsBetweenAttacks - i}");
-                            //    //    if (i % 30 == 0)
-                            //    //        Logic.objClient.Map.GetMapObjects().Wait();
-                            //    //    Task.Delay(1000).Wait();
-                            //    //}
-                            //    GymsLogic.ReviveAndCurePokemons(client);
-                            //    var pokemons = (client.Inventory.GetPokemons()).ToList();
-                            //    RandomHelper.RandomSleep(400);
-                            //    gymGetInfoResponse = client.Fort.GymGetInfo(gym.Id, gym.Latitude, gym.Longitude);
-                            //    //Logger.Debug("(Gym) - Gym Details: " + gymGetInfoResponse);
-                            //    if (gymGetInfoResponse.GymStatusAndDefenders.GymDefender.Count < 1)
-                            //    {
-                            //        GymsLogic.CheckAndPutInNearbyGym(gym, client);
-                            //    }
-                            //    inBattle = false;
-                            //}
-                            //else
-                            //{
-
-                            //}
                             return BattleState.Victory;
                         case BattleState.TimedOut:
                             Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Timed Out");
@@ -298,16 +258,16 @@ namespace PokeMaster.Logic.Functions
                             break;
                         case GymBattleAttackResponse.Types.Result.ErrorNotInRange:
                             Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Attack - ERROR_NOT_IN_RANGE");
-                            break;
+                            return BattleState.StateUnset;
                         case GymBattleAttackResponse.Types.Result.ErrorRaidActive:
                             Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Attack - ERROR_RAID_ACTIVE");
-                            break;
+                            return BattleState.StateUnset;
                         case GymBattleAttackResponse.Types.Result.ErrorWrongBattleType:
                             Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Attack - ERROR_WRONG_BATTLE_TYPE");
-                            break;
+                            return BattleState.StateUnset;
                     }
 
-                    return BattleState.StateUnset;
+                    //return BattleState.StateUnset;
                 }
             }
         }

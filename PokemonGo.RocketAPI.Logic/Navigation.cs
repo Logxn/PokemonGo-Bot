@@ -121,7 +121,7 @@ namespace PokeMaster.Logic
 
                 RandomHelper.RandomSleep(1000, 1200);
             }
-            while ((LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation) >= 30 && !fromgoogle) || LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation) >= 20);
+            while ((LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation) >= 30 && !fromgoogle) || LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation) >= 30);
         }
 
         public static FortData[] pathByNearestNeighbour(FortData[] pokeStops)
