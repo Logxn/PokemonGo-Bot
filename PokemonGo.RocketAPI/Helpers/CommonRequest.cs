@@ -29,6 +29,7 @@ namespace PokemonGo.RocketAPI.Helpers
                 Locale = LocaleInfo.Language, // Locale is a string, just adding Language (it's a guess)
                 AppVersion = client.AppVersion
             };
+
             return new Request
             {
                 RequestType = RequestType.DownloadRemoteConfigVersion,
@@ -36,12 +37,13 @@ namespace PokemonGo.RocketAPI.Helpers
             };
         }
         
-        public static Request GetPlayerMessageRequest( string country ="", string language="", string zone="")
+        public static Request GetPlayerMessageRequest(string country, string language, string zone)
         {
             var locale = new GetPlayerMessage.Types.PlayerLocale();
             locale.Country =  country;
             locale.Language =  language;
             locale.Timezone =  zone;
+
             var req = new Request
             {
                 RequestType = RequestType.GetPlayer,
@@ -49,6 +51,7 @@ namespace PokemonGo.RocketAPI.Helpers
                     PlayerLocale = locale
                 }.ToByteString()
             };
+
             return req;
         }
 
@@ -58,6 +61,7 @@ namespace PokemonGo.RocketAPI.Helpers
             {
                 Hash = client.SettingsHash
             };
+
             return new Request
             {
                 RequestType = RequestType.DownloadSettings,
@@ -71,6 +75,7 @@ namespace PokemonGo.RocketAPI.Helpers
             {
                 LastTimestampMs = client.InventoryLastUpdateTimestamp
             };
+
             return new Request
             {
                 RequestType = RequestType.GetHoloInventory,
@@ -244,7 +249,6 @@ namespace PokemonGo.RocketAPI.Helpers
                         var downloadSettingsResponse = new DownloadSettingsResponse();
                         downloadSettingsResponse.MergeFrom(data);
                         client.SettingsHash = downloadSettingsResponse.Hash;
-
                         break;
                 }
             }
@@ -331,26 +335,33 @@ namespace PokemonGo.RocketAPI.Helpers
 
         public static void ProcessGetInboxResponse(Client client, GetInboxResponse getInboxResponse)
         {
+            var notifcation_count = getInboxResponse.Inbox.Notifications.Count();
+
             switch (getInboxResponse.Result)
             {
                 case GetInboxResponse.Types.Result.Unset:
                     break;
                 case GetInboxResponse.Types.Result.Failure:
+                    Logger.Error($"There was an error, viewing your notifications!");
                     break;
                 case GetInboxResponse.Types.Result.Success:
                     if (getInboxResponse.Inbox.Notifications.Count > 0)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"We got {getInboxResponse.Inbox.Notifications.Count} new notification/s:");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"We got {notifcation_count} new notification(s):");
 
-                        var i = 0;
+                        var i = 1; // We do not want to show then "Notification #0"
+
                         RepeatedField<string> notificationIDs = new RepeatedField<string>();
                         RepeatedField<Int64> createTimestampMsIDs = new RepeatedField<Int64>();
 
                         foreach (var notification in getInboxResponse.Inbox.Notifications)
                         {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Notification {i} {Utils.TimeMStoString(notification.CreateTimestampMs, "")}: " +
-                                $"{notification.NotificationId} | {notification.TitleKey} | {notification.Category} | {notification.Variables} | {notification.Labels} | " +
-                                $"Expires: {Utils.TimeMStoString(notification.ExpireTimeMs, "")}");
+                            var created_time = Utils.TimeMStoString(notification.CreateTimestampMs, "0:MM/dd/yy H:mm:ss");
+                            var expires_time = Utils.TimeMStoString(notification.ExpireTimeMs, "0:MM/dd/yy H:mm:ss");
+                            var log_response = $"Notification: #{i} (Created on: {created_time} | Expires: {expires_time})\n" +
+                                               $"ID: {notification.NotificationId} | Title: {notification.TitleKey} | Category: {notification.Category} | Variables: {notification.Variables} | Labels: {notification.Labels}";
+                            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, log_response);
+
                             notificationIDs.Add(notification.NotificationId);
                             createTimestampMsIDs.Add(notification.CreateTimestampMs);
                             i++;
@@ -358,15 +369,12 @@ namespace PokemonGo.RocketAPI.Helpers
 
                         UpdateNotificationResponse updateNotificationResponse = client.Misc.UpdateNotificationMessage(notificationIDs, createTimestampMsIDs);
 
-                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Notifications {updateNotificationResponse.NotificationIds}");
-                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Notifications {updateNotificationResponse.CreateTimestampMs}");
-                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Notifications {updateNotificationResponse.State}");
-                    }
+                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Info: Notifications {updateNotificationResponse.State}");
 
+                        // For future use: GYM_REMOVAL_7140377d6634458eb73a6640f1c8de maybe check on what notification we recieved? Ex: Pokemon kicked out of gym
+                    }
                     break;
             }
-
-            // Explain about notifications received and so.
         }
 
         public static void ProcessDownloadRemoteConfigVersionResponse(Client client, DownloadRemoteConfigVersionResponse response)
