@@ -142,15 +142,13 @@ namespace PokeMaster
 
             // Checking if current BOT API implementation supports NIANTIC current API (unless there's an override command line switch)
             var currentAPIVersion = new CurrentAPIVersion();
-            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "------------------------------------------------------------");
-            Logger.ColoredConsoleWrite(ConsoleColor.Red, "-                                                          -");
-            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "!!!! BOTTING IS NOT SAFE - YOUR ACCOUNT WILL BE FLAGGED !!!!");
-            Logger.ColoredConsoleWrite(ConsoleColor.Red, "----- You have been warned => Your decision, your risk -----");
-            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "____________________________________________________________");
-            Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Bot Current version: {Resources.BotVersion}");
-            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Bot Supported API version: {Resources.BotApiSupportedVersion}");
-            Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Current API version: {currentAPIVersion.GetNianticAPIVersion()}");
-            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "------------------------------------------------------------");
+            Logger.ColoredConsoleWrite(ConsoleColor.DarkCyan, "____________________________________________________________");
+            Logger.ColoredConsoleWrite(ConsoleColor.White, "!!!! BOTTING IS NOT SAFE - YOUR ACCOUNT MIGHT BE FLAGGED !!!!");
+            Logger.ColoredConsoleWrite(ConsoleColor.Gray, "----- You have been warned => Your decision, your risk -----");
+            Logger.ColoredConsoleWrite(ConsoleColor.DarkCyan, "____________________________________________________________");
+            Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"             Supported API version: {Resources.BotApiSupportedVersion}");
+            Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"              Current API version: {currentAPIVersion.GetNianticAPIVersion()}");
+            Logger.ColoredConsoleWrite(ConsoleColor.DarkCyan, $"____________________________________________________v{Resources.BotVersion}");
 
             // Check if a new version of BOT is available
             CheckForNewBotVersion();
