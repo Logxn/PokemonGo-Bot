@@ -8,16 +8,11 @@
 27/8							Add a 20% random speed up/down when walking
 27/8							Detect shadowban
 
+5/10							Add version check every 30 minutes
 =========== NOTES =============
 CatchingLogic.cs	L109	Disabled DoLogin => May be we do not refresh pokemons, atttention
 
-v1.3.8.6 Changes (by @Xelwon & @Quarthy)
-----------------------------------------
-+ Added selection of attacked by HP
-+ Attack a gym is working again
-+ UpdateNotification added to mark ingame notifications as read
-
-v1.3.8.7 Changes (by @Xelwon & @Quarthy)
+v1.3.8.8 Changes (by @Quarthy)
 ----------------------------------------
 + Pokestop queue is refresesh from time to time (now every 10 stops), this gets more pokestations near where you are and reduce walking the same circuit on long bottings
 = Fix some visual errors on Advanced Breaks
