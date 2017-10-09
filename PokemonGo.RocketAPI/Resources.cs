@@ -37,7 +37,7 @@ namespace PokemonGo.RocketAPI
         //public const string LoginUserAgent = "pokemongo/1 CFNetwork/811.4.18 Darwin/16.5.0";
         
         // Login Headers
-        public const string Header_Login_UserAgent = "pokemongo/1 CFNetwork/811.5.4 Darwin/16.7.0";
+        public const string Header_Login_UserAgent = "pokemongo/1 CFNetwork/889.3 Darwin/17.2.0";
         public const string Header_Login_Accept = "*/*";
         public const string Header_Login_AcceptEncoding = "gzip, deflate";
         public const string Header_Login_Connection = "keep-alive";

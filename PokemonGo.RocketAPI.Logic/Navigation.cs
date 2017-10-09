@@ -90,9 +90,9 @@ namespace PokeMaster.Logic
 
                 sourceLocation = new GeoCoordinate(_client.CurrentLatitude, _client.CurrentLongitude);
                 var currentDistanceToTarget = LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation);
-                Logger.Debug( $"Distance to destination: {currentDistanceToTarget.ToString("F", CultureInfo.InvariantCulture)}m " +
-                    $"({speedInMetersPerSecond.ToString("F", CultureInfo.InvariantCulture)}m/s) " +
-                    $"=> {(currentDistanceToTarget / speedInMetersPerSecond).ToString("F", CultureInfo.InvariantCulture)}s");
+                //Logger.Debug( $"Distance to destination: {currentDistanceToTarget.ToString("F", CultureInfo.InvariantCulture)}m " +
+                //    $"({speedInMetersPerSecond.ToString("F", CultureInfo.InvariantCulture)}m/s) " +
+                //    $"=> {(currentDistanceToTarget / speedInMetersPerSecond).ToString("F", CultureInfo.InvariantCulture)}s");
 
                 if (currentDistanceToTarget < 40)
                 {
@@ -119,9 +119,9 @@ namespace PokeMaster.Logic
                     Logic.Instance.sniperLogic.Execute((PokemonId) GlobalVars.SnipeOpts.ID,GlobalVars.SnipeOpts.Location);
                 }
 
-                RandomHelper.RandomSleep(1000, 1200);
+                //RandomHelper.RandomSleep(1000, 1200);
             }
-            while ((LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation) >= 30 && !fromgoogle) || LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation) >= 30);
+            while ((LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation) >= 30 && !fromgoogle) || LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation) >= 2 && fromgoogle);
         }
 
         public static FortData[] pathByNearestNeighbour(FortData[] pokeStops)

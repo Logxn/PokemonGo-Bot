@@ -88,11 +88,18 @@ namespace PokeMaster.Logic.Functions
                                 switch (isVictory)
                                 {
                                     case BattleState.StateUnset:
-                                        Logger.ColoredConsoleWrite(gymColorLog, "(Gym: {gymDetails.Name}) NULL detected, something failed");
+                                        Logger.ColoredConsoleWrite(gymColorLog, $"(Gym: {gymDetails.Name}) NULL detected, something failed.");
                                         attackCount = GlobalVars.Gyms.MaxAttacks;
                                         break;
+
+                                    case BattleState.Defeated:
+                                        Logger.ColoredConsoleWrite(gymColorLog, $"(Gym: {gymDetails.Name}) Battle Lost.");
+                                        attackCount = GlobalVars.Gyms.MaxAttacks;
+                                        break;
+
                                     default:
-                                        Logger.ColoredConsoleWrite(gymColorLog, "(Gym: {gymDetails.Name}) We have won the attack.");
+                                        Logger.ColoredConsoleWrite(gymColorLog, $"(Gym: {gymDetails.Name}) We have won the attack.");
+                                        RandomHelper.RandomSleep(2000);
                                         gyms = GetNearbyGyms(); 
                                         // Add: refresh only this gym
                                         CheckAndPutInNearbyGym(gym, Logic.objClient);
@@ -421,12 +428,18 @@ namespace PokeMaster.Logic.Functions
 
         private static ItemId GetNextAvailableRevive(Client client)
         {
-            RandomHelper.RandomSleep(250);
+            //RandomHelper.RandomSleep(250);
 
-            if (client.Inventory.GetItemData(ItemId.ItemRevive).Count > 0)
+            int ItemReviveCount = client.Inventory.GetItemData(ItemId.ItemRevive)?.Count ?? 0;
+            int ItemMaxReviveCount = client.Inventory.GetItemData(ItemId.ItemMaxRevive)?.Count ?? 0;
+
+            if ((ItemReviveCount > 0 && ItemReviveCount > ItemMaxReviveCount) || (ItemMaxReviveCount == 0 && ItemReviveCount > 0))
                 return ItemId.ItemRevive;
 
-            return client.Inventory.GetItemData(ItemId.ItemMaxRevive).Count > 0 ? ItemId.ItemMaxRevive : ItemId.ItemUnknown;
+            if ((ItemReviveCount > 0 && ItemMaxReviveCount > ItemReviveCount) || (ItemMaxReviveCount > 0 && ItemReviveCount == 0))
+                return ItemId.ItemMaxRevive;
+
+            return ItemId.ItemUnknown;
         }
         #endregion
 
