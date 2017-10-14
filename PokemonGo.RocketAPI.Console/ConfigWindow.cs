@@ -525,7 +525,7 @@ namespace PokeMaster
             var index = 0;
             if (lang == "Default")
                 index = 1;
-            if (lang == "Deutsche")
+            if (lang == "Deutsch")
                 index = 2;
             if (lang == "Español")
                 index = 3;

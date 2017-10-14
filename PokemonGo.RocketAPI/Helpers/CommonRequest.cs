@@ -367,6 +367,7 @@ namespace PokemonGo.RocketAPI.Helpers
                             createTimestampMsIDs.Add(notification.CreateTimestampMs);
                             i++;
                         }
+                        client.LastTimePlayedTs = Utils.GetTime();
 
                         UpdateNotificationResponse updateNotificationResponse = client.Misc.UpdateNotificationMessage(notificationIDs, createTimestampMsIDs);
 

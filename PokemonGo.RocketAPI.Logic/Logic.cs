@@ -117,7 +117,7 @@ namespace PokeMaster.Logic
 
 
             // Quarthy PID
-            //StringUtils.PidToFile(BotSettings);
+            StringUtils.PidToFile(BotSettings);
 
             // Here we set which server to be used for the hashing service
             Logger.Info("Using " + Resources.Api.HashServerInfo.ID + " for Hash Key service.");

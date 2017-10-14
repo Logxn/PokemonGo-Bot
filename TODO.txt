@@ -15,9 +15,11 @@ CatchingLogic.cs	L109	Disabled DoLogin => May be we do not refresh pokemons, att
 v1.3.8.8 Changes (by @Quarthy & @Xelwon)
 ----------------------------------------
 = Player will walk within the defined radius
-= Fixed a problem reviving Pokemons when you don't have Maxrevive
+= Fixed a problem reviving Pokemons when you don't have MaxRevive
 = When walking using Google API, you will follow the path with a 2m precision
 = Added some debug in CurrentAPIVerion, CommonRequests
 + Some Headers update
 = Some minor fixes
++ v1.47.1 / v0.77.1 Compatibility
+= Line 528 Misspelled entry Deutsche to Deutsch (by Oratorian)
 =========== ISSUES ============
