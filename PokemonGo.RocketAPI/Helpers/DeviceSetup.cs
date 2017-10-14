@@ -95,9 +95,11 @@ namespace PokemonGo.RocketAPI.Helpers
             dev.DeviceInfo.DeviceId = RandomDeviceId();
             dev.DeviceInfo.DeviceBrand = "Apple";
             dev.DeviceInfo.DeviceModel = "iPhone";
-            dev.DeviceInfo.DeviceModelBoot = "iPhone7,2";
-            dev.DeviceInfo.FirmwareBrand = "iPhone OS";
-            dev.DeviceInfo.FirmwareType = "9.3.3";
+            dev.DeviceInfo.DeviceModelIdentifier = null;
+            dev.DeviceInfo.DeviceModelBoot = "iPhone9,3";
+            dev.DeviceInfo.FirmwareBrand = "iOS";
+            dev.DeviceInfo.FirmwareType = "11.1.0";
+            dev.DeviceInfo.FirmwareFingerprint = null;
             dev.DeviceInfo.HardwareModel = "N61AP";
             dev.DeviceInfo.HardwareManufacturer = "Apple";
             data.Add(dev);

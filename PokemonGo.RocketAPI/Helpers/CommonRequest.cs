@@ -335,7 +335,7 @@ namespace PokemonGo.RocketAPI.Helpers
 
         public static void ProcessGetInboxResponse(Client client, GetInboxResponse getInboxResponse)
         {
-            var notifcation_count = getInboxResponse.Inbox.Notifications.Count();
+            var notification_count = getInboxResponse.Inbox.Notifications.Count();
 
             switch (getInboxResponse.Result)
             {
@@ -347,25 +347,27 @@ namespace PokemonGo.RocketAPI.Helpers
                 case GetInboxResponse.Types.Result.Success:
                     if (getInboxResponse.Inbox.Notifications.Count > 0)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"We got {notifcation_count} new notification(s):");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"We got {notification_count} new notification(s):");
 
-                        var i = 1; // We do not want to show then "Notification #0"
+                        int i = 1; // We do not want to show then "Notification #0"
 
                         RepeatedField<string> notificationIDs = new RepeatedField<string>();
                         RepeatedField<Int64> createTimestampMsIDs = new RepeatedField<Int64>();
 
                         foreach (var notification in getInboxResponse.Inbox.Notifications)
                         {
-                            var created_time = Utils.TimeMStoString(notification.CreateTimestampMs, "0:MM/dd/yy H:mm:ss");
-                            var expires_time = Utils.TimeMStoString(notification.ExpireTimeMs, "0:MM/dd/yy H:mm:ss");
-                            var log_response = $"Notification: #{i} (Created on: {created_time} | Expires: {expires_time})\n" +
-                                               $"ID: {notification.NotificationId} | Title: {notification.TitleKey} | Category: {notification.Category} | Variables: {notification.Variables} | Labels: {notification.Labels}";
+                            string created_time = Utils.TimeMStoString(notification.CreateTimestampMs, "0:MM/dd/yy H:mm:ss");
+                            string expires_time = Utils.TimeMStoString(notification.ExpireTimeMs, "0:MM/dd/yy H:mm:ss");
+                            string log_response = $"Notification: #{i} (Created on: {created_time} | Expires: {expires_time}) " +
+                                               $"ID: {notification.NotificationId} | Title: {notification.TitleKey} | Category: {notification.Category} | " +
+                                               $"Variables: {notification.Variables} | Labels: {notification.Labels}";
                             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, log_response);
 
                             notificationIDs.Add(notification.NotificationId);
                             createTimestampMsIDs.Add(notification.CreateTimestampMs);
                             i++;
                         }
+                        client.LastTimePlayedTs = Utils.GetTime();
 
                         UpdateNotificationResponse updateNotificationResponse = client.Misc.UpdateNotificationMessage(notificationIDs, createTimestampMsIDs);
 

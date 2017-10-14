@@ -48,14 +48,14 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public IEnumerable<ItemData> GetItems()
         {
-            var items = GetHoloInventory().InventoryDelta.InventoryItems
+            var items = GetHoloInventory(true).InventoryDelta.InventoryItems
                 .Where(i => i.InventoryItemData.Item !=null);
             return items.Select(i=> i.InventoryItemData.Item);
         }
 
         public ItemData GetItemData( ItemId itemId)
         {
-            return GetItems()?.FirstOrDefault(p => p.ItemId == itemId);
+            return GetItems().FirstOrDefault(p => p.ItemId == itemId);
         }
 
         public IEnumerable<ItemData> GetItemsToRecycle(ICollection<KeyValuePair<ItemId, int>> itemRecycleFilter)
