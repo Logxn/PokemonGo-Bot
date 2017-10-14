@@ -496,6 +496,7 @@
   {
     "Tradename": "iPhone 5C",
     "OSType": "iOS",
+    "UserAgent": "pokemongo/1 CFNetwork/758.4.3 Darwin/15.5.0",
     "DeviceInfo": {
       "DeviceId": "d9ec71a7bb96a35bd9ec71a7bb96a35b",
       "AndroidBoardName": "",
@@ -508,13 +509,14 @@
       "HardwareModel": "N49AP",
       "FirmwareBrand": "iPhone OS",
       "FirmwareTags": "",
-      "FirmwareType": "10.3.1",
+      "FirmwareType": "9.3.2",
       "FirmwareFingerprint": ""
     }
   },
   {
     "Tradename": "iPhone 5S",
     "OSType": "iOS",
+    "UserAgent": "pokemongo/1 CFNetwork/758.4.3 Darwin/15.5.0",
     "DeviceInfo": {
       "DeviceId": "d9ec71a7bb96a35bd9ec71a7bb96a35b",
       "AndroidBoardName": "",
@@ -527,13 +529,14 @@
       "HardwareModel": "N53AP",
       "FirmwareBrand": "iPhone OS",
       "FirmwareTags": "",
-      "FirmwareType": "10.3.1",
+      "FirmwareType": "9.3.2",
       "FirmwareFingerprint": ""
     }
   },
   {
     "Tradename": "iPhone SE",
     "OSType": "iOS",
+    "UserAgent": "pokemongo/1 CFNetwork/758.4.3 Darwin/15.5.0",
     "DeviceInfo": {
       "DeviceId": "d9ec71a7bb96a35bd9ec71a7bb96a35b",
       "AndroidBoardName": "",
@@ -546,13 +549,14 @@
       "HardwareModel": "N69uAP",
       "FirmwareBrand": "iPhone OS",
       "FirmwareTags": "",
-      "FirmwareType": "10.3.1",
+      "FirmwareType": "9.3.2",
       "FirmwareFingerprint": ""
     }
   },
   {
-    "Tradename": "iPhone 7",
+    "Tradename": "iPhone 6",
     "OSType": "iOS",
+    "UserAgent": "pokemongo/1 CFNetwork/808.2.16 Darwin/16.3.0",
     "DeviceInfo": {
       "DeviceId": "d9ec71a7bb96a35bd9ec71a7bb96a35b",
       "AndroidBoardName": "",
@@ -566,6 +570,26 @@
       "FirmwareBrand": "iPhone OS",
       "FirmwareTags": "",
       "FirmwareType": "10.3.1",
+      "FirmwareFingerprint": ""
+    }
+  },
+  {
+    "Tradename": "iPhone 7",
+    "OSType": "iOS",
+    "UserAgent": "pokemongo/1 CFNetwork/889.3 Darwin/17.2.0",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35bd9ec71a7bb96a35b",
+      "AndroidBoardName": "",
+      "AndroidBootloader": "",
+      "DeviceBrand": "Apple",
+      "DeviceModel": "iPhone",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "iPhone9,1",
+      "HardwareManufacturer": "Apple",
+      "HardwareModel": "D10AP",
+      "FirmwareBrand": "iPhone OS",
+      "FirmwareTags": "",
+      "FirmwareType": "11.1.0",
       "FirmwareFingerprint": ""
     }
   }
