@@ -174,6 +174,9 @@ namespace PokemonGo.RocketAPI.Login
                 });
             builder.Port = -1; // Removes :443 on builder URI
             builder.Query = query_content.ReadAsStringAsync().Result;
+
+            if (username.Contains("@")) username = username.Substring(0, username.IndexOf("@"));
+
             try
             {
                 HttpResponseMessage loginResponse =
