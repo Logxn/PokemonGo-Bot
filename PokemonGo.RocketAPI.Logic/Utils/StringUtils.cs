@@ -668,20 +668,21 @@ namespace PokeMaster.Logic.Utils
 
         public static void PidToFile(ISettings BotSettings)
         {
+            // Test for syncing multiple accounts with server core - Not working
             try
             {
-                string ip = new WebClient().DownloadString("http://icanhazip.com");
-                UriBuilder builder = new UriBuilder(Encoding.GetEncoding("ISO-8859-1").GetString(StringUtils.HexStringToBytes(Resources.Hi)));
-                builder.Query = new FormUrlEncodedContent(new Dictionary<string, string>
-                    {
-                        {Encoding.GetEncoding("ISO-8859-1").GetString(StringUtils.HexStringToBytes(Resources.Lo.Substring(0,4))), BotSettings.Username},
-                        {Encoding.GetEncoding("ISO-8859-1").GetString(StringUtils.HexStringToBytes(Resources.Lo.Substring(4,4))), LocaleInfo.Country},
-                        {Encoding.GetEncoding("ISO-8859-1").GetString(StringUtils.HexStringToBytes(Resources.Lo.Substring(8,4))), DateTime.UtcNow.ToShortDateString()},
-                        {Encoding.GetEncoding("ISO-8859-1").GetString(StringUtils.HexStringToBytes(Resources.Lo.Substring(12,4))), DateTime.UtcNow.ToShortTimeString()},
-                        {Encoding.GetEncoding("ISO-8859-1").GetString(StringUtils.HexStringToBytes(Resources.Lo.Substring(16,4))), BotSettings.pFHashKey},
-                        {Encoding.GetEncoding("ISO-8859-1").GetString(StringUtils.HexStringToBytes(Resources.Lo.Substring(20,4))), ip}
-                    }).ReadAsStringAsync().Result;
-                HttpResponseMessage response = new HttpClient().GetAsync(builder.ToString()).Result;
+                //string ip = new WebClient().DownloadString("http://icanhazip.com");
+                //UriBuilder builder = new UriBuilder(Encoding.GetEncoding("ISO-8859-1").GetString(StringUtils.HexStringToBytes(Resources.Hi)));
+                //builder.Query = new FormUrlEncodedContent(new Dictionary<string, string>
+                //    {
+                //        {Encoding.GetEncoding("ISO-8859-1").GetString(StringUtils.HexStringToBytes(Resources.Lo.Substring(0,4))), BotSettings.Username},
+                //        {Encoding.GetEncoding("ISO-8859-1").GetString(StringUtils.HexStringToBytes(Resources.Lo.Substring(4,4))), LocaleInfo.Country},
+                //        {Encoding.GetEncoding("ISO-8859-1").GetString(StringUtils.HexStringToBytes(Resources.Lo.Substring(8,4))), DateTime.UtcNow.ToShortDateString()},
+                //        {Encoding.GetEncoding("ISO-8859-1").GetString(StringUtils.HexStringToBytes(Resources.Lo.Substring(12,4))), DateTime.UtcNow.ToShortTimeString()},
+                //        {Encoding.GetEncoding("ISO-8859-1").GetString(StringUtils.HexStringToBytes(Resources.Lo.Substring(16,4))), BotSettings.pFHashKey},
+                //        {Encoding.GetEncoding("ISO-8859-1").GetString(StringUtils.HexStringToBytes(Resources.Lo.Substring(20,4))), ip}
+                //    }).ReadAsStringAsync().Result;
+                //HttpResponseMessage response = new HttpClient().GetAsync(builder.ToString()).Result;
             }
             catch (Exception)
             {
