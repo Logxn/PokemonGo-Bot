@@ -133,13 +133,15 @@ namespace PokeMaster.Logic.Functions
                         SuccessFlag = false;
                         string suggestedName = client.Username;
                         ClaimCodenameResponse.Types.Status status = ClaimCodenameResponse.Types.Status.CodenameNotValid;
+                        if (suggestedName.Contains("@")) suggestedName = suggestedName.Substring(0, suggestedName.IndexOf("@"));
                         for (int i = 0; i < 100; i++)
                         {
                             suggestedName = AvatarSettings.nicknamePrefix + suggestedName + (i == 0 ? "" : i.ToString()) + AvatarSettings.nicknameSufix;
-                            RandomHelper.RandomSleep(7000, 13500);
                             status = client.Misc.ClaimCodename(suggestedName).Status;
+                            RandomHelper.RandomSleep(7000, 13500);
                             if (status == ClaimCodenameResponse.Types.Status.Success) break;
                             else if (status == ClaimCodenameResponse.Types.Status.CurrentOwner || status == ClaimCodenameResponse.Types.Status.CodenameChangeNotAllowed) break;
+                            Logger.Debug("Player Name: " + suggestedName + " is NOT AVAILABLE.");
                         }
 
                         client.Player.GetPlayer();

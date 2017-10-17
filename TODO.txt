@@ -1,4 +1,3 @@
-22/8	@Suljo					Stop when account is flagged
 20/8				Tutorial	Fix random pokemon exception (Charmander was seleced, so no random)
 22/8	@Zederia				Reduce number of times PlayerStats shows -> @TODO - Timer the stats to 5~10 minutes
 22/8				Login.cs	" Expire: " + Utils.TimeMStoString((long)Client.AuthTicket.ExpireTimestampMs, @"mm\:ss"));
@@ -12,14 +11,7 @@
 =========== NOTES =============
 CatchingLogic.cs	L109	Disabled DoLogin => May be we do not refresh pokemons, atttention
 
-v1.3.8.8 Changes (by @Quarthy & @Xelwon)
+v1.3.8.9 Changes (by @Quarthy & @Xelwon)
 ----------------------------------------
-= Player will walk within the defined radius
-= Fixed a problem reviving Pokemons when you don't have MaxRevive
-= When walking using Google API, you will follow the path with a 2m precision
-= Added some debug in CurrentAPIVerion, CommonRequests
-+ Some Headers update
-= Some minor fixes
-+ v1.47.1 / v0.77.1 Compatibility
-= Line 528 Misspelled entry Deutsche to Deutsch (by Oratorian)
+
 =========== ISSUES ============
