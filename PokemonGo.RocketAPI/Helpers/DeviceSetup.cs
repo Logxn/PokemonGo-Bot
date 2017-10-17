@@ -44,6 +44,7 @@ namespace PokemonGo.RocketAPI.Helpers
         {
             public string Tradename {get;set;}
             public string OSType {get;set;}
+            public string UserAgent {get;set;}
             public Signature.Types.DeviceInfo DeviceInfo {get;set;}
 
         }
@@ -91,6 +92,7 @@ namespace PokemonGo.RocketAPI.Helpers
             dev = new DeviceInfoEx();
             dev.Tradename = "iPhone 7";
             dev.OSType = "iOS";
+            dev.UserAgent = "pokemongo/1 CFNetwork/889.3 Darwin/17.2.0";
             dev.DeviceInfo = new Signature.Types.DeviceInfo();
             dev.DeviceInfo.DeviceId = RandomDeviceId();
             dev.DeviceInfo.DeviceBrand = "Apple";
@@ -100,7 +102,7 @@ namespace PokemonGo.RocketAPI.Helpers
             dev.DeviceInfo.FirmwareBrand = "iOS";
             dev.DeviceInfo.FirmwareType = "11.1.0";
             dev.DeviceInfo.FirmwareFingerprint = null;
-            dev.DeviceInfo.HardwareModel = "N61AP";
+            dev.DeviceInfo.HardwareModel = "D10AP";
             dev.DeviceInfo.HardwareManufacturer = "Apple";
             data.Add(dev);
         }
