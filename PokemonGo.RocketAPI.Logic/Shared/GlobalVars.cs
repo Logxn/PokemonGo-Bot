@@ -112,6 +112,7 @@ namespace PokeMaster.Logic.Shared
         public static bool UseGoogleMapsAPI = false;
         public static string GoogleMapsAPIKey;
         public static bool RandomReduceSpeed = false;
+        public static bool SkipRadius = false;
         public static bool UseBreakFields = false;
         public static int BreakInterval = 0;
         public static int BreakLength = 0;

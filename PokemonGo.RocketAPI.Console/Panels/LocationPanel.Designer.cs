@@ -59,14 +59,7 @@ namespace PokeMaster
         /// </summary>
         private void InitializeComponent()
         {
-            try
-            {
-                this.map = new GMap.NET.WindowsForms.GMapControl();
-            }
-            catch (System.Exception ex)
-            {
-                throw;
-            }
+            this.map = new GMap.NET.WindowsForms.GMapControl();
             
             this.cbShowPokemon = new System.Windows.Forms.CheckBox();
             this.cbShowPokeStops = new System.Windows.Forms.CheckBox();

@@ -80,26 +80,23 @@ namespace PokemonGo.RocketAPI
 
         public static Version BotVersion = new Version(Assembly.GetEntryAssembly().GetName().Version.ToString());
 
-        //private static APIVars apiv0691 = new APIVars(0x4AE22D4661C83701, "0.69.1", 6910, "1.39.1", "api/v137_1/hash", InitialPTR8);
-        //private static APIVars apiv0731 = new APIVars(unchecked((long)0xF2AA99D7C5AB3DED), "0.73.1", 7310, "1.43.1", "api/v143_1/hash", InitialPTR8);
-        private static APIVars Apiv0751 = new APIVars(unchecked((long)0xF2AA99D7C5AB3DED), "0.75.1", 7501, "1.45.1", "api/v143_1/hash", InitialPTR8);
-        private static APIVars Apiv0771 = new APIVars(unchecked((long)0xA50D4ECF47B25C0D), "0.77.1", 7701, "1.47.1", "api/v147_1/hash", InitialPTR8);
+        private static readonly APIVars Apiv0793 = new APIVars(unchecked((long)0xA50D4ECF47B25C0D), "0.79.3", 7903, "1.49.3", "api/v147_1/hash", InitialPTR8);
 
-        public static APIVars Api = Apiv0771;
+        public static APIVars Api = Apiv0793;
 
         //BotApiSupportedVersion Must go here to can use Api.ClientVersion value
         public static Version BotApiSupportedVersion = new Version(Api.AndroidClientVersion);
 
         public static void SetApiVars(Version NiantiVersion)
         {
-            Version version = new Version(Api.AndroidClientVersion);
+            var version = new Version(Api.AndroidClientVersion);
             if (NiantiVersion != version)
             {
-                version = new Version(Apiv0751.AndroidClientVersion);
+                version = new Version(Apiv0793.AndroidClientVersion);
                 if (NiantiVersion == version)
                 {
                     Logger.Info("Switching to v" + version.ToString() + " support.");
-                    Api = Apiv0751;
+                    Api = Apiv0793;
                 }
             }
         }

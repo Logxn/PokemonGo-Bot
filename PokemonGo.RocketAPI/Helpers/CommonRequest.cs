@@ -347,12 +347,12 @@ namespace PokemonGo.RocketAPI.Helpers
                 case GetInboxResponse.Types.Result.Success:
                     if (getInboxResponse.Inbox.Notifications.Count > 0)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"We got {notification_count} new notification(s):");
+                        Logger.Debug( $"We got {notification_count} new notification(s):");
 
                         int i = 1; // We do not want to show then "Notification #0"
 
-                        RepeatedField<string> notificationIDs = new RepeatedField<string>();
-                        RepeatedField<Int64> createTimestampMsIDs = new RepeatedField<Int64>();
+                        var notificationIDs = new RepeatedField<string>();
+                        var createTimestampMsIDs = new RepeatedField<Int64>();
 
                         foreach (var notification in getInboxResponse.Inbox.Notifications)
                         {
@@ -361,7 +361,7 @@ namespace PokemonGo.RocketAPI.Helpers
                             string log_response = $"Notification: #{i} (Created on: {created_time} | Expires: {expires_time}) " +
                                                $"ID: {notification.NotificationId} | Title: {notification.TitleKey} | Category: {notification.Category} | " +
                                                $"Variables: {notification.Variables} | Labels: {notification.Labels}";
-                            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, log_response);
+                            Logger.Debug( log_response);
 
                             notificationIDs.Add(notification.NotificationId);
                             createTimestampMsIDs.Add(notification.CreateTimestampMs);
@@ -371,7 +371,7 @@ namespace PokemonGo.RocketAPI.Helpers
 
                         UpdateNotificationResponse updateNotificationResponse = client.Misc.UpdateNotificationMessage(notificationIDs, createTimestampMsIDs);
 
-                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Info: Notifications {updateNotificationResponse.State}");
+                        Logger.Debug($"Info: Notifications {updateNotificationResponse.State}");
 
                         // For future use: GYM_REMOVAL_7140377d6634458eb73a6640f1c8de maybe check on what notification we recieved? Ex: Pokemon kicked out of gym
                     }

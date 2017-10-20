@@ -163,6 +163,8 @@ namespace PokeMaster
         }
         void btnSnipe_Click(object sender, EventArgs e)
         {
+            return;
+            // disabled for now
             setVisiblePics(false);
             btnPicMenu.Visible = false;
             btnPicProfile.Visible = false;

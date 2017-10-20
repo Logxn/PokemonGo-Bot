@@ -57,6 +57,7 @@ namespace PokeMaster.Logic.Shared
         public bool Espiral { get; set; }
         public bool RepeatUserRoute { get; set; }
         public bool RandomReduceSpeed { get; set; }
+        public bool SkipRadius { get; set; }
         public int navigation_option { get; set; }
         public double WalkingSpeedInKilometerPerHour { get; set; }
         public double TimeToRun { get; set; }

@@ -513,11 +513,17 @@ namespace PokeMaster.Logic
 
             var both = pokeStops.Concat(pokeGyms)
                 .OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude));
+                
+            FortData[] inRange = null;
 
-            var inRange = pokeStops.Concat(pokeGyms)
-                .Where(i => LocationUtils.CalculateDistanceInMeters(GlobalVars.latitude, GlobalVars.longitude, i.Latitude, i.Longitude) <= GlobalVars.radius);
+            if (GlobalVars.SkipRadius)
+                inRange = both.ToArray();
+            else
+                inRange = both
+                    .Where(i => LocationUtils.CalculateDistanceInMeters(GlobalVars.latitude, GlobalVars.longitude, i.Latitude, i.Longitude) <= GlobalVars.radius)
+                    .ToArray();
 
-            var forts = Navigation.pathByNearestNeighbour(inRange.ToArray());
+            var forts = Navigation.pathByNearestNeighbour(inRange);
 
             if (updateMap)
             {

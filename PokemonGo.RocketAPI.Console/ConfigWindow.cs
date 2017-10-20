@@ -428,6 +428,7 @@ namespace PokeMaster
             checkBox_CatchPokemon.Checked = config.CatchPokemon;
             checkBox_BreakAtLure.Checked = config.BreakAtLure;
             checkBox_UseLureAtBreak.Checked = config.UseLureAtBreak;
+            checkBox_SkipRadius.Checked = config.SkipRadius;
             checkBox_RandomlyReduceSpeed.Checked = config.RandomReduceSpeed;
             checkBox_UseBreakIntervalAndLength.Checked = config.UseBreakFields;
             checkBox_WalkInArchimedeanSpiral.Checked = config.Espiral;
@@ -942,6 +943,7 @@ namespace PokeMaster
             ActiveProfile.Settings.BreakAtLure = checkBox_BreakAtLure.Checked;
             ActiveProfile.Settings.UseLureAtBreak = checkBox_UseLureAtBreak.Checked;
             ActiveProfile.Settings.RandomReduceSpeed = checkBox_RandomlyReduceSpeed.Checked;
+            ActiveProfile.Settings.SkipRadius = checkBox_SkipRadius.Checked;
 
             ActiveProfile.Settings.Espiral = checkBox_WalkInArchimedeanSpiral.Checked;
             ActiveProfile.Settings.WalkInLoop = checkBox_WalkInLoop.Checked;

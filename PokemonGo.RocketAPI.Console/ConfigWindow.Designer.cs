@@ -89,6 +89,7 @@ namespace PokeMaster
             this.checkBox_AlwaysTransfer = new System.Windows.Forms.CheckBox();
             this.checkedListBox_AlwaysTransfer = new System.Windows.Forms.CheckedListBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.checkBox_TransferSlashPokemons = new System.Windows.Forms.CheckBox();
             this.label14 = new System.Windows.Forms.Label();
             this.MinProbToCatch = new System.Windows.Forms.TextBox();
             this.labelMinProb = new System.Windows.Forms.Label();
@@ -179,6 +180,7 @@ namespace PokeMaster
             this.textBoxFortsFile = new System.Windows.Forms.TextBox();
             this.checkBoxSaveFortsInfo = new System.Windows.Forms.CheckBox();
             this.groupBox18 = new System.Windows.Forms.GroupBox();
+            this.checkBox_SkipRadius = new System.Windows.Forms.CheckBox();
             this.text_MoveRadius = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -374,7 +376,6 @@ namespace PokeMaster
             this.MinimizeButton = new System.Windows.Forms.Button();
             this.buttonSaveStart = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.checkBox_TransferSlashPokemons = new System.Windows.Forms.CheckBox();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBoxItems.SuspendLayout();
@@ -1288,6 +1289,18 @@ namespace PokeMaster
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Bot Settings";
+            // 
+            // checkBox_TransferSlashPokemons
+            // 
+            this.checkBox_TransferSlashPokemons.AutoSize = true;
+            this.checkBox_TransferSlashPokemons.Checked = true;
+            this.checkBox_TransferSlashPokemons.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_TransferSlashPokemons.Location = new System.Drawing.Point(603, 19);
+            this.checkBox_TransferSlashPokemons.Name = "checkBox_TransferSlashPokemons";
+            this.checkBox_TransferSlashPokemons.Size = new System.Drawing.Size(165, 17);
+            this.checkBox_TransferSlashPokemons.TabIndex = 21;
+            this.checkBox_TransferSlashPokemons.Text = "Auto transfer slash pokemons";
+            this.checkBox_TransferSlashPokemons.UseVisualStyleBackColor = true;
             // 
             // label14
             // 
@@ -2340,6 +2353,7 @@ namespace PokeMaster
             // 
             // groupBox18
             // 
+            this.groupBox18.Controls.Add(this.checkBox_SkipRadius);
             this.groupBox18.Controls.Add(this.text_MoveRadius);
             this.groupBox18.Controls.Add(this.label9);
             this.groupBox18.Controls.Add(this.label7);
@@ -2350,10 +2364,19 @@ namespace PokeMaster
             this.groupBox18.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox18.Name = "groupBox18";
             this.groupBox18.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox18.Size = new System.Drawing.Size(326, 73);
+            this.groupBox18.Size = new System.Drawing.Size(326, 105);
             this.groupBox18.TabIndex = 69;
             this.groupBox18.TabStop = false;
             this.groupBox18.Text = "Walking Speed and Range";
+            // 
+            // checkBox_SkipRadius
+            // 
+            this.checkBox_SkipRadius.Location = new System.Drawing.Point(150, 17);
+            this.checkBox_SkipRadius.Name = "checkBox_SkipRadius";
+            this.checkBox_SkipRadius.Size = new System.Drawing.Size(164, 17);
+            this.checkBox_SkipRadius.TabIndex = 74;
+            this.checkBox_SkipRadius.Text = "Allow skip radius";
+            this.checkBox_SkipRadius.UseVisualStyleBackColor = true;
             // 
             // text_MoveRadius
             // 
@@ -2375,7 +2398,7 @@ namespace PokeMaster
             // 
             // label7
             // 
-            this.label7.Location = new System.Drawing.Point(31, 21);
+            this.label7.Location = new System.Drawing.Point(14, 48);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(211, 13);
             this.label7.TabIndex = 71;
@@ -2387,7 +2410,7 @@ namespace PokeMaster
             this.checkBox_RandomlyReduceSpeed.AutoSize = true;
             this.checkBox_RandomlyReduceSpeed.Checked = true;
             this.checkBox_RandomlyReduceSpeed.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_RandomlyReduceSpeed.Location = new System.Drawing.Point(17, 45);
+            this.checkBox_RandomlyReduceSpeed.Location = new System.Drawing.Point(16, 69);
             this.checkBox_RandomlyReduceSpeed.Name = "checkBox_RandomlyReduceSpeed";
             this.checkBox_RandomlyReduceSpeed.Size = new System.Drawing.Size(197, 17);
             this.checkBox_RandomlyReduceSpeed.TabIndex = 64;
@@ -2398,7 +2421,7 @@ namespace PokeMaster
             // 
             // text_Speed
             // 
-            this.text_Speed.Location = new System.Drawing.Point(258, 18);
+            this.text_Speed.Location = new System.Drawing.Point(257, 41);
             this.text_Speed.Name = "text_Speed";
             this.text_Speed.Size = new System.Drawing.Size(40, 20);
             this.text_Speed.TabIndex = 70;
@@ -2408,7 +2431,7 @@ namespace PokeMaster
             // 
             // text_MinWalkSpeed
             // 
-            this.text_MinWalkSpeed.Location = new System.Drawing.Point(258, 43);
+            this.text_MinWalkSpeed.Location = new System.Drawing.Point(257, 67);
             this.text_MinWalkSpeed.Name = "text_MinWalkSpeed";
             this.text_MinWalkSpeed.Size = new System.Drawing.Size(40, 20);
             this.text_MinWalkSpeed.TabIndex = 68;
@@ -2682,11 +2705,11 @@ namespace PokeMaster
             this.groupBox12.Controls.Add(this.checkBox_BreakAtLure);
             this.groupBox12.Controls.Add(this.label40);
             this.groupBox12.Controls.Add(this.text_TimeToRun);
-            this.groupBox12.Location = new System.Drawing.Point(28, 85);
+            this.groupBox12.Location = new System.Drawing.Point(27, 117);
             this.groupBox12.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox12.Name = "groupBox12";
             this.groupBox12.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox12.Size = new System.Drawing.Size(326, 200);
+            this.groupBox12.Size = new System.Drawing.Size(326, 168);
             this.groupBox12.TabIndex = 60;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Break Variables";
@@ -2694,7 +2717,7 @@ namespace PokeMaster
             // AdvancedBreaks
             // 
             this.AdvancedBreaks.AutoSize = true;
-            this.AdvancedBreaks.Location = new System.Drawing.Point(16, 172);
+            this.AdvancedBreaks.Location = new System.Drawing.Point(16, 144);
             this.AdvancedBreaks.Name = "AdvancedBreaks";
             this.AdvancedBreaks.Size = new System.Drawing.Size(147, 17);
             this.AdvancedBreaks.TabIndex = 75;
@@ -4638,18 +4661,6 @@ namespace PokeMaster
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
-            // checkBox_TransferSlashPokemons
-            // 
-            this.checkBox_TransferSlashPokemons.AutoSize = true;
-            this.checkBox_TransferSlashPokemons.Checked = true;
-            this.checkBox_TransferSlashPokemons.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_TransferSlashPokemons.Location = new System.Drawing.Point(603, 19);
-            this.checkBox_TransferSlashPokemons.Name = "checkBox_TransferSlashPokemons";
-            this.checkBox_TransferSlashPokemons.Size = new System.Drawing.Size(165, 17);
-            this.checkBox_TransferSlashPokemons.TabIndex = 21;
-            this.checkBox_TransferSlashPokemons.Text = "Auto transfer slash pokemons";
-            this.checkBox_TransferSlashPokemons.UseVisualStyleBackColor = true;
-            // 
             // ConfigWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -5164,5 +5175,6 @@ namespace PokeMaster
         private System.Windows.Forms.ComboBox comboTimeZone;
         private System.Windows.Forms.CheckBox checkBox_UseItemAtEvolve;
         private System.Windows.Forms.CheckBox checkBox_TransferSlashPokemons;
+        private System.Windows.Forms.CheckBox checkBox_SkipRadius;
     }
 }
