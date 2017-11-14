@@ -87,7 +87,7 @@
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="POGOProtos.Core">
-      <HintPath>..\packages\POGOProtos.Core.2.18.1\lib\net45\POGOProtos.Core.dll</HintPath>
+      <HintPath>..\packages\POGOProtos.Core.2.19.0\lib\net45\POGOProtos.Core.dll</HintPath>
     </Reference>
     <Reference Include="PommaLabs.Thrower, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2f204b7110a52060, processorArchitecture=MSIL">
       <HintPath>..\packages\Thrower.4.1.2\lib\net45\PommaLabs.Thrower.dll</HintPath>
