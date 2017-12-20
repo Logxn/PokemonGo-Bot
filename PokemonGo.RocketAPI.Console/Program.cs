@@ -1,4 +1,5 @@
 using PokeMaster.Helper;
+using PokeMaster.Logic.Functions;
 using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.HttpClient;
@@ -248,22 +249,15 @@ namespace PokeMaster
         {
             try
             {
-                var match =
-                    new Regex(
-                        @"\[assembly\: AssemblyVersion\(string.Empty(\d{1,})\.(\d{1,})\.(\d{1,})\.(\d{1,})string.Empty\)\]")
-                        .Match(DownloadServerVersion());
+                var newest = Setout.GetServerVersion();
 
-                if (!match.Success) return;
-                var gitVersion =
-                    new Version(
-                        $"{match.Groups[1]}.{match.Groups[2]}.{match.Groups[3]}.{match.Groups[4]}");
-                if (gitVersion <= Assembly.GetExecutingAssembly().GetName().Version)
+                if (newest <= Assembly.GetExecutingAssembly().GetName().Version)
                 {
                     //ColoredConsoleWrite(ConsoleColor.Yellow, "Awesome! You have already got the newest version! " + Assembly.GetExecutingAssembly().GetName().Version);
                     return;
                 }
 
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Bot Version {gitVersion} is available!");
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Bot Version {newest} is available!");
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "We recommend to use this new version.");
             }
             catch (Exception)
@@ -272,30 +266,7 @@ namespace PokeMaster
             }
         }
 
-        public static Version getNewestVersion()
-        {
-            try
-            {
-                var match = DownloadServerVersion();
 
-                var gitVersion = new Version(match);
-
-                return gitVersion;
-
-            }
-            catch (Exception)
-            {
-                return Assembly.GetExecutingAssembly().GetName().Version;
-            }
-        }
-
-        public static string DownloadServerVersion()
-        {
-            using (var wC = new WebClient())
-                return
-                    wC.DownloadString(
-                        "https://raw.githubusercontent.com/Logxn/PokemonGo-Bot/master/ver.md");
-        }
 
         private static void CheckLogDirectories(string logPath)
         {

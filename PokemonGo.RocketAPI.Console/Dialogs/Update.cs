@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using PokeMaster.Logic.Functions;
 
 namespace PokeMaster.Dialogs
 {
@@ -71,7 +72,7 @@ namespace PokeMaster.Dialogs
 
         void checkversion()
         {
-            if (Program.getNewestVersion() > new Version (Application.ProductVersion)) {
+            if (Setout.GetServerVersion() > new Version (Application.ProductVersion)) {
                 startDownload();
             } else {
                 MessageBox.Show("Your client is up-to-date.");

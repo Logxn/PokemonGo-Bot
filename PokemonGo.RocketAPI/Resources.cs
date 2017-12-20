@@ -76,13 +76,15 @@ namespace PokemonGo.RocketAPI
          * Version Specific vars
          ******************************************************************************************************************/
         // PT8 Default value
-        public const string InitialPTR8 = "15c79df0558009a4242518d2ab65de2a59e09499";
+        //public const string InitialPTR8 = "15c79df0558009a4242518d2ab65de2a59e09499";
+        public const string InitialPTR8 = "4d32f6b70cda8539ab82be5750e009d6d05a48ad";
+        
 
         public static Version BotVersion = new Version(Assembly.GetEntryAssembly().GetName().Version.ToString());
 
-        private static readonly APIVars Apiv08502 = new APIVars(unchecked((long)0x2AC22400401779DE), "0.85.2", 8500, "1.55.2", "api/v153_2/hash", InitialPTR8);
+        private static readonly APIVars LatestApi = new APIVars(unchecked((long)0x3E75FB078C4573FA), "0.87.5", 8700, "1.57.5", "api/v157_5/hash", InitialPTR8);
 
-        public static APIVars Api = Apiv08502;
+        public static APIVars Api = LatestApi;
 
         //BotApiSupportedVersion Must go here to can use Api.ClientVersion value
         public static Version BotApiSupportedVersion = new Version(Api.AndroidClientVersion);
@@ -92,11 +94,11 @@ namespace PokemonGo.RocketAPI
             var version = new Version(Api.AndroidClientVersion);
             if (NiantiVersion != version)
             {
-                version = new Version(Apiv08502.AndroidClientVersion);
+                version = new Version(LatestApi.AndroidClientVersion);
                 if (NiantiVersion == version)
                 {
                     Logger.Info("Switching to v" + version.ToString() + " support.");
-                    Api = Apiv08502;
+                    Api = LatestApi;
                 }
             }
         }

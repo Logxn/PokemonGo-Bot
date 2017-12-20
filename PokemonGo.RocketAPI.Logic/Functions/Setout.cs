@@ -14,6 +14,7 @@ using System.Device.Location;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using POGOProtos.Data;
@@ -1039,8 +1040,15 @@ namespace PokeMaster.Logic.Functions
             try {
                 using (var wC = new WebClient())
                 {
-                    var strVersion = wC.DownloadString("https://raw.githubusercontent.com/Logxn/PokemonGo-Bot/master/ver.md");
-                    return new Version( strVersion);
+                    var strVersion = wC.DownloadString("https://raw.githubusercontent.com/Logxn/PokemonGo-Bot/master/PokemonGo.RocketAPI.Console/Properties/AssemblyInfo.cs");
+                    var regex = new Regex(@"\[assembly\: AssemblyVersion\(""(\d{1,})\.(\d{1,})\.(\d{1,})\.(\d{1,})""\)\]");
+                    var match = regex.Match(strVersion);
+    
+                    if (!match.Success)
+                        throw new Exception("Invalid AssemblyInfo.cs File");
+
+                    return new Version($"{match.Groups[1]}.{match.Groups[2]}.{match.Groups[3]}.{match.Groups[4]}");
+    
                 }
             } catch (Exception) {
                 return Assembly.GetEntryAssembly().GetName().Version;

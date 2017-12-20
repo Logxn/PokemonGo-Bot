@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 using POGOProtos.Enums;
+using PokeMaster.Logic.Functions;
 using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.Enums;
@@ -211,12 +212,12 @@ namespace PokeMaster
 
             #region Version Check
             var currVersion = Assembly.GetExecutingAssembly().GetName().Version;
-            var newestVersion = Program.getNewestVersion();
+            var newestVersion = Setout.GetServerVersion();
 
             currVer.Text = currVersion.ToString();
             newVer.Text = newestVersion.ToString();
 
-            if (Program.getNewestVersion() > Assembly.GetExecutingAssembly().GetName().Version) {
+            if (newestVersion > Assembly.GetExecutingAssembly().GetName().Version) {
                 if (checkbox_AutoUpdate.Checked) {
                     System.Windows.Forms.Form update = new Update();
                     update.ShowDialog();
