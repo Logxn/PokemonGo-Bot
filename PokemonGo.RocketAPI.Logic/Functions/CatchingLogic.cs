@@ -223,7 +223,7 @@ namespace PokeMaster.Logic.Functions
                 if (luredPoke == 0)
                     encounterPokemonResponse = client.Encounter.EncounterPokemon(encounterId, spawnpointId).Result;
                 else if (luredPoke == 1){
-                    var DiscEncounterPokemonResponse =  client.Encounter.EncounterLurePokemon(encounterId, spawnpointId);
+                    var DiscEncounterPokemonResponse =  client.Encounter.EncounterLurePokemon(encounterId, spawnpointId,pokeLong,pokeLat);
                     encounterPokemonResponse = new EncounterResponse();
                     encounterPokemonResponse.Status =DiskEncounterResultToEncounterStatus(DiscEncounterPokemonResponse.Result);
                     

@@ -84,14 +84,16 @@ namespace PokemonGo.RocketAPI.Rpc
             return PostProtoPayloadCommonR<Request, IncenseEncounterResponse>(RequestType.IncenseEncounter, message).Result;
         }
 
-        public DiskEncounterResponse EncounterLurePokemon(ulong encounterId, string fortId)
+        public DiskEncounterResponse EncounterLurePokemon(ulong encounterId, string fortId, double fortlat, double fortlng)
         {
             var message = new DiskEncounterMessage()
             {
                 EncounterId = encounterId,
                 FortId = fortId,
                 PlayerLatitude = Client.CurrentLatitude,
-                PlayerLongitude = Client.CurrentLongitude
+                PlayerLongitude = Client.CurrentLongitude,
+                GymLatDegrees = fortlat,
+                GymLngDegrees = fortlng
             };
 
             return PostProtoPayloadCommonR<Request, DiskEncounterResponse>(RequestType.DiskEncounter, message).Result;
