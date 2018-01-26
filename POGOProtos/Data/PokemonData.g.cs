@@ -26,7 +26,7 @@ namespace POGOProtos.Data {
             "b3MuRGF0YRokUE9HT1Byb3Rvcy9EYXRhL1Bva2Vtb25EaXNwbGF5LnByb3Rv",
             "GiBQT0dPUHJvdG9zL0VudW1zL1Bva2Vtb25JZC5wcm90bxoiUE9HT1Byb3Rv",
             "cy9FbnVtcy9Qb2tlbW9uTW92ZS5wcm90bxomUE9HT1Byb3Rvcy9JbnZlbnRv",
-            "cnkvSXRlbS9JdGVtSWQucHJvdG8i6AcKC1Bva2Vtb25EYXRhEgoKAmlkGAEg",
+            "cnkvSXRlbS9JdGVtSWQucHJvdG8ixggKC1Bva2Vtb25EYXRhEgoKAmlkGAEg",
             "ASgGEi8KCnBva2Vtb25faWQYAiABKA4yGy5QT0dPUHJvdG9zLkVudW1zLlBv",
             "a2Vtb25JZBIKCgJjcBgDIAEoBRIPCgdzdGFtaW5hGAQgASgFEhMKC3N0YW1p",
             "bmFfbWF4GAUgASgFEi0KBm1vdmVfMRgGIAEoDjIdLlBPR09Qcm90b3MuRW51",
@@ -48,11 +48,13 @@ namespace POGOProtos.Data {
             "b3RhbF9rbV93YWxrZWQYISABKAISGgoSZGlzcGxheV9wb2tlbW9uX2lkGCIg",
             "ASgFEhIKCmRpc3BsYXlfY3AYIyABKAUSOAoPcG9rZW1vbl9kaXNwbGF5GCQg",
             "ASgLMh8uUE9HT1Byb3Rvcy5EYXRhLlBva2Vtb25EaXNwbGF5Eg4KBmlzX2Jh",
-            "ZBglIAEoCBIYChBoYXRjaGVkX2Zyb21fZWdnGCYgASgIYgZwcm90bzM="));
+            "ZBglIAEoCBIYChBoYXRjaGVkX2Zyb21fZWdnGCYgASgIEhYKDmNvaW5zX3Jl",
+            "dHVybmVkGCcgASgFEhwKFGRlcGxveWVkX2R1cmF0aW9uX21zGCggASgDEiYK",
+            "HmRlcGxveWVkX3JldHVybmVkX3RpbWVzdGFtcF9tcxgpIAEoA2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::POGOProtos.Data.PokemonDisplayReflection.Descriptor, global::POGOProtos.Enums.PokemonIdReflection.Descriptor, global::POGOProtos.Enums.PokemonMoveReflection.Descriptor, global::POGOProtos.Inventory.Item.ItemIdReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.PokemonData), global::POGOProtos.Data.PokemonData.Parser, new[]{ "Id", "PokemonId", "Cp", "Stamina", "StaminaMax", "Move1", "Move2", "DeployedFortId", "OwnerName", "IsEgg", "EggKmWalkedTarget", "EggKmWalkedStart", "Origin", "HeightM", "WeightKg", "IndividualAttack", "IndividualDefense", "IndividualStamina", "CpMultiplier", "Pokeball", "CapturedCellId", "BattlesAttacked", "BattlesDefended", "EggIncubatorId", "CreationTimeMs", "NumUpgrades", "AdditionalCpMultiplier", "Favorite", "Nickname", "FromFort", "BuddyCandyAwarded", "BuddyTotalKmWalked", "DisplayPokemonId", "DisplayCp", "PokemonDisplay", "IsBad", "HatchedFromEgg" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.PokemonData), global::POGOProtos.Data.PokemonData.Parser, new[]{ "Id", "PokemonId", "Cp", "Stamina", "StaminaMax", "Move1", "Move2", "DeployedFortId", "OwnerName", "IsEgg", "EggKmWalkedTarget", "EggKmWalkedStart", "Origin", "HeightM", "WeightKg", "IndividualAttack", "IndividualDefense", "IndividualStamina", "CpMultiplier", "Pokeball", "CapturedCellId", "BattlesAttacked", "BattlesDefended", "EggIncubatorId", "CreationTimeMs", "NumUpgrades", "AdditionalCpMultiplier", "Favorite", "Nickname", "FromFort", "BuddyCandyAwarded", "BuddyTotalKmWalked", "DisplayPokemonId", "DisplayCp", "PokemonDisplay", "IsBad", "HatchedFromEgg", "CoinsReturned", "DeployedDurationMs", "DeployedReturnedTimestampMs" }, null, null, null)
           }));
     }
     #endregion
@@ -120,6 +122,9 @@ namespace POGOProtos.Data {
       PokemonDisplay = other.pokemonDisplay_ != null ? other.PokemonDisplay.Clone() : null;
       isBad_ = other.isBad_;
       hatchedFromEgg_ = other.hatchedFromEgg_;
+      coinsReturned_ = other.coinsReturned_;
+      deployedDurationMs_ = other.deployedDurationMs_;
+      deployedReturnedTimestampMs_ = other.deployedReturnedTimestampMs_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -534,6 +539,39 @@ namespace POGOProtos.Data {
       }
     }
 
+    /// <summary>Field number for the "coins_returned" field.</summary>
+    public const int CoinsReturnedFieldNumber = 39;
+    private int coinsReturned_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CoinsReturned {
+      get { return coinsReturned_; }
+      set {
+        coinsReturned_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "deployed_duration_ms" field.</summary>
+    public const int DeployedDurationMsFieldNumber = 40;
+    private long deployedDurationMs_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public long DeployedDurationMs {
+      get { return deployedDurationMs_; }
+      set {
+        deployedDurationMs_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "deployed_returned_timestamp_ms" field.</summary>
+    public const int DeployedReturnedTimestampMsFieldNumber = 41;
+    private long deployedReturnedTimestampMs_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public long DeployedReturnedTimestampMs {
+      get { return deployedReturnedTimestampMs_; }
+      set {
+        deployedReturnedTimestampMs_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as PokemonData);
@@ -584,6 +622,9 @@ namespace POGOProtos.Data {
       if (!object.Equals(PokemonDisplay, other.PokemonDisplay)) return false;
       if (IsBad != other.IsBad) return false;
       if (HatchedFromEgg != other.HatchedFromEgg) return false;
+      if (CoinsReturned != other.CoinsReturned) return false;
+      if (DeployedDurationMs != other.DeployedDurationMs) return false;
+      if (DeployedReturnedTimestampMs != other.DeployedReturnedTimestampMs) return false;
       return true;
     }
 
@@ -627,6 +668,9 @@ namespace POGOProtos.Data {
       if (pokemonDisplay_ != null) hash ^= PokemonDisplay.GetHashCode();
       if (IsBad != false) hash ^= IsBad.GetHashCode();
       if (HatchedFromEgg != false) hash ^= HatchedFromEgg.GetHashCode();
+      if (CoinsReturned != 0) hash ^= CoinsReturned.GetHashCode();
+      if (DeployedDurationMs != 0L) hash ^= DeployedDurationMs.GetHashCode();
+      if (DeployedReturnedTimestampMs != 0L) hash ^= DeployedReturnedTimestampMs.GetHashCode();
       return hash;
     }
 
@@ -785,6 +829,18 @@ namespace POGOProtos.Data {
         output.WriteRawTag(176, 2);
         output.WriteBool(HatchedFromEgg);
       }
+      if (CoinsReturned != 0) {
+        output.WriteRawTag(184, 2);
+        output.WriteInt32(CoinsReturned);
+      }
+      if (DeployedDurationMs != 0L) {
+        output.WriteRawTag(192, 2);
+        output.WriteInt64(DeployedDurationMs);
+      }
+      if (DeployedReturnedTimestampMs != 0L) {
+        output.WriteRawTag(200, 2);
+        output.WriteInt64(DeployedReturnedTimestampMs);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -900,6 +956,15 @@ namespace POGOProtos.Data {
       }
       if (HatchedFromEgg != false) {
         size += 2 + 1;
+      }
+      if (CoinsReturned != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeInt32Size(CoinsReturned);
+      }
+      if (DeployedDurationMs != 0L) {
+        size += 2 + pb::CodedOutputStream.ComputeInt64Size(DeployedDurationMs);
+      }
+      if (DeployedReturnedTimestampMs != 0L) {
+        size += 2 + pb::CodedOutputStream.ComputeInt64Size(DeployedReturnedTimestampMs);
       }
       return size;
     }
@@ -1022,6 +1087,15 @@ namespace POGOProtos.Data {
       }
       if (other.HatchedFromEgg != false) {
         HatchedFromEgg = other.HatchedFromEgg;
+      }
+      if (other.CoinsReturned != 0) {
+        CoinsReturned = other.CoinsReturned;
+      }
+      if (other.DeployedDurationMs != 0L) {
+        DeployedDurationMs = other.DeployedDurationMs;
+      }
+      if (other.DeployedReturnedTimestampMs != 0L) {
+        DeployedReturnedTimestampMs = other.DeployedReturnedTimestampMs;
       }
     }
 
@@ -1182,6 +1256,18 @@ namespace POGOProtos.Data {
           }
           case 304: {
             HatchedFromEgg = input.ReadBool();
+            break;
+          }
+          case 312: {
+            CoinsReturned = input.ReadInt32();
+            break;
+          }
+          case 320: {
+            DeployedDurationMs = input.ReadInt64();
+            break;
+          }
+          case 328: {
+            DeployedReturnedTimestampMs = input.ReadInt64();
             break;
           }
         }

@@ -116,7 +116,7 @@ namespace POGOProtos.Map.Pokemon {
     public const int ExpirationTimestampMsFieldNumber = 4;
     private long expirationTimestampMs_;
     /// <summary>
-    /// After this timestamp, the pokemon will be gone.
+    ///  After this timestamp, the pokemon will be gone.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public long ExpirationTimestampMs {

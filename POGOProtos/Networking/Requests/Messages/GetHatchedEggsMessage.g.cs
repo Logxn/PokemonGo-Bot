@@ -37,7 +37,7 @@ namespace POGOProtos.Networking.Requests.Messages {
   }
   #region Messages
   /// <summary>
-  /// No message needed.
+  ///  No message needed.
   /// </summary>
   public sealed partial class GetHatchedEggsMessage : pb::IMessage<GetHatchedEggsMessage> {
     private static readonly pb::MessageParser<GetHatchedEggsMessage> _parser = new pb::MessageParser<GetHatchedEggsMessage>(() => new GetHatchedEggsMessage());

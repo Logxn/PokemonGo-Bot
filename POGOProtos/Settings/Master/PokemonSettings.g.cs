@@ -33,7 +33,7 @@ namespace POGOProtos.Settings.Master {
             "ZXJhQXR0cmlidXRlcy5wcm90bxo8UE9HT1Byb3Rvcy9TZXR0aW5ncy9NYXN0",
             "ZXIvUG9rZW1vbi9FbmNvdW50ZXJBdHRyaWJ1dGVzLnByb3RvGjhQT0dPUHJv",
             "dG9zL1NldHRpbmdzL01hc3Rlci9Qb2tlbW9uL0V2b2x1dGlvbkJyYW5jaC5w",
-            "cm90byLDCQoPUG9rZW1vblNldHRpbmdzEi8KCnBva2Vtb25faWQYASABKA4y",
+            "cm90byLbCQoPUG9rZW1vblNldHRpbmdzEi8KCnBva2Vtb25faWQYASABKA4y",
             "Gy5QT0dPUHJvdG9zLkVudW1zLlBva2Vtb25JZBITCgttb2RlbF9zY2FsZRgD",
             "IAEoAhIrCgR0eXBlGAQgASgOMh0uUE9HT1Byb3Rvcy5FbnVtcy5Qb2tlbW9u",
             "VHlwZRItCgZ0eXBlXzIYBSABKA4yHS5QT0dPUHJvdG9zLkVudW1zLlBva2Vt",
@@ -58,13 +58,13 @@ namespace POGOProtos.Settings.Master {
             "Z3MuTWFzdGVyLlBva2Vtb25TZXR0aW5ncy5CdWRkeVNpemUSFAoMbW9kZWxf",
             "aGVpZ2h0GBkgASgCEk0KEGV2b2x1dGlvbl9icmFuY2gYGiADKAsyMy5QT0dP",
             "UHJvdG9zLlNldHRpbmdzLk1hc3Rlci5Qb2tlbW9uLkV2b2x1dGlvbkJyYW5j",
-            "aCJiCglCdWRkeVNpemUSEAoMQlVERFlfTUVESVVNEAASEgoOQlVERFlfU0hP",
-            "VUxERVIQARINCglCVUREWV9CSUcQAhIQCgxCVUREWV9GTFlJTkcQAxIOCgpC",
-            "VUREWV9CQUJZEARiBnByb3RvMw=="));
+            "aBIWCg5tb2RlbF9zY2FsZV92MhgbIAEoAiJiCglCdWRkeVNpemUSEAoMQlVE",
+            "RFlfTUVESVVNEAASEgoOQlVERFlfU0hPVUxERVIQARINCglCVUREWV9CSUcQ",
+            "AhIQCgxCVUREWV9GTFlJTkcQAxIOCgpCVUREWV9CQUJZEARiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::POGOProtos.Enums.PokemonIdReflection.Descriptor, global::POGOProtos.Enums.PokemonRarityReflection.Descriptor, global::POGOProtos.Enums.PokemonTypeReflection.Descriptor, global::POGOProtos.Enums.PokemonMoveReflection.Descriptor, global::POGOProtos.Enums.PokemonFamilyIdReflection.Descriptor, global::POGOProtos.Settings.Master.Pokemon.StatsAttributesReflection.Descriptor, global::POGOProtos.Settings.Master.Pokemon.CameraAttributesReflection.Descriptor, global::POGOProtos.Settings.Master.Pokemon.EncounterAttributesReflection.Descriptor, global::POGOProtos.Settings.Master.Pokemon.EvolutionBranchReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Settings.Master.PokemonSettings), global::POGOProtos.Settings.Master.PokemonSettings.Parser, new[]{ "PokemonId", "ModelScale", "Type", "Type2", "Camera", "Encounter", "Stats", "QuickMoves", "CinematicMoves", "AnimationTime", "EvolutionIds", "EvolutionPips", "Rarity", "PokedexHeightM", "PokedexWeightKg", "ParentPokemonId", "HeightStdDev", "WeightStdDev", "KmDistanceToHatch", "FamilyId", "CandyToEvolve", "KmBuddyDistance", "BuddySize", "ModelHeight", "EvolutionBranch" }, null, new[]{ typeof(global::POGOProtos.Settings.Master.PokemonSettings.Types.BuddySize) }, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Settings.Master.PokemonSettings), global::POGOProtos.Settings.Master.PokemonSettings.Parser, new[]{ "PokemonId", "ModelScale", "Type", "Type2", "Camera", "Encounter", "Stats", "QuickMoves", "CinematicMoves", "AnimationTime", "EvolutionIds", "EvolutionPips", "Rarity", "PokedexHeightM", "PokedexWeightKg", "ParentPokemonId", "HeightStdDev", "WeightStdDev", "KmDistanceToHatch", "FamilyId", "CandyToEvolve", "KmBuddyDistance", "BuddySize", "ModelHeight", "EvolutionBranch", "ModelScaleV2" }, null, new[]{ typeof(global::POGOProtos.Settings.Master.PokemonSettings.Types.BuddySize) }, null)
           }));
     }
     #endregion
@@ -120,6 +120,7 @@ namespace POGOProtos.Settings.Master {
       buddySize_ = other.buddySize_;
       modelHeight_ = other.modelHeight_;
       evolutionBranch_ = other.evolutionBranch_.Clone();
+      modelScaleV2_ = other.modelScaleV2_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -397,6 +398,17 @@ namespace POGOProtos.Settings.Master {
       get { return evolutionBranch_; }
     }
 
+    /// <summary>Field number for the "model_scale_v2" field.</summary>
+    public const int ModelScaleV2FieldNumber = 27;
+    private float modelScaleV2_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float ModelScaleV2 {
+      get { return modelScaleV2_; }
+      set {
+        modelScaleV2_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as PokemonSettings);
@@ -435,6 +447,7 @@ namespace POGOProtos.Settings.Master {
       if (BuddySize != other.BuddySize) return false;
       if (ModelHeight != other.ModelHeight) return false;
       if(!evolutionBranch_.Equals(other.evolutionBranch_)) return false;
+      if (ModelScaleV2 != other.ModelScaleV2) return false;
       return true;
     }
 
@@ -466,6 +479,7 @@ namespace POGOProtos.Settings.Master {
       if (BuddySize != 0) hash ^= BuddySize.GetHashCode();
       if (ModelHeight != 0F) hash ^= ModelHeight.GetHashCode();
       hash ^= evolutionBranch_.GetHashCode();
+      if (ModelScaleV2 != 0F) hash ^= ModelScaleV2.GetHashCode();
       return hash;
     }
 
@@ -561,6 +575,10 @@ namespace POGOProtos.Settings.Master {
         output.WriteFloat(ModelHeight);
       }
       evolutionBranch_.WriteTo(output, _repeated_evolutionBranch_codec);
+      if (ModelScaleV2 != 0F) {
+        output.WriteRawTag(221, 1);
+        output.WriteFloat(ModelScaleV2);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -631,6 +649,9 @@ namespace POGOProtos.Settings.Master {
         size += 2 + 4;
       }
       size += evolutionBranch_.CalculateSize(_repeated_evolutionBranch_codec);
+      if (ModelScaleV2 != 0F) {
+        size += 2 + 4;
+      }
       return size;
     }
 
@@ -713,6 +734,9 @@ namespace POGOProtos.Settings.Master {
         ModelHeight = other.ModelHeight;
       }
       evolutionBranch_.Add(other.evolutionBranch_);
+      if (other.ModelScaleV2 != 0F) {
+        ModelScaleV2 = other.ModelScaleV2;
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -834,6 +858,10 @@ namespace POGOProtos.Settings.Master {
           }
           case 210: {
             evolutionBranch_.AddEntriesFrom(input, _repeated_evolutionBranch_codec);
+            break;
+          }
+          case 221: {
+            ModelScaleV2 = input.ReadFloat();
             break;
           }
         }

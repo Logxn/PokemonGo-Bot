@@ -25,17 +25,19 @@ namespace POGOProtos.Networking.Responses {
             "CjtQT0dPUHJvdG9zL05ldHdvcmtpbmcvUmVzcG9uc2VzL0dldE1hcE9iamVj",
             "dHNSZXNwb25zZS5wcm90bxIfUE9HT1Byb3Rvcy5OZXR3b3JraW5nLlJlc3Bv",
             "bnNlcxocUE9HT1Byb3Rvcy9NYXAvTWFwQ2VsbC5wcm90bxolUE9HT1Byb3Rv",
-            "cy9NYXAvTWFwT2JqZWN0c1N0YXR1cy5wcm90byL3AQoVR2V0TWFwT2JqZWN0",
-            "c1Jlc3BvbnNlEioKCW1hcF9jZWxscxgBIAMoCzIXLlBPR09Qcm90b3MuTWFw",
-            "Lk1hcENlbGwSMAoGc3RhdHVzGAIgASgOMiAuUE9HT1Byb3Rvcy5NYXAuTWFw",
-            "T2JqZWN0c1N0YXR1cxJVCgt0aW1lX29mX2RheRgDIAEoDjJALlBPR09Qcm90",
-            "b3MuTmV0d29ya2luZy5SZXNwb25zZXMuR2V0TWFwT2JqZWN0c1Jlc3BvbnNl",
-            "LlRpbWVPZkRheSIpCglUaW1lT2ZEYXkSCAoETk9ORRAAEgcKA0RBWRABEgkK",
-            "BU5JR0hUEAJiBnByb3RvMw=="));
+            "cy9NYXAvTWFwT2JqZWN0c1N0YXR1cy5wcm90bxoqUE9HT1Byb3Rvcy9NYXAv",
+            "V2VhdGhlci9DbGllbnRXZWF0aGVyLnByb3RvIrYCChVHZXRNYXBPYmplY3Rz",
+            "UmVzcG9uc2USKgoJbWFwX2NlbGxzGAEgAygLMhcuUE9HT1Byb3Rvcy5NYXAu",
+            "TWFwQ2VsbBIwCgZzdGF0dXMYAiABKA4yIC5QT0dPUHJvdG9zLk1hcC5NYXBP",
+            "YmplY3RzU3RhdHVzElUKC3RpbWVfb2ZfZGF5GAMgASgOMkAuUE9HT1Byb3Rv",
+            "cy5OZXR3b3JraW5nLlJlc3BvbnNlcy5HZXRNYXBPYmplY3RzUmVzcG9uc2Uu",
+            "VGltZU9mRGF5Ej0KDmNsaWVudF93ZWF0aGVyGAQgAygLMiUuUE9HT1Byb3Rv",
+            "cy5NYXAuV2VhdGhlci5DbGllbnRXZWF0aGVyIikKCVRpbWVPZkRheRIICgRO",
+            "T05FEAASBwoDREFZEAESCQoFTklHSFQQAmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::POGOProtos.Map.MapCellReflection.Descriptor, global::POGOProtos.Map.MapObjectsStatusReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::POGOProtos.Map.MapCellReflection.Descriptor, global::POGOProtos.Map.MapObjectsStatusReflection.Descriptor, global::POGOProtos.Map.Weather.ClientWeatherReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.GetMapObjectsResponse), global::POGOProtos.Networking.Responses.GetMapObjectsResponse.Parser, new[]{ "MapCells", "Status", "TimeOfDay" }, null, new[]{ typeof(global::POGOProtos.Networking.Responses.GetMapObjectsResponse.Types.TimeOfDay) }, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.GetMapObjectsResponse), global::POGOProtos.Networking.Responses.GetMapObjectsResponse.Parser, new[]{ "MapCells", "Status", "TimeOfDay", "ClientWeather" }, null, new[]{ typeof(global::POGOProtos.Networking.Responses.GetMapObjectsResponse.Types.TimeOfDay) }, null)
           }));
     }
     #endregion
@@ -69,6 +71,7 @@ namespace POGOProtos.Networking.Responses {
       mapCells_ = other.mapCells_.Clone();
       status_ = other.status_;
       timeOfDay_ = other.timeOfDay_;
+      clientWeather_ = other.clientWeather_.Clone();
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -108,6 +111,16 @@ namespace POGOProtos.Networking.Responses {
       }
     }
 
+    /// <summary>Field number for the "client_weather" field.</summary>
+    public const int ClientWeatherFieldNumber = 4;
+    private static readonly pb::FieldCodec<global::POGOProtos.Map.Weather.ClientWeather> _repeated_clientWeather_codec
+        = pb::FieldCodec.ForMessage(34, global::POGOProtos.Map.Weather.ClientWeather.Parser);
+    private readonly pbc::RepeatedField<global::POGOProtos.Map.Weather.ClientWeather> clientWeather_ = new pbc::RepeatedField<global::POGOProtos.Map.Weather.ClientWeather>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::POGOProtos.Map.Weather.ClientWeather> ClientWeather {
+      get { return clientWeather_; }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as GetMapObjectsResponse);
@@ -124,6 +137,7 @@ namespace POGOProtos.Networking.Responses {
       if(!mapCells_.Equals(other.mapCells_)) return false;
       if (Status != other.Status) return false;
       if (TimeOfDay != other.TimeOfDay) return false;
+      if(!clientWeather_.Equals(other.clientWeather_)) return false;
       return true;
     }
 
@@ -133,6 +147,7 @@ namespace POGOProtos.Networking.Responses {
       hash ^= mapCells_.GetHashCode();
       if (Status != 0) hash ^= Status.GetHashCode();
       if (TimeOfDay != 0) hash ^= TimeOfDay.GetHashCode();
+      hash ^= clientWeather_.GetHashCode();
       return hash;
     }
 
@@ -152,6 +167,7 @@ namespace POGOProtos.Networking.Responses {
         output.WriteRawTag(24);
         output.WriteEnum((int) TimeOfDay);
       }
+      clientWeather_.WriteTo(output, _repeated_clientWeather_codec);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -164,6 +180,7 @@ namespace POGOProtos.Networking.Responses {
       if (TimeOfDay != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) TimeOfDay);
       }
+      size += clientWeather_.CalculateSize(_repeated_clientWeather_codec);
       return size;
     }
 
@@ -179,6 +196,7 @@ namespace POGOProtos.Networking.Responses {
       if (other.TimeOfDay != 0) {
         TimeOfDay = other.TimeOfDay;
       }
+      clientWeather_.Add(other.clientWeather_);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -199,6 +217,10 @@ namespace POGOProtos.Networking.Responses {
           }
           case 24: {
             timeOfDay_ = (global::POGOProtos.Networking.Responses.GetMapObjectsResponse.Types.TimeOfDay) input.ReadEnum();
+            break;
+          }
+          case 34: {
+            clientWeather_.AddEntriesFrom(input, _repeated_clientWeather_codec);
             break;
           }
         }

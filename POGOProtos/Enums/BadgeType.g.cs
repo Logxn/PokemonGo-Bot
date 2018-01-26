@@ -23,7 +23,7 @@ namespace POGOProtos.Enums {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CiBQT0dPUHJvdG9zL0VudW1zL0JhZGdlVHlwZS5wcm90bxIQUE9HT1Byb3Rv",
-            "cy5FbnVtcyqyCgoJQmFkZ2VUeXBlEg8KC0JBREdFX1VOU0VUEAASEwoPQkFE",
+            "cy5FbnVtcyrSCgoJQmFkZ2VUeXBlEg8KC0JBREdFX1VOU0VUEAASEwoPQkFE",
             "R0VfVFJBVkVMX0tNEAESGQoVQkFER0VfUE9LRURFWF9FTlRSSUVTEAISFwoT",
             "QkFER0VfQ0FQVFVSRV9UT1RBTBADEhcKE0JBREdFX0RFRkVBVEVEX0ZPUlQQ",
             "BBIXChNCQURHRV9FVk9MVkVEX1RPVEFMEAUSFwoTQkFER0VfSEFUQ0hFRF9U",
@@ -47,12 +47,13 @@ namespace POGOProtos.Enums {
             "REdFX1VOT1dOECYSHgoaQkFER0VfUE9LRURFWF9FTlRSSUVTX0dFTjIQJxIZ",
             "ChVCQURHRV9SQUlEX0JBVFRMRV9XT04QKBIeChpCQURHRV9MRUdFTkRBUllf",
             "QkFUVExFX1dPThApEhUKEUJBREdFX0JFUlJJRVNfRkVEECoSGAoUQkFER0Vf",
-            "SE9VUlNfREVGRU5ERUQQKxIWChJCQURHRV9QTEFDRV9IT0xERVIQLBIUCg9C",
-            "QURHRV9FVkVOVF9NSU4Q0A8SIQocQkFER0VfQ0hJQ0FHT19GRVNUX0pVTFlf",
-            "MjAxNxDRDxIpCiRCQURHRV9QSUtBQ0hVX09VVEJSRUFLX1lPS09IQU1BXzIw",
-            "MTcQ0g8SIgodQkFER0VfU0FGQVJJX1pPTkVfRVVST1BFXzIwMTcQ0w8SKAoj",
-            "QkFER0VfU0FGQVJJX1pPTkVfRVVST1BFXzIwMTdfMTBfMDcQ1A8SKAojQkFE",
-            "R0VfU0FGQVJJX1pPTkVfRVVST1BFXzIwMTdfMTBfMTQQ1Q9iBnByb3RvMw=="));
+            "SE9VUlNfREVGRU5ERUQQKxIWChJCQURHRV9QTEFDRV9IT0xERVIQLBIeChpC",
+            "QURHRV9QT0tFREVYX0VOVFJJRVNfR0VOMxAtEhQKD0JBREdFX0VWRU5UX01J",
+            "ThDQDxIhChxCQURHRV9DSElDQUdPX0ZFU1RfSlVMWV8yMDE3ENEPEikKJEJB",
+            "REdFX1BJS0FDSFVfT1VUQlJFQUtfWU9LT0hBTUFfMjAxNxDSDxIiCh1CQURH",
+            "RV9TQUZBUklfWk9ORV9FVVJPUEVfMjAxNxDTDxIoCiNCQURHRV9TQUZBUklf",
+            "Wk9ORV9FVVJPUEVfMjAxN18xMF8wNxDUDxIoCiNCQURHRV9TQUZBUklfWk9O",
+            "RV9FVVJPUEVfMjAxN18xMF8xNBDVD2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::POGOProtos.Enums.BadgeType), }, null));
@@ -107,6 +108,7 @@ namespace POGOProtos.Enums {
     [pbr::OriginalName("BADGE_BERRIES_FED")] BadgeBerriesFed = 42,
     [pbr::OriginalName("BADGE_HOURS_DEFENDED")] BadgeHoursDefended = 43,
     [pbr::OriginalName("BADGE_PLACE_HOLDER")] BadgePlaceHolder = 44,
+    [pbr::OriginalName("BADGE_POKEDEX_ENTRIES_GEN3")] BadgePokedexEntriesGen3 = 45,
     [pbr::OriginalName("BADGE_EVENT_MIN")] BadgeEventMin = 2000,
     [pbr::OriginalName("BADGE_CHICAGO_FEST_JULY_2017")] BadgeChicagoFestJuly2017 = 2001,
     [pbr::OriginalName("BADGE_PIKACHU_OUTBREAK_YOKOHAMA_2017")] BadgePikachuOutbreakYokohama2017 = 2002,

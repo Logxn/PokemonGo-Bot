@@ -23,7 +23,7 @@ namespace POGOProtos.Enums {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CiJQT0dPUHJvdG9zL0VudW1zL1Bva2Vtb25Nb3ZlLnByb3RvEhBQT0dPUHJv",
-            "dG9zLkVudW1zKsIdCgtQb2tlbW9uTW92ZRIOCgpNT1ZFX1VOU0VUEAASEQoN",
+            "dG9zLkVudW1zKvweCgtQb2tlbW9uTW92ZRIOCgpNT1ZFX1VOU0VUEAASEQoN",
             "VEhVTkRFUl9TSE9DSxABEhAKDFFVSUNLX0FUVEFDSxACEgsKB1NDUkFUQ0gQ",
             "AxIJCgVFTUJFUhAEEg0KCVZJTkVfV0hJUBAFEgoKBlRBQ0tMRRAGEg4KClJB",
             "Wk9SX0xFQUYQBxINCglUQUtFX0RPV04QCBINCglXQVRFUl9HVU4QCRIICgRC",
@@ -107,7 +107,11 @@ namespace POGOProtos.Enums {
             "AhIWChFFWFRSQVNFTlNPUllfRkFTVBCSAhIQCgtGVVRVUkVTSUdIVBCTAhIQ",
             "CgtNSVJST1JfQ09BVBCUAhIMCgdPVVRSQUdFEJUCEg8KClNOQVJMX0ZBU1QQ",
             "lgISCwoGQ1JVTkNIEJcCEg4KCUZPVUxfUExBWRCYAhIWChFISURERU5fUE9X",
-            "RVJfRkFTVBCZAmIGcHJvdG8z"));
+            "RVJfRkFTVBCZAhITCg5UQUtFX0RPV05fRkFTVBCaAhITCg5XQVRFUkZBTExf",
+            "RkFTVBCbAhIJCgRTVVJGEJwCEhEKDERSQUNPX01FVEVPUhCdAhIQCgtET09N",
+            "X0RFU0lSRRCeAhIOCglZQVdOX0ZBU1QQnwISEQoMUFNZQ0hPX0JPT1NUEKAC",
+            "EhEKDE9SSUdJTl9QVUxTRRChAhIVChBQUkVDSVBJQ0VfQkxBREVTEKICEhEK",
+            "DFBSRVNFTlRfRkFTVBCjAmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::POGOProtos.Enums.PokemonMove), }, null));
@@ -337,6 +341,16 @@ namespace POGOProtos.Enums {
     [pbr::OriginalName("CRUNCH")] Crunch = 279,
     [pbr::OriginalName("FOUL_PLAY")] FoulPlay = 280,
     [pbr::OriginalName("HIDDEN_POWER_FAST")] HiddenPowerFast = 281,
+    [pbr::OriginalName("TAKE_DOWN_FAST")] TakeDownFast = 282,
+    [pbr::OriginalName("WATERFALL_FAST")] WaterfallFast = 283,
+    [pbr::OriginalName("SURF")] Surf = 284,
+    [pbr::OriginalName("DRACO_METEOR")] DracoMeteor = 285,
+    [pbr::OriginalName("DOOM_DESIRE")] DoomDesire = 286,
+    [pbr::OriginalName("YAWN_FAST")] YawnFast = 287,
+    [pbr::OriginalName("PSYCHO_BOOST")] PsychoBoost = 288,
+    [pbr::OriginalName("ORIGIN_PULSE")] OriginPulse = 289,
+    [pbr::OriginalName("PRECIPICE_BLADES")] PrecipiceBlades = 290,
+    [pbr::OriginalName("PRESENT_FAST")] PresentFast = 291,
   }
 
   #endregion

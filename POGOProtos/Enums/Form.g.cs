@@ -23,7 +23,7 @@ namespace POGOProtos.Enums {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChtQT0dPUHJvdG9zL0VudW1zL0Zvcm0ucHJvdG8SEFBPR09Qcm90b3MuRW51",
-            "bXMqngMKBEZvcm0SDgoKRk9STV9VTlNFVBAAEgsKB1VOT1dOX0EQARILCgdV",
+            "bXMquwQKBEZvcm0SDgoKRk9STV9VTlNFVBAAEgsKB1VOT1dOX0EQARILCgdV",
             "Tk9XTl9CEAISCwoHVU5PV05fQxADEgsKB1VOT1dOX0QQBBILCgdVTk9XTl9F",
             "EAUSCwoHVU5PV05fRhAGEgsKB1VOT1dOX0cQBxILCgdVTk9XTl9IEAgSCwoH",
             "VU5PV05fSRAJEgsKB1VOT1dOX0oQChILCgdVTk9XTl9LEAsSCwoHVU5PV05f",
@@ -32,7 +32,10 @@ namespace POGOProtos.Enums {
             "X1MQExILCgdVTk9XTl9UEBQSCwoHVU5PV05fVRAVEgsKB1VOT1dOX1YQFhIL",
             "CgdVTk9XTl9XEBcSCwoHVU5PV05fWBAYEgsKB1VOT1dOX1kQGRILCgdVTk9X",
             "Tl9aEBoSGwoXVU5PV05fRVhDTEFNQVRJT05fUE9JTlQQGxIXChNVTk9XTl9R",
-            "VUVTVElPTl9NQVJLEBxiBnByb3RvMw=="));
+            "VUVTVElPTl9NQVJLEBwSEwoPQ0FTVEZPUk1fTk9STUFMEB0SEgoOQ0FTVEZP",
+            "Uk1fU1VOTlkQHhISCg5DQVNURk9STV9SQUlOWRAfEhIKDkNBU1RGT1JNX1NO",
+            "T1dZECASEQoNREVPWFlTX05PUk1BTBAhEhEKDURFT1hZU19BVFRBQ0sQIhIS",
+            "Cg5ERU9YWVNfREVGRU5TRRAjEhAKDERFT1hZU19TUEVFRBAkYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::POGOProtos.Enums.Form), }, null));
@@ -71,6 +74,14 @@ namespace POGOProtos.Enums {
     [pbr::OriginalName("UNOWN_Z")] UnownZ = 26,
     [pbr::OriginalName("UNOWN_EXCLAMATION_POINT")] UnownExclamationPoint = 27,
     [pbr::OriginalName("UNOWN_QUESTION_MARK")] UnownQuestionMark = 28,
+    [pbr::OriginalName("CASTFORM_NORMAL")] CastformNormal = 29,
+    [pbr::OriginalName("CASTFORM_SUNNY")] CastformSunny = 30,
+    [pbr::OriginalName("CASTFORM_RAINY")] CastformRainy = 31,
+    [pbr::OriginalName("CASTFORM_SNOWY")] CastformSnowy = 32,
+    [pbr::OriginalName("DEOXYS_NORMAL")] DeoxysNormal = 33,
+    [pbr::OriginalName("DEOXYS_ATTACK")] DeoxysAttack = 34,
+    [pbr::OriginalName("DEOXYS_DEFENSE")] DeoxysDefense = 35,
+    [pbr::OriginalName("DEOXYS_SPEED")] DeoxysSpeed = 36,
   }
 
   #endregion

@@ -26,7 +26,7 @@ namespace POGOProtos.Networking.Responses {
             "aWxzUmVzcG9uc2UucHJvdG8SH1BPR09Qcm90b3MuTmV0d29ya2luZy5SZXNw",
             "b25zZXMaIFBPR09Qcm90b3MvRGF0YS9SYWlkL0xvYmJ5LnByb3RvGiNQT0dP",
             "UHJvdG9zL0RhdGEvQmF0dGxlL0JhdHRsZS5wcm90bxojUE9HT1Byb3Rvcy9E",
-            "YXRhL1JhaWQvUmFpZEluZm8ucHJvdG8i1AQKFkdldFJhaWREZXRhaWxzUmVz",
+            "YXRhL1JhaWQvUmFpZEluZm8ucHJvdG8i5wQKFkdldFJhaWREZXRhaWxzUmVz",
             "cG9uc2USKgoFbG9iYnkYASABKAsyGy5QT0dPUHJvdG9zLkRhdGEuUmFpZC5M",
             "b2JieRIzCgtyYWlkX2JhdHRsZRgCIAEoCzIeLlBPR09Qcm90b3MuRGF0YS5C",
             "YXR0bGUuQmF0dGxlEh0KFXBsYXllcl9jYW5fam9pbl9sb2JieRgDIAEoCBJO",
@@ -35,15 +35,16 @@ namespace POGOProtos.Networking.Responses {
             "bxgFIAEoCzIeLlBPR09Qcm90b3MuRGF0YS5SYWlkLlJhaWRJbmZvEhMKC3Rp",
             "Y2tldF91c2VkGAYgASgIEh0KFWZyZWVfdGlja2V0X2F2YWlsYWJsZRgHIAEo",
             "CBIYChB0aHJvd3NfcmVtYWluaW5nGAggASgFEhgKEHJlY2VpdmVkX3Jld2Fy",
-            "ZHMYCSABKAgSHAoUbnVtX3BsYXllcnNfaW5fbG9iYnkYCiABKAUisAEKBlJl",
-            "c3VsdBIJCgVVTlNFVBAAEgsKB1NVQ0NFU1MQARIWChJFUlJPUl9OT1RfSU5f",
-            "UkFOR0UQAhIYChRFUlJPUl9SQUlEX0NPTVBMRVRFRBADEhoKFkVSUk9SX1JB",
-            "SURfVU5BVkFJTEFCTEUQBBIkCiBFUlJPUl9QTEFZRVJfQkVMT1dfTUlOSU1V",
-            "TV9MRVZFTBAFEhoKFkVSUk9SX1BPSV9JTkFDQ0VTU0lCTEUQBmIGcHJvdG8z"));
+            "ZHMYCSABKAgSHAoUbnVtX3BsYXllcnNfaW5fbG9iYnkYCiABKAUSEQoJc2Vy",
+            "dmVyX21zGAsgASgDIrABCgZSZXN1bHQSCQoFVU5TRVQQABILCgdTVUNDRVNT",
+            "EAESFgoSRVJST1JfTk9UX0lOX1JBTkdFEAISGAoURVJST1JfUkFJRF9DT01Q",
+            "TEVURUQQAxIaChZFUlJPUl9SQUlEX1VOQVZBSUxBQkxFEAQSJAogRVJST1Jf",
+            "UExBWUVSX0JFTE9XX01JTklNVU1fTEVWRUwQBRIaChZFUlJPUl9QT0lfSU5B",
+            "Q0NFU1NJQkxFEAZiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::POGOProtos.Data.Raid.LobbyReflection.Descriptor, global::POGOProtos.Data.Battle.BattleReflection.Descriptor, global::POGOProtos.Data.Raid.RaidInfoReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.GetRaidDetailsResponse), global::POGOProtos.Networking.Responses.GetRaidDetailsResponse.Parser, new[]{ "Lobby", "RaidBattle", "PlayerCanJoinLobby", "Result", "RaidInfo", "TicketUsed", "FreeTicketAvailable", "ThrowsRemaining", "ReceivedRewards", "NumPlayersInLobby" }, null, new[]{ typeof(global::POGOProtos.Networking.Responses.GetRaidDetailsResponse.Types.Result) }, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.GetRaidDetailsResponse), global::POGOProtos.Networking.Responses.GetRaidDetailsResponse.Parser, new[]{ "Lobby", "RaidBattle", "PlayerCanJoinLobby", "Result", "RaidInfo", "TicketUsed", "FreeTicketAvailable", "ThrowsRemaining", "ReceivedRewards", "NumPlayersInLobby", "ServerMs" }, null, new[]{ typeof(global::POGOProtos.Networking.Responses.GetRaidDetailsResponse.Types.Result) }, null)
           }));
     }
     #endregion
@@ -84,6 +85,7 @@ namespace POGOProtos.Networking.Responses {
       throwsRemaining_ = other.throwsRemaining_;
       receivedRewards_ = other.receivedRewards_;
       numPlayersInLobby_ = other.numPlayersInLobby_;
+      serverMs_ = other.serverMs_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -201,6 +203,17 @@ namespace POGOProtos.Networking.Responses {
       }
     }
 
+    /// <summary>Field number for the "server_ms" field.</summary>
+    public const int ServerMsFieldNumber = 11;
+    private long serverMs_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public long ServerMs {
+      get { return serverMs_; }
+      set {
+        serverMs_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as GetRaidDetailsResponse);
@@ -224,6 +237,7 @@ namespace POGOProtos.Networking.Responses {
       if (ThrowsRemaining != other.ThrowsRemaining) return false;
       if (ReceivedRewards != other.ReceivedRewards) return false;
       if (NumPlayersInLobby != other.NumPlayersInLobby) return false;
+      if (ServerMs != other.ServerMs) return false;
       return true;
     }
 
@@ -240,6 +254,7 @@ namespace POGOProtos.Networking.Responses {
       if (ThrowsRemaining != 0) hash ^= ThrowsRemaining.GetHashCode();
       if (ReceivedRewards != false) hash ^= ReceivedRewards.GetHashCode();
       if (NumPlayersInLobby != 0) hash ^= NumPlayersInLobby.GetHashCode();
+      if (ServerMs != 0L) hash ^= ServerMs.GetHashCode();
       return hash;
     }
 
@@ -290,6 +305,10 @@ namespace POGOProtos.Networking.Responses {
         output.WriteRawTag(80);
         output.WriteInt32(NumPlayersInLobby);
       }
+      if (ServerMs != 0L) {
+        output.WriteRawTag(88);
+        output.WriteInt64(ServerMs);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -324,6 +343,9 @@ namespace POGOProtos.Networking.Responses {
       }
       if (NumPlayersInLobby != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(NumPlayersInLobby);
+      }
+      if (ServerMs != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(ServerMs);
       }
       return size;
     }
@@ -371,6 +393,9 @@ namespace POGOProtos.Networking.Responses {
       }
       if (other.NumPlayersInLobby != 0) {
         NumPlayersInLobby = other.NumPlayersInLobby;
+      }
+      if (other.ServerMs != 0L) {
+        ServerMs = other.ServerMs;
       }
     }
 
@@ -429,6 +454,10 @@ namespace POGOProtos.Networking.Responses {
           }
           case 80: {
             NumPlayersInLobby = input.ReadInt32();
+            break;
+          }
+          case 88: {
+            ServerMs = input.ReadInt64();
             break;
           }
         }

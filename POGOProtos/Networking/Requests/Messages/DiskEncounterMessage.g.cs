@@ -24,14 +24,15 @@ namespace POGOProtos.Networking.Requests.Messages {
           string.Concat(
             "CkJQT0dPUHJvdG9zL05ldHdvcmtpbmcvUmVxdWVzdHMvTWVzc2FnZXMvRGlz",
             "a0VuY291bnRlck1lc3NhZ2UucHJvdG8SJ1BPR09Qcm90b3MuTmV0d29ya2lu",
-            "Zy5SZXF1ZXN0cy5NZXNzYWdlcyJwChREaXNrRW5jb3VudGVyTWVzc2FnZRIU",
-            "CgxlbmNvdW50ZXJfaWQYASABKAQSDwoHZm9ydF9pZBgCIAEoCRIXCg9wbGF5",
-            "ZXJfbGF0aXR1ZGUYAyABKAESGAoQcGxheWVyX2xvbmdpdHVkZRgEIAEoAWIG",
-            "cHJvdG8z"));
+            "Zy5SZXF1ZXN0cy5NZXNzYWdlcyKiAQoURGlza0VuY291bnRlck1lc3NhZ2US",
+            "FAoMZW5jb3VudGVyX2lkGAEgASgEEg8KB2ZvcnRfaWQYAiABKAkSFwoPcGxh",
+            "eWVyX2xhdGl0dWRlGAMgASgBEhgKEHBsYXllcl9sb25naXR1ZGUYBCABKAES",
+            "FwoPZ3ltX2xhdF9kZWdyZWVzGAUgASgBEhcKD2d5bV9sbmdfZGVncmVlcxgG",
+            "IAEoAWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Requests.Messages.DiskEncounterMessage), global::POGOProtos.Networking.Requests.Messages.DiskEncounterMessage.Parser, new[]{ "EncounterId", "FortId", "PlayerLatitude", "PlayerLongitude" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Requests.Messages.DiskEncounterMessage), global::POGOProtos.Networking.Requests.Messages.DiskEncounterMessage.Parser, new[]{ "EncounterId", "FortId", "PlayerLatitude", "PlayerLongitude", "GymLatDegrees", "GymLngDegrees" }, null, null, null)
           }));
     }
     #endregion
@@ -66,6 +67,8 @@ namespace POGOProtos.Networking.Requests.Messages {
       fortId_ = other.fortId_;
       playerLatitude_ = other.playerLatitude_;
       playerLongitude_ = other.playerLongitude_;
+      gymLatDegrees_ = other.gymLatDegrees_;
+      gymLngDegrees_ = other.gymLngDegrees_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -117,6 +120,28 @@ namespace POGOProtos.Networking.Requests.Messages {
       }
     }
 
+    /// <summary>Field number for the "gym_lat_degrees" field.</summary>
+    public const int GymLatDegreesFieldNumber = 5;
+    private double gymLatDegrees_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public double GymLatDegrees {
+      get { return gymLatDegrees_; }
+      set {
+        gymLatDegrees_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "gym_lng_degrees" field.</summary>
+    public const int GymLngDegreesFieldNumber = 6;
+    private double gymLngDegrees_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public double GymLngDegrees {
+      get { return gymLngDegrees_; }
+      set {
+        gymLngDegrees_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as DiskEncounterMessage);
@@ -134,6 +159,8 @@ namespace POGOProtos.Networking.Requests.Messages {
       if (FortId != other.FortId) return false;
       if (PlayerLatitude != other.PlayerLatitude) return false;
       if (PlayerLongitude != other.PlayerLongitude) return false;
+      if (GymLatDegrees != other.GymLatDegrees) return false;
+      if (GymLngDegrees != other.GymLngDegrees) return false;
       return true;
     }
 
@@ -144,6 +171,8 @@ namespace POGOProtos.Networking.Requests.Messages {
       if (FortId.Length != 0) hash ^= FortId.GetHashCode();
       if (PlayerLatitude != 0D) hash ^= PlayerLatitude.GetHashCode();
       if (PlayerLongitude != 0D) hash ^= PlayerLongitude.GetHashCode();
+      if (GymLatDegrees != 0D) hash ^= GymLatDegrees.GetHashCode();
+      if (GymLngDegrees != 0D) hash ^= GymLngDegrees.GetHashCode();
       return hash;
     }
 
@@ -170,6 +199,14 @@ namespace POGOProtos.Networking.Requests.Messages {
         output.WriteRawTag(33);
         output.WriteDouble(PlayerLongitude);
       }
+      if (GymLatDegrees != 0D) {
+        output.WriteRawTag(41);
+        output.WriteDouble(GymLatDegrees);
+      }
+      if (GymLngDegrees != 0D) {
+        output.WriteRawTag(49);
+        output.WriteDouble(GymLngDegrees);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -185,6 +222,12 @@ namespace POGOProtos.Networking.Requests.Messages {
         size += 1 + 8;
       }
       if (PlayerLongitude != 0D) {
+        size += 1 + 8;
+      }
+      if (GymLatDegrees != 0D) {
+        size += 1 + 8;
+      }
+      if (GymLngDegrees != 0D) {
         size += 1 + 8;
       }
       return size;
@@ -206,6 +249,12 @@ namespace POGOProtos.Networking.Requests.Messages {
       }
       if (other.PlayerLongitude != 0D) {
         PlayerLongitude = other.PlayerLongitude;
+      }
+      if (other.GymLatDegrees != 0D) {
+        GymLatDegrees = other.GymLatDegrees;
+      }
+      if (other.GymLngDegrees != 0D) {
+        GymLngDegrees = other.GymLngDegrees;
       }
     }
 
@@ -231,6 +280,14 @@ namespace POGOProtos.Networking.Requests.Messages {
           }
           case 33: {
             PlayerLongitude = input.ReadDouble();
+            break;
+          }
+          case 41: {
+            GymLatDegrees = input.ReadDouble();
+            break;
+          }
+          case 49: {
+            GymLngDegrees = input.ReadDouble();
             break;
           }
         }

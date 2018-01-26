@@ -23,15 +23,23 @@ namespace POGOProtos.Settings.Master {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CjJQT0dPUHJvdG9zL1NldHRpbmdzL01hc3Rlci9FbmNvdW50ZXJTZXR0aW5n",
-            "cy5wcm90bxIaUE9HT1Byb3Rvcy5TZXR0aW5ncy5NYXN0ZXIirgEKEUVuY291",
+            "cy5wcm90bxIaUE9HT1Byb3Rvcy5TZXR0aW5ncy5NYXN0ZXIilwQKEUVuY291",
             "bnRlclNldHRpbmdzEhwKFHNwaW5fYm9udXNfdGhyZXNob2xkGAEgASgCEiEK",
             "GWV4Y2VsbGVudF90aHJvd190aHJlc2hvbGQYAiABKAISHQoVZ3JlYXRfdGhy",
             "b3dfdGhyZXNob2xkGAMgASgCEhwKFG5pY2VfdGhyb3dfdGhyZXNob2xkGAQg",
-            "ASgCEhsKE21pbGVzdG9uZV90aHJlc2hvbGQYBSABKAViBnByb3RvMw=="));
+            "ASgCEhsKE21pbGVzdG9uZV90aHJlc2hvbGQYBSABKAUSHAoUYXJfcGx1c19t",
+            "b2RlX2VuYWJsZWQYBiABKAgSJAocYXJfY2xvc2VfcHJveGltaXR5X3RocmVz",
+            "aG9sZBgHIAEoAhIiChphcl9sb3dfYXdhcmVuZXNzX3RocmVzaG9sZBgIIAEo",
+            "AhIlCh1hcl9jbG9zZV9wcm94aW1pdHlfbXVsdGlwbGllchgJIAEoAhImCh5h",
+            "cl9hd2FyZW5lc3NfcGVuYWx0eV90aHJlc2hvbGQYCiABKAISJwofYXJfbG93",
+            "X2F3YXJlbmVzc19tYXhfbXVsdGlwbGllchgLIAEoAhIwCihhcl9oaWdoX2F3",
+            "YXJlbmVzc19taW5fcGVuYWx0eV9tdWx0aXBsaWVyGAwgASgCEicKH2FyX3Bs",
+            "dXNfYXR0ZW1wdHNfdW50aWxfZmxlZV9tYXgYDSABKAUSLAokYXJfcGx1c19h",
+            "dHRlbXB0c191bnRpbF9mbGVlX2luZmluaXRlGA4gASgFYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Settings.Master.EncounterSettings), global::POGOProtos.Settings.Master.EncounterSettings.Parser, new[]{ "SpinBonusThreshold", "ExcellentThrowThreshold", "GreatThrowThreshold", "NiceThrowThreshold", "MilestoneThreshold" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Settings.Master.EncounterSettings), global::POGOProtos.Settings.Master.EncounterSettings.Parser, new[]{ "SpinBonusThreshold", "ExcellentThrowThreshold", "GreatThrowThreshold", "NiceThrowThreshold", "MilestoneThreshold", "ArPlusModeEnabled", "ArCloseProximityThreshold", "ArLowAwarenessThreshold", "ArCloseProximityMultiplier", "ArAwarenessPenaltyThreshold", "ArLowAwarenessMaxMultiplier", "ArHighAwarenessMinPenaltyMultiplier", "ArPlusAttemptsUntilFleeMax", "ArPlusAttemptsUntilFleeInfinite" }, null, null, null)
           }));
     }
     #endregion
@@ -67,6 +75,15 @@ namespace POGOProtos.Settings.Master {
       greatThrowThreshold_ = other.greatThrowThreshold_;
       niceThrowThreshold_ = other.niceThrowThreshold_;
       milestoneThreshold_ = other.milestoneThreshold_;
+      arPlusModeEnabled_ = other.arPlusModeEnabled_;
+      arCloseProximityThreshold_ = other.arCloseProximityThreshold_;
+      arLowAwarenessThreshold_ = other.arLowAwarenessThreshold_;
+      arCloseProximityMultiplier_ = other.arCloseProximityMultiplier_;
+      arAwarenessPenaltyThreshold_ = other.arAwarenessPenaltyThreshold_;
+      arLowAwarenessMaxMultiplier_ = other.arLowAwarenessMaxMultiplier_;
+      arHighAwarenessMinPenaltyMultiplier_ = other.arHighAwarenessMinPenaltyMultiplier_;
+      arPlusAttemptsUntilFleeMax_ = other.arPlusAttemptsUntilFleeMax_;
+      arPlusAttemptsUntilFleeInfinite_ = other.arPlusAttemptsUntilFleeInfinite_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -129,6 +146,105 @@ namespace POGOProtos.Settings.Master {
       }
     }
 
+    /// <summary>Field number for the "ar_plus_mode_enabled" field.</summary>
+    public const int ArPlusModeEnabledFieldNumber = 6;
+    private bool arPlusModeEnabled_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool ArPlusModeEnabled {
+      get { return arPlusModeEnabled_; }
+      set {
+        arPlusModeEnabled_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "ar_close_proximity_threshold" field.</summary>
+    public const int ArCloseProximityThresholdFieldNumber = 7;
+    private float arCloseProximityThreshold_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float ArCloseProximityThreshold {
+      get { return arCloseProximityThreshold_; }
+      set {
+        arCloseProximityThreshold_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "ar_low_awareness_threshold" field.</summary>
+    public const int ArLowAwarenessThresholdFieldNumber = 8;
+    private float arLowAwarenessThreshold_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float ArLowAwarenessThreshold {
+      get { return arLowAwarenessThreshold_; }
+      set {
+        arLowAwarenessThreshold_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "ar_close_proximity_multiplier" field.</summary>
+    public const int ArCloseProximityMultiplierFieldNumber = 9;
+    private float arCloseProximityMultiplier_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float ArCloseProximityMultiplier {
+      get { return arCloseProximityMultiplier_; }
+      set {
+        arCloseProximityMultiplier_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "ar_awareness_penalty_threshold" field.</summary>
+    public const int ArAwarenessPenaltyThresholdFieldNumber = 10;
+    private float arAwarenessPenaltyThreshold_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float ArAwarenessPenaltyThreshold {
+      get { return arAwarenessPenaltyThreshold_; }
+      set {
+        arAwarenessPenaltyThreshold_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "ar_low_awareness_max_multiplier" field.</summary>
+    public const int ArLowAwarenessMaxMultiplierFieldNumber = 11;
+    private float arLowAwarenessMaxMultiplier_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float ArLowAwarenessMaxMultiplier {
+      get { return arLowAwarenessMaxMultiplier_; }
+      set {
+        arLowAwarenessMaxMultiplier_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "ar_high_awareness_min_penalty_multiplier" field.</summary>
+    public const int ArHighAwarenessMinPenaltyMultiplierFieldNumber = 12;
+    private float arHighAwarenessMinPenaltyMultiplier_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float ArHighAwarenessMinPenaltyMultiplier {
+      get { return arHighAwarenessMinPenaltyMultiplier_; }
+      set {
+        arHighAwarenessMinPenaltyMultiplier_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "ar_plus_attempts_until_flee_max" field.</summary>
+    public const int ArPlusAttemptsUntilFleeMaxFieldNumber = 13;
+    private int arPlusAttemptsUntilFleeMax_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int ArPlusAttemptsUntilFleeMax {
+      get { return arPlusAttemptsUntilFleeMax_; }
+      set {
+        arPlusAttemptsUntilFleeMax_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "ar_plus_attempts_until_flee_infinite" field.</summary>
+    public const int ArPlusAttemptsUntilFleeInfiniteFieldNumber = 14;
+    private int arPlusAttemptsUntilFleeInfinite_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int ArPlusAttemptsUntilFleeInfinite {
+      get { return arPlusAttemptsUntilFleeInfinite_; }
+      set {
+        arPlusAttemptsUntilFleeInfinite_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as EncounterSettings);
@@ -147,6 +263,15 @@ namespace POGOProtos.Settings.Master {
       if (GreatThrowThreshold != other.GreatThrowThreshold) return false;
       if (NiceThrowThreshold != other.NiceThrowThreshold) return false;
       if (MilestoneThreshold != other.MilestoneThreshold) return false;
+      if (ArPlusModeEnabled != other.ArPlusModeEnabled) return false;
+      if (ArCloseProximityThreshold != other.ArCloseProximityThreshold) return false;
+      if (ArLowAwarenessThreshold != other.ArLowAwarenessThreshold) return false;
+      if (ArCloseProximityMultiplier != other.ArCloseProximityMultiplier) return false;
+      if (ArAwarenessPenaltyThreshold != other.ArAwarenessPenaltyThreshold) return false;
+      if (ArLowAwarenessMaxMultiplier != other.ArLowAwarenessMaxMultiplier) return false;
+      if (ArHighAwarenessMinPenaltyMultiplier != other.ArHighAwarenessMinPenaltyMultiplier) return false;
+      if (ArPlusAttemptsUntilFleeMax != other.ArPlusAttemptsUntilFleeMax) return false;
+      if (ArPlusAttemptsUntilFleeInfinite != other.ArPlusAttemptsUntilFleeInfinite) return false;
       return true;
     }
 
@@ -158,6 +283,15 @@ namespace POGOProtos.Settings.Master {
       if (GreatThrowThreshold != 0F) hash ^= GreatThrowThreshold.GetHashCode();
       if (NiceThrowThreshold != 0F) hash ^= NiceThrowThreshold.GetHashCode();
       if (MilestoneThreshold != 0) hash ^= MilestoneThreshold.GetHashCode();
+      if (ArPlusModeEnabled != false) hash ^= ArPlusModeEnabled.GetHashCode();
+      if (ArCloseProximityThreshold != 0F) hash ^= ArCloseProximityThreshold.GetHashCode();
+      if (ArLowAwarenessThreshold != 0F) hash ^= ArLowAwarenessThreshold.GetHashCode();
+      if (ArCloseProximityMultiplier != 0F) hash ^= ArCloseProximityMultiplier.GetHashCode();
+      if (ArAwarenessPenaltyThreshold != 0F) hash ^= ArAwarenessPenaltyThreshold.GetHashCode();
+      if (ArLowAwarenessMaxMultiplier != 0F) hash ^= ArLowAwarenessMaxMultiplier.GetHashCode();
+      if (ArHighAwarenessMinPenaltyMultiplier != 0F) hash ^= ArHighAwarenessMinPenaltyMultiplier.GetHashCode();
+      if (ArPlusAttemptsUntilFleeMax != 0) hash ^= ArPlusAttemptsUntilFleeMax.GetHashCode();
+      if (ArPlusAttemptsUntilFleeInfinite != 0) hash ^= ArPlusAttemptsUntilFleeInfinite.GetHashCode();
       return hash;
     }
 
@@ -188,6 +322,42 @@ namespace POGOProtos.Settings.Master {
         output.WriteRawTag(40);
         output.WriteInt32(MilestoneThreshold);
       }
+      if (ArPlusModeEnabled != false) {
+        output.WriteRawTag(48);
+        output.WriteBool(ArPlusModeEnabled);
+      }
+      if (ArCloseProximityThreshold != 0F) {
+        output.WriteRawTag(61);
+        output.WriteFloat(ArCloseProximityThreshold);
+      }
+      if (ArLowAwarenessThreshold != 0F) {
+        output.WriteRawTag(69);
+        output.WriteFloat(ArLowAwarenessThreshold);
+      }
+      if (ArCloseProximityMultiplier != 0F) {
+        output.WriteRawTag(77);
+        output.WriteFloat(ArCloseProximityMultiplier);
+      }
+      if (ArAwarenessPenaltyThreshold != 0F) {
+        output.WriteRawTag(85);
+        output.WriteFloat(ArAwarenessPenaltyThreshold);
+      }
+      if (ArLowAwarenessMaxMultiplier != 0F) {
+        output.WriteRawTag(93);
+        output.WriteFloat(ArLowAwarenessMaxMultiplier);
+      }
+      if (ArHighAwarenessMinPenaltyMultiplier != 0F) {
+        output.WriteRawTag(101);
+        output.WriteFloat(ArHighAwarenessMinPenaltyMultiplier);
+      }
+      if (ArPlusAttemptsUntilFleeMax != 0) {
+        output.WriteRawTag(104);
+        output.WriteInt32(ArPlusAttemptsUntilFleeMax);
+      }
+      if (ArPlusAttemptsUntilFleeInfinite != 0) {
+        output.WriteRawTag(112);
+        output.WriteInt32(ArPlusAttemptsUntilFleeInfinite);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -207,6 +377,33 @@ namespace POGOProtos.Settings.Master {
       }
       if (MilestoneThreshold != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(MilestoneThreshold);
+      }
+      if (ArPlusModeEnabled != false) {
+        size += 1 + 1;
+      }
+      if (ArCloseProximityThreshold != 0F) {
+        size += 1 + 4;
+      }
+      if (ArLowAwarenessThreshold != 0F) {
+        size += 1 + 4;
+      }
+      if (ArCloseProximityMultiplier != 0F) {
+        size += 1 + 4;
+      }
+      if (ArAwarenessPenaltyThreshold != 0F) {
+        size += 1 + 4;
+      }
+      if (ArLowAwarenessMaxMultiplier != 0F) {
+        size += 1 + 4;
+      }
+      if (ArHighAwarenessMinPenaltyMultiplier != 0F) {
+        size += 1 + 4;
+      }
+      if (ArPlusAttemptsUntilFleeMax != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ArPlusAttemptsUntilFleeMax);
+      }
+      if (ArPlusAttemptsUntilFleeInfinite != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ArPlusAttemptsUntilFleeInfinite);
       }
       return size;
     }
@@ -230,6 +427,33 @@ namespace POGOProtos.Settings.Master {
       }
       if (other.MilestoneThreshold != 0) {
         MilestoneThreshold = other.MilestoneThreshold;
+      }
+      if (other.ArPlusModeEnabled != false) {
+        ArPlusModeEnabled = other.ArPlusModeEnabled;
+      }
+      if (other.ArCloseProximityThreshold != 0F) {
+        ArCloseProximityThreshold = other.ArCloseProximityThreshold;
+      }
+      if (other.ArLowAwarenessThreshold != 0F) {
+        ArLowAwarenessThreshold = other.ArLowAwarenessThreshold;
+      }
+      if (other.ArCloseProximityMultiplier != 0F) {
+        ArCloseProximityMultiplier = other.ArCloseProximityMultiplier;
+      }
+      if (other.ArAwarenessPenaltyThreshold != 0F) {
+        ArAwarenessPenaltyThreshold = other.ArAwarenessPenaltyThreshold;
+      }
+      if (other.ArLowAwarenessMaxMultiplier != 0F) {
+        ArLowAwarenessMaxMultiplier = other.ArLowAwarenessMaxMultiplier;
+      }
+      if (other.ArHighAwarenessMinPenaltyMultiplier != 0F) {
+        ArHighAwarenessMinPenaltyMultiplier = other.ArHighAwarenessMinPenaltyMultiplier;
+      }
+      if (other.ArPlusAttemptsUntilFleeMax != 0) {
+        ArPlusAttemptsUntilFleeMax = other.ArPlusAttemptsUntilFleeMax;
+      }
+      if (other.ArPlusAttemptsUntilFleeInfinite != 0) {
+        ArPlusAttemptsUntilFleeInfinite = other.ArPlusAttemptsUntilFleeInfinite;
       }
     }
 
@@ -259,6 +483,42 @@ namespace POGOProtos.Settings.Master {
           }
           case 40: {
             MilestoneThreshold = input.ReadInt32();
+            break;
+          }
+          case 48: {
+            ArPlusModeEnabled = input.ReadBool();
+            break;
+          }
+          case 61: {
+            ArCloseProximityThreshold = input.ReadFloat();
+            break;
+          }
+          case 69: {
+            ArLowAwarenessThreshold = input.ReadFloat();
+            break;
+          }
+          case 77: {
+            ArCloseProximityMultiplier = input.ReadFloat();
+            break;
+          }
+          case 85: {
+            ArAwarenessPenaltyThreshold = input.ReadFloat();
+            break;
+          }
+          case 93: {
+            ArLowAwarenessMaxMultiplier = input.ReadFloat();
+            break;
+          }
+          case 101: {
+            ArHighAwarenessMinPenaltyMultiplier = input.ReadFloat();
+            break;
+          }
+          case 104: {
+            ArPlusAttemptsUntilFleeMax = input.ReadInt32();
+            break;
+          }
+          case 112: {
+            ArPlusAttemptsUntilFleeInfinite = input.ReadInt32();
             break;
           }
         }

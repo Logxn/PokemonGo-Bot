@@ -25,15 +25,16 @@ namespace POGOProtos.Settings.Master.Pokemon {
             "CjhQT0dPUHJvdG9zL1NldHRpbmdzL01hc3Rlci9Qb2tlbW9uL0V2b2x1dGlv",
             "bkJyYW5jaC5wcm90bxIiUE9HT1Byb3Rvcy5TZXR0aW5ncy5NYXN0ZXIuUG9r",
             "ZW1vbhogUE9HT1Byb3Rvcy9FbnVtcy9Qb2tlbW9uSWQucHJvdG8aJlBPR09Q",
-            "cm90b3MvSW52ZW50b3J5L0l0ZW0vSXRlbUlkLnByb3RvIpwBCg9Fdm9sdXRp",
+            "cm90b3MvSW52ZW50b3J5L0l0ZW0vSXRlbUlkLnByb3RvIsMBCg9Fdm9sdXRp",
             "b25CcmFuY2gSLgoJZXZvbHV0aW9uGAEgASgOMhsuUE9HT1Byb3Rvcy5FbnVt",
             "cy5Qb2tlbW9uSWQSRQoaZXZvbHV0aW9uX2l0ZW1fcmVxdWlyZW1lbnQYAiAB",
             "KA4yIS5QT0dPUHJvdG9zLkludmVudG9yeS5JdGVtLkl0ZW1JZBISCgpjYW5k",
-            "eV9jb3N0GAMgASgFYgZwcm90bzM="));
+            "eV9jb3N0GAMgASgFEiUKHWttX2J1ZGR5X2Rpc3RhbmNlX3JlcXVpcmVtZW50",
+            "GAQgASgCYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::POGOProtos.Enums.PokemonIdReflection.Descriptor, global::POGOProtos.Inventory.Item.ItemIdReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Settings.Master.Pokemon.EvolutionBranch), global::POGOProtos.Settings.Master.Pokemon.EvolutionBranch.Parser, new[]{ "Evolution", "EvolutionItemRequirement", "CandyCost" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Settings.Master.Pokemon.EvolutionBranch), global::POGOProtos.Settings.Master.Pokemon.EvolutionBranch.Parser, new[]{ "Evolution", "EvolutionItemRequirement", "CandyCost", "KmBuddyDistanceRequirement" }, null, null, null)
           }));
     }
     #endregion
@@ -67,6 +68,7 @@ namespace POGOProtos.Settings.Master.Pokemon {
       evolution_ = other.evolution_;
       evolutionItemRequirement_ = other.evolutionItemRequirement_;
       candyCost_ = other.candyCost_;
+      kmBuddyDistanceRequirement_ = other.kmBuddyDistanceRequirement_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -107,6 +109,17 @@ namespace POGOProtos.Settings.Master.Pokemon {
       }
     }
 
+    /// <summary>Field number for the "km_buddy_distance_requirement" field.</summary>
+    public const int KmBuddyDistanceRequirementFieldNumber = 4;
+    private float kmBuddyDistanceRequirement_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float KmBuddyDistanceRequirement {
+      get { return kmBuddyDistanceRequirement_; }
+      set {
+        kmBuddyDistanceRequirement_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as EvolutionBranch);
@@ -123,6 +136,7 @@ namespace POGOProtos.Settings.Master.Pokemon {
       if (Evolution != other.Evolution) return false;
       if (EvolutionItemRequirement != other.EvolutionItemRequirement) return false;
       if (CandyCost != other.CandyCost) return false;
+      if (KmBuddyDistanceRequirement != other.KmBuddyDistanceRequirement) return false;
       return true;
     }
 
@@ -132,6 +146,7 @@ namespace POGOProtos.Settings.Master.Pokemon {
       if (Evolution != 0) hash ^= Evolution.GetHashCode();
       if (EvolutionItemRequirement != 0) hash ^= EvolutionItemRequirement.GetHashCode();
       if (CandyCost != 0) hash ^= CandyCost.GetHashCode();
+      if (KmBuddyDistanceRequirement != 0F) hash ^= KmBuddyDistanceRequirement.GetHashCode();
       return hash;
     }
 
@@ -154,6 +169,10 @@ namespace POGOProtos.Settings.Master.Pokemon {
         output.WriteRawTag(24);
         output.WriteInt32(CandyCost);
       }
+      if (KmBuddyDistanceRequirement != 0F) {
+        output.WriteRawTag(37);
+        output.WriteFloat(KmBuddyDistanceRequirement);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -167,6 +186,9 @@ namespace POGOProtos.Settings.Master.Pokemon {
       }
       if (CandyCost != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(CandyCost);
+      }
+      if (KmBuddyDistanceRequirement != 0F) {
+        size += 1 + 4;
       }
       return size;
     }
@@ -184,6 +206,9 @@ namespace POGOProtos.Settings.Master.Pokemon {
       }
       if (other.CandyCost != 0) {
         CandyCost = other.CandyCost;
+      }
+      if (other.KmBuddyDistanceRequirement != 0F) {
+        KmBuddyDistanceRequirement = other.KmBuddyDistanceRequirement;
       }
     }
 
@@ -205,6 +230,10 @@ namespace POGOProtos.Settings.Master.Pokemon {
           }
           case 24: {
             CandyCost = input.ReadInt32();
+            break;
+          }
+          case 37: {
+            KmBuddyDistanceRequirement = input.ReadFloat();
             break;
           }
         }

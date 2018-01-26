@@ -25,17 +25,19 @@ namespace POGOProtos.Data.Battle {
             "CiNQT0dPUHJvdG9zL0RhdGEvQmF0dGxlL0JhdHRsZS5wcm90bxIWUE9HT1By",
             "b3Rvcy5EYXRhLkJhdHRsZRouUE9HT1Byb3Rvcy9EYXRhL0JhdHRsZS9CYXR0",
             "bGVQYXJ0aWNpcGFudC5wcm90bxomUE9HT1Byb3Rvcy9EYXRhL0JhdHRsZS9C",
-            "YXR0bGVMb2cucHJvdG8i/AEKBkJhdHRsZRIXCg9iYXR0bGVfc3RhcnRfbXMY",
-            "ASABKAMSFQoNYmF0dGxlX2VuZF9tcxgCIAEoAxIRCgliYXR0bGVfaWQYAyAB",
-            "KAkSOwoIZGVmZW5kZXIYBCABKAsyKS5QT0dPUHJvdG9zLkRhdGEuQmF0dGxl",
-            "LkJhdHRsZVBhcnRpY2lwYW50EjUKCmJhdHRsZV9sb2cYBSABKAsyIS5QT0dP",
-            "UHJvdG9zLkRhdGEuQmF0dGxlLkJhdHRsZUxvZxI7CghhdHRhY2tlchgGIAEo",
-            "CzIpLlBPR09Qcm90b3MuRGF0YS5CYXR0bGUuQmF0dGxlUGFydGljaXBhbnRi",
-            "BnByb3RvMw=="));
+            "YXR0bGVMb2cucHJvdG8aJ1BPR09Qcm90b3MvRW51bXMvV2VhdGhlckNvbmRp",
+            "dGlvbi5wcm90byK7AgoGQmF0dGxlEhcKD2JhdHRsZV9zdGFydF9tcxgBIAEo",
+            "AxIVCg1iYXR0bGVfZW5kX21zGAIgASgDEhEKCWJhdHRsZV9pZBgDIAEoCRI7",
+            "CghkZWZlbmRlchgEIAEoCzIpLlBPR09Qcm90b3MuRGF0YS5CYXR0bGUuQmF0",
+            "dGxlUGFydGljaXBhbnQSNQoKYmF0dGxlX2xvZxgFIAEoCzIhLlBPR09Qcm90",
+            "b3MuRGF0YS5CYXR0bGUuQmF0dGxlTG9nEjsKCGF0dGFja2VyGAYgASgLMiku",
+            "UE9HT1Byb3Rvcy5EYXRhLkJhdHRsZS5CYXR0bGVQYXJ0aWNpcGFudBI9ChF3",
+            "ZWF0aGVyX2NvbmRpdGlvbhgHIAEoDjIiLlBPR09Qcm90b3MuRW51bXMuV2Vh",
+            "dGhlckNvbmRpdGlvbmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::POGOProtos.Data.Battle.BattleParticipantReflection.Descriptor, global::POGOProtos.Data.Battle.BattleLogReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::POGOProtos.Data.Battle.BattleParticipantReflection.Descriptor, global::POGOProtos.Data.Battle.BattleLogReflection.Descriptor, global::POGOProtos.Enums.WeatherConditionReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.Battle.Battle), global::POGOProtos.Data.Battle.Battle.Parser, new[]{ "BattleStartMs", "BattleEndMs", "BattleId", "Defender", "BattleLog", "Attacker" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.Battle.Battle), global::POGOProtos.Data.Battle.Battle.Parser, new[]{ "BattleStartMs", "BattleEndMs", "BattleId", "Defender", "BattleLog", "Attacker", "WeatherCondition" }, null, null, null)
           }));
     }
     #endregion
@@ -72,6 +74,7 @@ namespace POGOProtos.Data.Battle {
       Defender = other.defender_ != null ? other.Defender.Clone() : null;
       BattleLog = other.battleLog_ != null ? other.BattleLog.Clone() : null;
       Attacker = other.attacker_ != null ? other.Attacker.Clone() : null;
+      weatherCondition_ = other.weatherCondition_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -145,6 +148,17 @@ namespace POGOProtos.Data.Battle {
       }
     }
 
+    /// <summary>Field number for the "weather_condition" field.</summary>
+    public const int WeatherConditionFieldNumber = 7;
+    private global::POGOProtos.Enums.WeatherCondition weatherCondition_ = 0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::POGOProtos.Enums.WeatherCondition WeatherCondition {
+      get { return weatherCondition_; }
+      set {
+        weatherCondition_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as Battle);
@@ -164,6 +178,7 @@ namespace POGOProtos.Data.Battle {
       if (!object.Equals(Defender, other.Defender)) return false;
       if (!object.Equals(BattleLog, other.BattleLog)) return false;
       if (!object.Equals(Attacker, other.Attacker)) return false;
+      if (WeatherCondition != other.WeatherCondition) return false;
       return true;
     }
 
@@ -176,6 +191,7 @@ namespace POGOProtos.Data.Battle {
       if (defender_ != null) hash ^= Defender.GetHashCode();
       if (battleLog_ != null) hash ^= BattleLog.GetHashCode();
       if (attacker_ != null) hash ^= Attacker.GetHashCode();
+      if (WeatherCondition != 0) hash ^= WeatherCondition.GetHashCode();
       return hash;
     }
 
@@ -210,6 +226,10 @@ namespace POGOProtos.Data.Battle {
         output.WriteRawTag(50);
         output.WriteMessage(Attacker);
       }
+      if (WeatherCondition != 0) {
+        output.WriteRawTag(56);
+        output.WriteEnum((int) WeatherCondition);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -232,6 +252,9 @@ namespace POGOProtos.Data.Battle {
       }
       if (attacker_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Attacker);
+      }
+      if (WeatherCondition != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) WeatherCondition);
       }
       return size;
     }
@@ -267,6 +290,9 @@ namespace POGOProtos.Data.Battle {
           attacker_ = new global::POGOProtos.Data.Battle.BattleParticipant();
         }
         Attacker.MergeFrom(other.Attacker);
+      }
+      if (other.WeatherCondition != 0) {
+        WeatherCondition = other.WeatherCondition;
       }
     }
 
@@ -309,6 +335,10 @@ namespace POGOProtos.Data.Battle {
               attacker_ = new global::POGOProtos.Data.Battle.BattleParticipant();
             }
             input.ReadMessage(attacker_);
+            break;
+          }
+          case 56: {
+            weatherCondition_ = (global::POGOProtos.Enums.WeatherCondition) input.ReadEnum();
             break;
           }
         }

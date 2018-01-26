@@ -26,21 +26,22 @@ namespace POGOProtos.Networking.Responses {
             "dW50ZXJSZXNwb25zZS5wcm90bxIfUE9HT1Byb3Rvcy5OZXR3b3JraW5nLlJl",
             "c3BvbnNlcxowUE9HT1Byb3Rvcy9EYXRhL0NhcHR1cmUvQ2FwdHVyZVByb2Jh",
             "YmlsaXR5LnByb3RvGiFQT0dPUHJvdG9zL0RhdGEvUG9rZW1vbkRhdGEucHJv",
-            "dG8aJlBPR09Qcm90b3MvSW52ZW50b3J5L0l0ZW0vSXRlbUlkLnByb3RvIqwD",
+            "dG8aJlBPR09Qcm90b3MvSW52ZW50b3J5L0l0ZW0vSXRlbUlkLnByb3RvItAD",
             "ChhJbmNlbnNlRW5jb3VudGVyUmVzcG9uc2USUAoGcmVzdWx0GAEgASgOMkAu",
             "UE9HT1Byb3Rvcy5OZXR3b3JraW5nLlJlc3BvbnNlcy5JbmNlbnNlRW5jb3Vu",
             "dGVyUmVzcG9uc2UuUmVzdWx0EjIKDHBva2Vtb25fZGF0YRgCIAEoCzIcLlBP",
             "R09Qcm90b3MuRGF0YS5Qb2tlbW9uRGF0YRJIChNjYXB0dXJlX3Byb2JhYmls",
             "aXR5GAMgASgLMisuUE9HT1Byb3Rvcy5EYXRhLkNhcHR1cmUuQ2FwdHVyZVBy",
             "b2JhYmlsaXR5EjYKC2FjdGl2ZV9pdGVtGAQgASgOMiEuUE9HT1Byb3Rvcy5J",
-            "bnZlbnRvcnkuSXRlbS5JdGVtSWQihwEKBlJlc3VsdBIdChlJTkNFTlNFX0VO",
-            "Q09VTlRFUl9VTktOT1dOEAASHQoZSU5DRU5TRV9FTkNPVU5URVJfU1VDQ0VT",
-            "UxABEiMKH0lOQ0VOU0VfRU5DT1VOVEVSX05PVF9BVkFJTEFCTEUQAhIaChZQ",
-            "T0tFTU9OX0lOVkVOVE9SWV9GVUxMEANiBnByb3RvMw=="));
+            "bnZlbnRvcnkuSXRlbS5JdGVtSWQSIgoaYXJwbHVzX2F0dGVtcHRzX3VudGls",
+            "X2ZsZWUYBSABKAUihwEKBlJlc3VsdBIdChlJTkNFTlNFX0VOQ09VTlRFUl9V",
+            "TktOT1dOEAASHQoZSU5DRU5TRV9FTkNPVU5URVJfU1VDQ0VTUxABEiMKH0lO",
+            "Q0VOU0VfRU5DT1VOVEVSX05PVF9BVkFJTEFCTEUQAhIaChZQT0tFTU9OX0lO",
+            "VkVOVE9SWV9GVUxMEANiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::POGOProtos.Data.Capture.CaptureProbabilityReflection.Descriptor, global::POGOProtos.Data.PokemonDataReflection.Descriptor, global::POGOProtos.Inventory.Item.ItemIdReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.IncenseEncounterResponse), global::POGOProtos.Networking.Responses.IncenseEncounterResponse.Parser, new[]{ "Result", "PokemonData", "CaptureProbability", "ActiveItem" }, null, new[]{ typeof(global::POGOProtos.Networking.Responses.IncenseEncounterResponse.Types.Result) }, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.IncenseEncounterResponse), global::POGOProtos.Networking.Responses.IncenseEncounterResponse.Parser, new[]{ "Result", "PokemonData", "CaptureProbability", "ActiveItem", "ArplusAttemptsUntilFlee" }, null, new[]{ typeof(global::POGOProtos.Networking.Responses.IncenseEncounterResponse.Types.Result) }, null)
           }));
     }
     #endregion
@@ -75,6 +76,7 @@ namespace POGOProtos.Networking.Responses {
       PokemonData = other.pokemonData_ != null ? other.PokemonData.Clone() : null;
       CaptureProbability = other.captureProbability_ != null ? other.CaptureProbability.Clone() : null;
       activeItem_ = other.activeItem_;
+      arplusAttemptsUntilFlee_ = other.arplusAttemptsUntilFlee_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -126,6 +128,17 @@ namespace POGOProtos.Networking.Responses {
       }
     }
 
+    /// <summary>Field number for the "arplus_attempts_until_flee" field.</summary>
+    public const int ArplusAttemptsUntilFleeFieldNumber = 5;
+    private int arplusAttemptsUntilFlee_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int ArplusAttemptsUntilFlee {
+      get { return arplusAttemptsUntilFlee_; }
+      set {
+        arplusAttemptsUntilFlee_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as IncenseEncounterResponse);
@@ -143,6 +156,7 @@ namespace POGOProtos.Networking.Responses {
       if (!object.Equals(PokemonData, other.PokemonData)) return false;
       if (!object.Equals(CaptureProbability, other.CaptureProbability)) return false;
       if (ActiveItem != other.ActiveItem) return false;
+      if (ArplusAttemptsUntilFlee != other.ArplusAttemptsUntilFlee) return false;
       return true;
     }
 
@@ -153,6 +167,7 @@ namespace POGOProtos.Networking.Responses {
       if (pokemonData_ != null) hash ^= PokemonData.GetHashCode();
       if (captureProbability_ != null) hash ^= CaptureProbability.GetHashCode();
       if (ActiveItem != 0) hash ^= ActiveItem.GetHashCode();
+      if (ArplusAttemptsUntilFlee != 0) hash ^= ArplusAttemptsUntilFlee.GetHashCode();
       return hash;
     }
 
@@ -179,6 +194,10 @@ namespace POGOProtos.Networking.Responses {
         output.WriteRawTag(32);
         output.WriteEnum((int) ActiveItem);
       }
+      if (ArplusAttemptsUntilFlee != 0) {
+        output.WriteRawTag(40);
+        output.WriteInt32(ArplusAttemptsUntilFlee);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -195,6 +214,9 @@ namespace POGOProtos.Networking.Responses {
       }
       if (ActiveItem != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) ActiveItem);
+      }
+      if (ArplusAttemptsUntilFlee != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ArplusAttemptsUntilFlee);
       }
       return size;
     }
@@ -221,6 +243,9 @@ namespace POGOProtos.Networking.Responses {
       }
       if (other.ActiveItem != 0) {
         ActiveItem = other.ActiveItem;
+      }
+      if (other.ArplusAttemptsUntilFlee != 0) {
+        ArplusAttemptsUntilFlee = other.ArplusAttemptsUntilFlee;
       }
     }
 
@@ -252,6 +277,10 @@ namespace POGOProtos.Networking.Responses {
           }
           case 32: {
             activeItem_ = (global::POGOProtos.Inventory.Item.ItemId) input.ReadEnum();
+            break;
+          }
+          case 40: {
+            ArplusAttemptsUntilFlee = input.ReadInt32();
             break;
           }
         }

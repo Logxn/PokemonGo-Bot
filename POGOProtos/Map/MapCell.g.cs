@@ -96,7 +96,7 @@ namespace POGOProtos.Map {
     public const int S2CellIdFieldNumber = 1;
     private ulong s2CellId_;
     /// <summary>
-    /// S2 geographic area that the cell covers (http://s2map.com/) (https://code.google.com/archive/p/s2-geometry-library/)
+    ///  S2 geographic area that the cell covers (http://s2map.com/) (https://code.google.com/archive/p/s2-geometry-library/)
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public ulong S2CellId {
@@ -184,7 +184,7 @@ namespace POGOProtos.Map {
         = pb::FieldCodec.ForMessage(42, global::POGOProtos.Map.Pokemon.WildPokemon.Parser);
     private readonly pbc::RepeatedField<global::POGOProtos.Map.Pokemon.WildPokemon> wildPokemons_ = new pbc::RepeatedField<global::POGOProtos.Map.Pokemon.WildPokemon>();
     /// <summary>
-    /// Pokemon within 2 steps or less.
+    ///  Pokemon within 2 steps or less.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pbc::RepeatedField<global::POGOProtos.Map.Pokemon.WildPokemon> WildPokemons {
@@ -197,7 +197,7 @@ namespace POGOProtos.Map {
         = pb::FieldCodec.ForMessage(82, global::POGOProtos.Map.Pokemon.MapPokemon.Parser);
     private readonly pbc::RepeatedField<global::POGOProtos.Map.Pokemon.MapPokemon> catchablePokemons_ = new pbc::RepeatedField<global::POGOProtos.Map.Pokemon.MapPokemon>();
     /// <summary>
-    /// Pokemon within 1 step or none.
+    ///  Pokemon within 1 step or none.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pbc::RepeatedField<global::POGOProtos.Map.Pokemon.MapPokemon> CatchablePokemons {
@@ -210,7 +210,7 @@ namespace POGOProtos.Map {
         = pb::FieldCodec.ForMessage(90, global::POGOProtos.Map.Pokemon.NearbyPokemon.Parser);
     private readonly pbc::RepeatedField<global::POGOProtos.Map.Pokemon.NearbyPokemon> nearbyPokemons_ = new pbc::RepeatedField<global::POGOProtos.Map.Pokemon.NearbyPokemon>();
     /// <summary>
-    /// Pokemon farther away than 2 steps, but still in the area.
+    ///  Pokemon farther away than 2 steps, but still in the area.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pbc::RepeatedField<global::POGOProtos.Map.Pokemon.NearbyPokemon> NearbyPokemons {

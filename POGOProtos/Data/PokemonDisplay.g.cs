@@ -25,14 +25,17 @@ namespace POGOProtos.Data {
             "CiRQT0dPUHJvdG9zL0RhdGEvUG9rZW1vbkRpc3BsYXkucHJvdG8SD1BPR09Q",
             "cm90b3MuRGF0YRoeUE9HT1Byb3Rvcy9FbnVtcy9Db3N0dW1lLnByb3RvGhtQ",
             "T0dPUHJvdG9zL0VudW1zL0Zvcm0ucHJvdG8aHVBPR09Qcm90b3MvRW51bXMv",
-            "R2VuZGVyLnByb3RvIpsBCg5Qb2tlbW9uRGlzcGxheRIqCgdjb3N0dW1lGAEg",
-            "ASgOMhkuUE9HT1Byb3Rvcy5FbnVtcy5Db3N0dW1lEigKBmdlbmRlchgCIAEo",
-            "DjIYLlBPR09Qcm90b3MuRW51bXMuR2VuZGVyEg0KBXNoaW55GAMgASgIEiQK",
-            "BGZvcm0YBCABKA4yFi5QT0dPUHJvdG9zLkVudW1zLkZvcm1iBnByb3RvMw=="));
+            "R2VuZGVyLnByb3RvGidQT0dPUHJvdG9zL0VudW1zL1dlYXRoZXJDb25kaXRp",
+            "b24ucHJvdG8i4gEKDlBva2Vtb25EaXNwbGF5EioKB2Nvc3R1bWUYASABKA4y",
+            "GS5QT0dPUHJvdG9zLkVudW1zLkNvc3R1bWUSKAoGZ2VuZGVyGAIgASgOMhgu",
+            "UE9HT1Byb3Rvcy5FbnVtcy5HZW5kZXISDQoFc2hpbnkYAyABKAgSJAoEZm9y",
+            "bRgEIAEoDjIWLlBPR09Qcm90b3MuRW51bXMuRm9ybRJFChl3ZWF0aGVyX2Jv",
+            "b3N0ZWRfY29uZGl0aW9uGAUgASgOMiIuUE9HT1Byb3Rvcy5FbnVtcy5XZWF0",
+            "aGVyQ29uZGl0aW9uYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::POGOProtos.Enums.CostumeReflection.Descriptor, global::POGOProtos.Enums.FormReflection.Descriptor, global::POGOProtos.Enums.GenderReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::POGOProtos.Enums.CostumeReflection.Descriptor, global::POGOProtos.Enums.FormReflection.Descriptor, global::POGOProtos.Enums.GenderReflection.Descriptor, global::POGOProtos.Enums.WeatherConditionReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.PokemonDisplay), global::POGOProtos.Data.PokemonDisplay.Parser, new[]{ "Costume", "Gender", "Shiny", "Form" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.PokemonDisplay), global::POGOProtos.Data.PokemonDisplay.Parser, new[]{ "Costume", "Gender", "Shiny", "Form", "WeatherBoostedCondition" }, null, null, null)
           }));
     }
     #endregion
@@ -67,6 +70,7 @@ namespace POGOProtos.Data {
       gender_ = other.gender_;
       shiny_ = other.shiny_;
       form_ = other.form_;
+      weatherBoostedCondition_ = other.weatherBoostedCondition_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -118,6 +122,17 @@ namespace POGOProtos.Data {
       }
     }
 
+    /// <summary>Field number for the "weather_boosted_condition" field.</summary>
+    public const int WeatherBoostedConditionFieldNumber = 5;
+    private global::POGOProtos.Enums.WeatherCondition weatherBoostedCondition_ = 0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::POGOProtos.Enums.WeatherCondition WeatherBoostedCondition {
+      get { return weatherBoostedCondition_; }
+      set {
+        weatherBoostedCondition_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as PokemonDisplay);
@@ -135,6 +150,7 @@ namespace POGOProtos.Data {
       if (Gender != other.Gender) return false;
       if (Shiny != other.Shiny) return false;
       if (Form != other.Form) return false;
+      if (WeatherBoostedCondition != other.WeatherBoostedCondition) return false;
       return true;
     }
 
@@ -145,6 +161,7 @@ namespace POGOProtos.Data {
       if (Gender != 0) hash ^= Gender.GetHashCode();
       if (Shiny != false) hash ^= Shiny.GetHashCode();
       if (Form != 0) hash ^= Form.GetHashCode();
+      if (WeatherBoostedCondition != 0) hash ^= WeatherBoostedCondition.GetHashCode();
       return hash;
     }
 
@@ -171,6 +188,10 @@ namespace POGOProtos.Data {
         output.WriteRawTag(32);
         output.WriteEnum((int) Form);
       }
+      if (WeatherBoostedCondition != 0) {
+        output.WriteRawTag(40);
+        output.WriteEnum((int) WeatherBoostedCondition);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -187,6 +208,9 @@ namespace POGOProtos.Data {
       }
       if (Form != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Form);
+      }
+      if (WeatherBoostedCondition != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) WeatherBoostedCondition);
       }
       return size;
     }
@@ -207,6 +231,9 @@ namespace POGOProtos.Data {
       }
       if (other.Form != 0) {
         Form = other.Form;
+      }
+      if (other.WeatherBoostedCondition != 0) {
+        WeatherBoostedCondition = other.WeatherBoostedCondition;
       }
     }
 
@@ -232,6 +259,10 @@ namespace POGOProtos.Data {
           }
           case 32: {
             form_ = (global::POGOProtos.Enums.Form) input.ReadEnum();
+            break;
+          }
+          case 40: {
+            weatherBoostedCondition_ = (global::POGOProtos.Enums.WeatherCondition) input.ReadEnum();
             break;
           }
         }

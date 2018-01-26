@@ -27,19 +27,22 @@ namespace POGOProtos.Data.Logs {
             "dGNoUG9rZW1vbkxvZ0VudHJ5LnByb3RvGi1QT0dPUHJvdG9zL0RhdGEvTG9n",
             "cy9Gb3J0U2VhcmNoTG9nRW50cnkucHJvdG8aL1BPR09Qcm90b3MvRGF0YS9M",
             "b2dzL0J1ZGR5UG9rZW1vbkxvZ0VudHJ5LnByb3RvGi5QT0dPUHJvdG9zL0Rh",
-            "dGEvTG9ncy9SYWlkUmV3YXJkc0xvZ0VudHJ5LnByb3RvIs0CCg5BY3Rpb25M",
-            "b2dFbnRyeRIUCgx0aW1lc3RhbXBfbXMYASABKAMSDQoFc2ZpZGEYAiABKAgS",
-            "QwoNY2F0Y2hfcG9rZW1vbhgDIAEoCzIqLlBPR09Qcm90b3MuRGF0YS5Mb2dz",
-            "LkNhdGNoUG9rZW1vbkxvZ0VudHJ5SAASPwoLZm9ydF9zZWFyY2gYBCABKAsy",
-            "KC5QT0dPUHJvdG9zLkRhdGEuTG9ncy5Gb3J0U2VhcmNoTG9nRW50cnlIABJD",
-            "Cg1idWRkeV9wb2tlbW9uGAUgASgLMiouUE9HT1Byb3Rvcy5EYXRhLkxvZ3Mu",
-            "QnVkZHlQb2tlbW9uTG9nRW50cnlIABJBCgxyYWlkX3Jld2FyZHMYBiABKAsy",
-            "KS5QT0dPUHJvdG9zLkRhdGEuTG9ncy5SYWlkUmV3YXJkc0xvZ0VudHJ5SABC",
-            "CAoGQWN0aW9uYgZwcm90bzM="));
+            "dGEvTG9ncy9SYWlkUmV3YXJkc0xvZ0VudHJ5LnByb3RvGjJQT0dPUHJvdG9z",
+            "L0RhdGEvTG9ncy9QYXNzY29kZVJld2FyZHNMb2dFbnRyeS5wcm90byKYAwoO",
+            "QWN0aW9uTG9nRW50cnkSFAoMdGltZXN0YW1wX21zGAEgASgDEg0KBXNmaWRh",
+            "GAIgASgIEkMKDWNhdGNoX3Bva2Vtb24YAyABKAsyKi5QT0dPUHJvdG9zLkRh",
+            "dGEuTG9ncy5DYXRjaFBva2Vtb25Mb2dFbnRyeUgAEj8KC2ZvcnRfc2VhcmNo",
+            "GAQgASgLMiguUE9HT1Byb3Rvcy5EYXRhLkxvZ3MuRm9ydFNlYXJjaExvZ0Vu",
+            "dHJ5SAASQwoNYnVkZHlfcG9rZW1vbhgFIAEoCzIqLlBPR09Qcm90b3MuRGF0",
+            "YS5Mb2dzLkJ1ZGR5UG9rZW1vbkxvZ0VudHJ5SAASQQoMcmFpZF9yZXdhcmRz",
+            "GAYgASgLMikuUE9HT1Byb3Rvcy5EYXRhLkxvZ3MuUmFpZFJld2FyZHNMb2dF",
+            "bnRyeUgAEkkKEHBhc3Njb2RlX3Jld2FyZHMYByABKAsyLS5QT0dPUHJvdG9z",
+            "LkRhdGEuTG9ncy5QYXNzY29kZVJld2FyZHNMb2dFbnRyeUgAQggKBkFjdGlv",
+            "bmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::POGOProtos.Data.Logs.CatchPokemonLogEntryReflection.Descriptor, global::POGOProtos.Data.Logs.FortSearchLogEntryReflection.Descriptor, global::POGOProtos.Data.Logs.BuddyPokemonLogEntryReflection.Descriptor, global::POGOProtos.Data.Logs.RaidRewardsLogEntryReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::POGOProtos.Data.Logs.CatchPokemonLogEntryReflection.Descriptor, global::POGOProtos.Data.Logs.FortSearchLogEntryReflection.Descriptor, global::POGOProtos.Data.Logs.BuddyPokemonLogEntryReflection.Descriptor, global::POGOProtos.Data.Logs.RaidRewardsLogEntryReflection.Descriptor, global::POGOProtos.Data.Logs.PasscodeRewardsLogEntryReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.Logs.ActionLogEntry), global::POGOProtos.Data.Logs.ActionLogEntry.Parser, new[]{ "TimestampMs", "Sfida", "CatchPokemon", "FortSearch", "BuddyPokemon", "RaidRewards" }, new[]{ "Action" }, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.Logs.ActionLogEntry), global::POGOProtos.Data.Logs.ActionLogEntry.Parser, new[]{ "TimestampMs", "Sfida", "CatchPokemon", "FortSearch", "BuddyPokemon", "RaidRewards", "PasscodeRewards" }, new[]{ "Action" }, null, null)
           }));
     }
     #endregion
@@ -84,6 +87,9 @@ namespace POGOProtos.Data.Logs {
           break;
         case ActionOneofCase.RaidRewards:
           RaidRewards = other.RaidRewards.Clone();
+          break;
+        case ActionOneofCase.PasscodeRewards:
+          PasscodeRewards = other.PasscodeRewards.Clone();
           break;
       }
 
@@ -160,6 +166,17 @@ namespace POGOProtos.Data.Logs {
       }
     }
 
+    /// <summary>Field number for the "passcode_rewards" field.</summary>
+    public const int PasscodeRewardsFieldNumber = 7;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::POGOProtos.Data.Logs.PasscodeRewardsLogEntry PasscodeRewards {
+      get { return actionCase_ == ActionOneofCase.PasscodeRewards ? (global::POGOProtos.Data.Logs.PasscodeRewardsLogEntry) action_ : null; }
+      set {
+        action_ = value;
+        actionCase_ = value == null ? ActionOneofCase.None : ActionOneofCase.PasscodeRewards;
+      }
+    }
+
     private object action_;
     /// <summary>Enum of possible cases for the "Action" oneof.</summary>
     public enum ActionOneofCase {
@@ -168,6 +185,7 @@ namespace POGOProtos.Data.Logs {
       FortSearch = 4,
       BuddyPokemon = 5,
       RaidRewards = 6,
+      PasscodeRewards = 7,
     }
     private ActionOneofCase actionCase_ = ActionOneofCase.None;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -200,6 +218,7 @@ namespace POGOProtos.Data.Logs {
       if (!object.Equals(FortSearch, other.FortSearch)) return false;
       if (!object.Equals(BuddyPokemon, other.BuddyPokemon)) return false;
       if (!object.Equals(RaidRewards, other.RaidRewards)) return false;
+      if (!object.Equals(PasscodeRewards, other.PasscodeRewards)) return false;
       if (ActionCase != other.ActionCase) return false;
       return true;
     }
@@ -213,6 +232,7 @@ namespace POGOProtos.Data.Logs {
       if (actionCase_ == ActionOneofCase.FortSearch) hash ^= FortSearch.GetHashCode();
       if (actionCase_ == ActionOneofCase.BuddyPokemon) hash ^= BuddyPokemon.GetHashCode();
       if (actionCase_ == ActionOneofCase.RaidRewards) hash ^= RaidRewards.GetHashCode();
+      if (actionCase_ == ActionOneofCase.PasscodeRewards) hash ^= PasscodeRewards.GetHashCode();
       hash ^= (int) actionCase_;
       return hash;
     }
@@ -248,6 +268,10 @@ namespace POGOProtos.Data.Logs {
         output.WriteRawTag(50);
         output.WriteMessage(RaidRewards);
       }
+      if (actionCase_ == ActionOneofCase.PasscodeRewards) {
+        output.WriteRawTag(58);
+        output.WriteMessage(PasscodeRewards);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -270,6 +294,9 @@ namespace POGOProtos.Data.Logs {
       }
       if (actionCase_ == ActionOneofCase.RaidRewards) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(RaidRewards);
+      }
+      if (actionCase_ == ActionOneofCase.PasscodeRewards) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(PasscodeRewards);
       }
       return size;
     }
@@ -297,6 +324,9 @@ namespace POGOProtos.Data.Logs {
           break;
         case ActionOneofCase.RaidRewards:
           RaidRewards = other.RaidRewards;
+          break;
+        case ActionOneofCase.PasscodeRewards:
+          PasscodeRewards = other.PasscodeRewards;
           break;
       }
 
@@ -352,6 +382,15 @@ namespace POGOProtos.Data.Logs {
             }
             input.ReadMessage(subBuilder);
             RaidRewards = subBuilder;
+            break;
+          }
+          case 58: {
+            global::POGOProtos.Data.Logs.PasscodeRewardsLogEntry subBuilder = new global::POGOProtos.Data.Logs.PasscodeRewardsLogEntry();
+            if (actionCase_ == ActionOneofCase.PasscodeRewards) {
+              subBuilder.MergeFrom(PasscodeRewards);
+            }
+            input.ReadMessage(subBuilder);
+            PasscodeRewards = subBuilder;
             break;
           }
         }

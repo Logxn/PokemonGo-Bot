@@ -39,32 +39,36 @@ namespace POGOProtos.Settings.Master {
             "SW5jdWJhdG9yQXR0cmlidXRlcy5wcm90bxo/UE9HT1Byb3Rvcy9TZXR0aW5n",
             "cy9NYXN0ZXIvSXRlbS9FeHBlcmllbmNlQm9vc3RBdHRyaWJ1dGVzLnByb3Rv",
             "GkBQT0dPUHJvdG9zL1NldHRpbmdzL01hc3Rlci9JdGVtL0ludmVudG9yeVVw",
-            "Z3JhZGVBdHRyaWJ1dGVzLnByb3RvIrUHCgxJdGVtU2V0dGluZ3MSMgoHaXRl",
-            "bV9pZBgBIAEoDjIhLlBPR09Qcm90b3MuSW52ZW50b3J5Lkl0ZW0uSXRlbUlk",
-            "EjYKCWl0ZW1fdHlwZRgCIAEoDjIjLlBPR09Qcm90b3MuSW52ZW50b3J5Lkl0",
-            "ZW0uSXRlbVR5cGUSMAoIY2F0ZWdvcnkYAyABKA4yHi5QT0dPUHJvdG9zLkVu",
-            "dW1zLkl0ZW1DYXRlZ29yeRIRCglkcm9wX2ZyZXEYBCABKAISGgoSZHJvcF90",
-            "cmFpbmVyX2xldmVsGAUgASgFEkUKCHBva2ViYWxsGAYgASgLMjMuUE9HT1By",
-            "b3Rvcy5TZXR0aW5ncy5NYXN0ZXIuSXRlbS5Qb2tlYmFsbEF0dHJpYnV0ZXMS",
-            "QQoGcG90aW9uGAcgASgLMjEuUE9HT1Byb3Rvcy5TZXR0aW5ncy5NYXN0ZXIu",
-            "SXRlbS5Qb3Rpb25BdHRyaWJ1dGVzEkEKBnJldml2ZRgIIAEoCzIxLlBPR09Q",
-            "cm90b3MuU2V0dGluZ3MuTWFzdGVyLkl0ZW0uUmV2aXZlQXR0cmlidXRlcxJB",
-            "CgZiYXR0bGUYCSABKAsyMS5QT0dPUHJvdG9zLlNldHRpbmdzLk1hc3Rlci5J",
-            "dGVtLkJhdHRsZUF0dHJpYnV0ZXMSPQoEZm9vZBgKIAEoCzIvLlBPR09Qcm90",
-            "b3MuU2V0dGluZ3MuTWFzdGVyLkl0ZW0uRm9vZEF0dHJpYnV0ZXMSVgoRaW52",
-            "ZW50b3J5X3VwZ3JhZGUYCyABKAsyOy5QT0dPUHJvdG9zLlNldHRpbmdzLk1h",
-            "c3Rlci5JdGVtLkludmVudG9yeVVwZ3JhZGVBdHRyaWJ1dGVzEkwKCHhwX2Jv",
-            "b3N0GAwgASgLMjouUE9HT1Byb3Rvcy5TZXR0aW5ncy5NYXN0ZXIuSXRlbS5F",
-            "eHBlcmllbmNlQm9vc3RBdHRyaWJ1dGVzEkMKB2luY2Vuc2UYDSABKAsyMi5Q",
-            "T0dPUHJvdG9zLlNldHRpbmdzLk1hc3Rlci5JdGVtLkluY2Vuc2VBdHRyaWJ1",
-            "dGVzEk4KDWVnZ19pbmN1YmF0b3IYDiABKAsyNy5QT0dPUHJvdG9zLlNldHRp",
-            "bmdzLk1hc3Rlci5JdGVtLkVnZ0luY3ViYXRvckF0dHJpYnV0ZXMSTgoNZm9y",
-            "dF9tb2RpZmllchgPIAEoCzI3LlBPR09Qcm90b3MuU2V0dGluZ3MuTWFzdGVy",
-            "Lkl0ZW0uRm9ydE1vZGlmaWVyQXR0cmlidXRlc2IGcHJvdG8z"));
+            "Z3JhZGVBdHRyaWJ1dGVzLnByb3RvGj1QT0dPUHJvdG9zL1NldHRpbmdzL01h",
+            "c3Rlci9JdGVtL1N0YXJkdXN0Qm9vc3RBdHRyaWJ1dGVzLnByb3RvIocICgxJ",
+            "dGVtU2V0dGluZ3MSMgoHaXRlbV9pZBgBIAEoDjIhLlBPR09Qcm90b3MuSW52",
+            "ZW50b3J5Lkl0ZW0uSXRlbUlkEjYKCWl0ZW1fdHlwZRgCIAEoDjIjLlBPR09Q",
+            "cm90b3MuSW52ZW50b3J5Lkl0ZW0uSXRlbVR5cGUSMAoIY2F0ZWdvcnkYAyAB",
+            "KA4yHi5QT0dPUHJvdG9zLkVudW1zLkl0ZW1DYXRlZ29yeRIRCglkcm9wX2Zy",
+            "ZXEYBCABKAISGgoSZHJvcF90cmFpbmVyX2xldmVsGAUgASgFEkUKCHBva2Vi",
+            "YWxsGAYgASgLMjMuUE9HT1Byb3Rvcy5TZXR0aW5ncy5NYXN0ZXIuSXRlbS5Q",
+            "b2tlYmFsbEF0dHJpYnV0ZXMSQQoGcG90aW9uGAcgASgLMjEuUE9HT1Byb3Rv",
+            "cy5TZXR0aW5ncy5NYXN0ZXIuSXRlbS5Qb3Rpb25BdHRyaWJ1dGVzEkEKBnJl",
+            "dml2ZRgIIAEoCzIxLlBPR09Qcm90b3MuU2V0dGluZ3MuTWFzdGVyLkl0ZW0u",
+            "UmV2aXZlQXR0cmlidXRlcxJBCgZiYXR0bGUYCSABKAsyMS5QT0dPUHJvdG9z",
+            "LlNldHRpbmdzLk1hc3Rlci5JdGVtLkJhdHRsZUF0dHJpYnV0ZXMSPQoEZm9v",
+            "ZBgKIAEoCzIvLlBPR09Qcm90b3MuU2V0dGluZ3MuTWFzdGVyLkl0ZW0uRm9v",
+            "ZEF0dHJpYnV0ZXMSVgoRaW52ZW50b3J5X3VwZ3JhZGUYCyABKAsyOy5QT0dP",
+            "UHJvdG9zLlNldHRpbmdzLk1hc3Rlci5JdGVtLkludmVudG9yeVVwZ3JhZGVB",
+            "dHRyaWJ1dGVzEkwKCHhwX2Jvb3N0GAwgASgLMjouUE9HT1Byb3Rvcy5TZXR0",
+            "aW5ncy5NYXN0ZXIuSXRlbS5FeHBlcmllbmNlQm9vc3RBdHRyaWJ1dGVzEkMK",
+            "B2luY2Vuc2UYDSABKAsyMi5QT0dPUHJvdG9zLlNldHRpbmdzLk1hc3Rlci5J",
+            "dGVtLkluY2Vuc2VBdHRyaWJ1dGVzEk4KDWVnZ19pbmN1YmF0b3IYDiABKAsy",
+            "Ny5QT0dPUHJvdG9zLlNldHRpbmdzLk1hc3Rlci5JdGVtLkVnZ0luY3ViYXRv",
+            "ckF0dHJpYnV0ZXMSTgoNZm9ydF9tb2RpZmllchgPIAEoCzI3LlBPR09Qcm90",
+            "b3MuU2V0dGluZ3MuTWFzdGVyLkl0ZW0uRm9ydE1vZGlmaWVyQXR0cmlidXRl",
+            "cxJQCg5zdGFyZHVzdF9ib29zdBgQIAEoCzI4LlBPR09Qcm90b3MuU2V0dGlu",
+            "Z3MuTWFzdGVyLkl0ZW0uU3RhcmR1c3RCb29zdEF0dHJpYnV0ZXNiBnByb3Rv",
+            "Mw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::POGOProtos.Enums.ItemCategoryReflection.Descriptor, global::POGOProtos.Inventory.Item.ItemIdReflection.Descriptor, global::POGOProtos.Inventory.Item.ItemTypeReflection.Descriptor, global::POGOProtos.Settings.Master.Item.FoodAttributesReflection.Descriptor, global::POGOProtos.Settings.Master.Item.PotionAttributesReflection.Descriptor, global::POGOProtos.Settings.Master.Item.ReviveAttributesReflection.Descriptor, global::POGOProtos.Settings.Master.Item.BattleAttributesReflection.Descriptor, global::POGOProtos.Settings.Master.Item.IncenseAttributesReflection.Descriptor, global::POGOProtos.Settings.Master.Item.PokeballAttributesReflection.Descriptor, global::POGOProtos.Settings.Master.Item.FortModifierAttributesReflection.Descriptor, global::POGOProtos.Settings.Master.Item.EggIncubatorAttributesReflection.Descriptor, global::POGOProtos.Settings.Master.Item.ExperienceBoostAttributesReflection.Descriptor, global::POGOProtos.Settings.Master.Item.InventoryUpgradeAttributesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::POGOProtos.Enums.ItemCategoryReflection.Descriptor, global::POGOProtos.Inventory.Item.ItemIdReflection.Descriptor, global::POGOProtos.Inventory.Item.ItemTypeReflection.Descriptor, global::POGOProtos.Settings.Master.Item.FoodAttributesReflection.Descriptor, global::POGOProtos.Settings.Master.Item.PotionAttributesReflection.Descriptor, global::POGOProtos.Settings.Master.Item.ReviveAttributesReflection.Descriptor, global::POGOProtos.Settings.Master.Item.BattleAttributesReflection.Descriptor, global::POGOProtos.Settings.Master.Item.IncenseAttributesReflection.Descriptor, global::POGOProtos.Settings.Master.Item.PokeballAttributesReflection.Descriptor, global::POGOProtos.Settings.Master.Item.FortModifierAttributesReflection.Descriptor, global::POGOProtos.Settings.Master.Item.EggIncubatorAttributesReflection.Descriptor, global::POGOProtos.Settings.Master.Item.ExperienceBoostAttributesReflection.Descriptor, global::POGOProtos.Settings.Master.Item.InventoryUpgradeAttributesReflection.Descriptor, global::POGOProtos.Settings.Master.Item.StardustBoostAttributesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Settings.Master.ItemSettings), global::POGOProtos.Settings.Master.ItemSettings.Parser, new[]{ "ItemId", "ItemType", "Category", "DropFreq", "DropTrainerLevel", "Pokeball", "Potion", "Revive", "Battle", "Food", "InventoryUpgrade", "XpBoost", "Incense", "EggIncubator", "FortModifier" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Settings.Master.ItemSettings), global::POGOProtos.Settings.Master.ItemSettings.Parser, new[]{ "ItemId", "ItemType", "Category", "DropFreq", "DropTrainerLevel", "Pokeball", "Potion", "Revive", "Battle", "Food", "InventoryUpgrade", "XpBoost", "Incense", "EggIncubator", "FortModifier", "StardustBoost" }, null, null, null)
           }));
     }
     #endregion
@@ -110,6 +114,7 @@ namespace POGOProtos.Settings.Master {
       Incense = other.incense_ != null ? other.Incense.Clone() : null;
       EggIncubator = other.eggIncubator_ != null ? other.EggIncubator.Clone() : null;
       FortModifier = other.fortModifier_ != null ? other.FortModifier.Clone() : null;
+      StardustBoost = other.stardustBoost_ != null ? other.StardustBoost.Clone() : null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -176,7 +181,7 @@ namespace POGOProtos.Settings.Master {
     public const int PokeballFieldNumber = 6;
     private global::POGOProtos.Settings.Master.Item.PokeballAttributes pokeball_;
     /// <summary>
-    /// One of the below attributes will be set in the response, the others will be null.
+    ///  One of the below attributes will be set in the response, the others will be null.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::POGOProtos.Settings.Master.Item.PokeballAttributes Pokeball {
@@ -285,6 +290,17 @@ namespace POGOProtos.Settings.Master {
       }
     }
 
+    /// <summary>Field number for the "stardust_boost" field.</summary>
+    public const int StardustBoostFieldNumber = 16;
+    private global::POGOProtos.Settings.Master.Item.StardustBoostAttributes stardustBoost_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::POGOProtos.Settings.Master.Item.StardustBoostAttributes StardustBoost {
+      get { return stardustBoost_; }
+      set {
+        stardustBoost_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as ItemSettings);
@@ -313,6 +329,7 @@ namespace POGOProtos.Settings.Master {
       if (!object.Equals(Incense, other.Incense)) return false;
       if (!object.Equals(EggIncubator, other.EggIncubator)) return false;
       if (!object.Equals(FortModifier, other.FortModifier)) return false;
+      if (!object.Equals(StardustBoost, other.StardustBoost)) return false;
       return true;
     }
 
@@ -334,6 +351,7 @@ namespace POGOProtos.Settings.Master {
       if (incense_ != null) hash ^= Incense.GetHashCode();
       if (eggIncubator_ != null) hash ^= EggIncubator.GetHashCode();
       if (fortModifier_ != null) hash ^= FortModifier.GetHashCode();
+      if (stardustBoost_ != null) hash ^= StardustBoost.GetHashCode();
       return hash;
     }
 
@@ -404,6 +422,10 @@ namespace POGOProtos.Settings.Master {
         output.WriteRawTag(122);
         output.WriteMessage(FortModifier);
       }
+      if (stardustBoost_ != null) {
+        output.WriteRawTag(130, 1);
+        output.WriteMessage(StardustBoost);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -453,6 +475,9 @@ namespace POGOProtos.Settings.Master {
       }
       if (fortModifier_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(FortModifier);
+      }
+      if (stardustBoost_ != null) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(StardustBoost);
       }
       return size;
     }
@@ -536,6 +561,12 @@ namespace POGOProtos.Settings.Master {
           fortModifier_ = new global::POGOProtos.Settings.Master.Item.FortModifierAttributes();
         }
         FortModifier.MergeFrom(other.FortModifier);
+      }
+      if (other.stardustBoost_ != null) {
+        if (stardustBoost_ == null) {
+          stardustBoost_ = new global::POGOProtos.Settings.Master.Item.StardustBoostAttributes();
+        }
+        StardustBoost.MergeFrom(other.StardustBoost);
       }
     }
 
@@ -635,6 +666,13 @@ namespace POGOProtos.Settings.Master {
               fortModifier_ = new global::POGOProtos.Settings.Master.Item.FortModifierAttributes();
             }
             input.ReadMessage(fortModifier_);
+            break;
+          }
+          case 130: {
+            if (stardustBoost_ == null) {
+              stardustBoost_ = new global::POGOProtos.Settings.Master.Item.StardustBoostAttributes();
+            }
+            input.ReadMessage(stardustBoost_);
             break;
           }
         }

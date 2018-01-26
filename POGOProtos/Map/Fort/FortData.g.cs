@@ -170,7 +170,7 @@ namespace POGOProtos.Map.Fort {
     public const int OwnedByTeamFieldNumber = 5;
     private global::POGOProtos.Enums.TeamColor ownedByTeam_ = 0;
     /// <summary>
-    /// (Gym only) Team that owns the gym.
+    ///  (Gym only) Team that owns the gym.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::POGOProtos.Enums.TeamColor OwnedByTeam {
@@ -184,7 +184,7 @@ namespace POGOProtos.Map.Fort {
     public const int GuardPokemonIdFieldNumber = 6;
     private global::POGOProtos.Enums.PokemonId guardPokemonId_ = 0;
     /// <summary>
-    /// (Gym only) Highest CP Pokemon ID at the gym.
+    ///  (Gym only) Highest CP Pokemon ID at the gym.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::POGOProtos.Enums.PokemonId GuardPokemonId {
@@ -198,7 +198,7 @@ namespace POGOProtos.Map.Fort {
     public const int GuardPokemonCpFieldNumber = 7;
     private int guardPokemonCp_;
     /// <summary>
-    /// (Gym only) Highest CP Pokemon at the gym.
+    ///  (Gym only) Highest CP Pokemon at the gym.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int GuardPokemonCp {
@@ -234,7 +234,7 @@ namespace POGOProtos.Map.Fort {
     public const int GymPointsFieldNumber = 10;
     private long gymPoints_;
     /// <summary>
-    /// (Gym only) Prestigate / experience of the gym.
+    ///  (Gym only) Prestigate / experience of the gym.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public long GymPoints {
@@ -248,7 +248,7 @@ namespace POGOProtos.Map.Fort {
     public const int IsInBattleFieldNumber = 11;
     private bool isInBattle_;
     /// <summary>
-    /// (Gym only) Whether someone is battling at the gym currently.
+    ///  (Gym only) Whether someone is battling at the gym currently.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool IsInBattle {
@@ -264,7 +264,7 @@ namespace POGOProtos.Map.Fort {
         = pb::FieldCodec.ForEnum(98, x => (int) x, x => (global::POGOProtos.Inventory.Item.ItemId) x);
     private readonly pbc::RepeatedField<global::POGOProtos.Inventory.Item.ItemId> activeFortModifier_ = new pbc::RepeatedField<global::POGOProtos.Inventory.Item.ItemId>();
     /// <summary>
-    /// (Pokestop only)
+    ///  (Pokestop only)
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pbc::RepeatedField<global::POGOProtos.Inventory.Item.ItemId> ActiveFortModifier {
@@ -275,7 +275,7 @@ namespace POGOProtos.Map.Fort {
     public const int LureInfoFieldNumber = 13;
     private global::POGOProtos.Map.Fort.FortLureInfo lureInfo_;
     /// <summary>
-    /// (Pokestop only)
+    ///  (Pokestop only)
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::POGOProtos.Map.Fort.FortLureInfo LureInfo {
@@ -289,7 +289,7 @@ namespace POGOProtos.Map.Fort {
     public const int CooldownCompleteTimestampMsFieldNumber = 14;
     private long cooldownCompleteTimestampMs_;
     /// <summary>
-    /// (Pokestop only) Timestamp when the pokestop can be activated again to get items / xp.
+    ///  (Pokestop only) Timestamp when the pokestop can be activated again to get items / xp.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public long CooldownCompleteTimestampMs {

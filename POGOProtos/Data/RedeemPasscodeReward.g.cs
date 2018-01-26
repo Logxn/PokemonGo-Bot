@@ -23,22 +23,22 @@ namespace POGOProtos.Data {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CipQT0dPUHJvdG9zL0RhdGEvUmVkZWVtUGFzc2NvZGVSZXdhcmQucHJvdG8S",
-            "D1BPR09Qcm90b3MuRGF0YRojUE9HT1Byb3Rvcy9FbnVtcy9HeW1CYWRnZVR5",
-            "cGUucHJvdG8aIVBPR09Qcm90b3MvRGF0YS9Qb2tlbW9uRGF0YS5wcm90bxom",
-            "UE9HT1Byb3Rvcy9EYXRhL1JlZGVlbS9Qb2tlQ2FuZHkucHJvdG8aL1BPR09Q",
-            "cm90b3MvRGF0YS9SZWRlZW0vUmVkZWVtZWRBdmF0YXJJdGVtLnByb3RvGilQ",
-            "T0dPUHJvdG9zL0RhdGEvUmVkZWVtL1JlZGVlbWVkSXRlbS5wcm90byL7AgoU",
-            "UmVkZWVtUGFzc2NvZGVSZXdhcmQSMwoFaXRlbXMYASADKAsyJC5QT0dPUHJv",
-            "dG9zLkRhdGEuUmVkZWVtLlJlZGVlbWVkSXRlbRJACgxhdmF0YXJfaXRlbXMY",
-            "AiADKAsyKi5QT0dPUHJvdG9zLkRhdGEuUmVkZWVtLlJlZGVlbWVkQXZhdGFy",
-            "SXRlbRIxCgtlZ2dfcG9rZW1vbhgDIAMoCzIcLlBPR09Qcm90b3MuRGF0YS5Q",
-            "b2tlbW9uRGF0YRItCgdwb2tlbW9uGAQgAygLMhwuUE9HT1Byb3Rvcy5EYXRh",
-            "LlBva2Vtb25EYXRhEjUKCnBva2VfY2FuZHkYBSADKAsyIS5QT0dPUHJvdG9z",
-            "LkRhdGEuUmVkZWVtLlBva2VDYW5keRIQCghzdGFyZHVzdBgGIAEoBRIRCglw",
-            "b2tlY29pbnMYByABKAUSLgoGYmFkZ2VzGAggAygOMh4uUE9HT1Byb3Rvcy5F",
-            "bnVtcy5HeW1CYWRnZVR5cGViBnByb3RvMw=="));
+            "D1BPR09Qcm90b3MuRGF0YRogUE9HT1Byb3Rvcy9FbnVtcy9CYWRnZVR5cGUu",
+            "cHJvdG8aIVBPR09Qcm90b3MvRGF0YS9Qb2tlbW9uRGF0YS5wcm90bxomUE9H",
+            "T1Byb3Rvcy9EYXRhL1JlZGVlbS9Qb2tlQ2FuZHkucHJvdG8aL1BPR09Qcm90",
+            "b3MvRGF0YS9SZWRlZW0vUmVkZWVtZWRBdmF0YXJJdGVtLnByb3RvGilQT0dP",
+            "UHJvdG9zL0RhdGEvUmVkZWVtL1JlZGVlbWVkSXRlbS5wcm90byL4AgoUUmVk",
+            "ZWVtUGFzc2NvZGVSZXdhcmQSMwoFaXRlbXMYASADKAsyJC5QT0dPUHJvdG9z",
+            "LkRhdGEuUmVkZWVtLlJlZGVlbWVkSXRlbRJACgxhdmF0YXJfaXRlbXMYAiAD",
+            "KAsyKi5QT0dPUHJvdG9zLkRhdGEuUmVkZWVtLlJlZGVlbWVkQXZhdGFySXRl",
+            "bRIxCgtlZ2dfcG9rZW1vbhgDIAMoCzIcLlBPR09Qcm90b3MuRGF0YS5Qb2tl",
+            "bW9uRGF0YRItCgdwb2tlbW9uGAQgAygLMhwuUE9HT1Byb3Rvcy5EYXRhLlBv",
+            "a2Vtb25EYXRhEjUKCnBva2VfY2FuZHkYBSADKAsyIS5QT0dPUHJvdG9zLkRh",
+            "dGEuUmVkZWVtLlBva2VDYW5keRIQCghzdGFyZHVzdBgGIAEoBRIRCglwb2tl",
+            "Y29pbnMYByABKAUSKwoGYmFkZ2VzGAggAygOMhsuUE9HT1Byb3Rvcy5FbnVt",
+            "cy5CYWRnZVR5cGViBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::POGOProtos.Enums.GymBadgeTypeReflection.Descriptor, global::POGOProtos.Data.PokemonDataReflection.Descriptor, global::POGOProtos.Data.Redeem.PokeCandyReflection.Descriptor, global::POGOProtos.Data.Redeem.RedeemedAvatarItemReflection.Descriptor, global::POGOProtos.Data.Redeem.RedeemedItemReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::POGOProtos.Enums.BadgeTypeReflection.Descriptor, global::POGOProtos.Data.PokemonDataReflection.Descriptor, global::POGOProtos.Data.Redeem.PokeCandyReflection.Descriptor, global::POGOProtos.Data.Redeem.RedeemedAvatarItemReflection.Descriptor, global::POGOProtos.Data.Redeem.RedeemedItemReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.RedeemPasscodeReward), global::POGOProtos.Data.RedeemPasscodeReward.Parser, new[]{ "Items", "AvatarItems", "EggPokemon", "Pokemon", "PokeCandy", "Stardust", "Pokecoins", "Badges" }, null, null, null)
           }));
@@ -160,11 +160,11 @@ namespace POGOProtos.Data {
 
     /// <summary>Field number for the "badges" field.</summary>
     public const int BadgesFieldNumber = 8;
-    private static readonly pb::FieldCodec<global::POGOProtos.Enums.GymBadgeType> _repeated_badges_codec
-        = pb::FieldCodec.ForEnum(66, x => (int) x, x => (global::POGOProtos.Enums.GymBadgeType) x);
-    private readonly pbc::RepeatedField<global::POGOProtos.Enums.GymBadgeType> badges_ = new pbc::RepeatedField<global::POGOProtos.Enums.GymBadgeType>();
+    private static readonly pb::FieldCodec<global::POGOProtos.Enums.BadgeType> _repeated_badges_codec
+        = pb::FieldCodec.ForEnum(66, x => (int) x, x => (global::POGOProtos.Enums.BadgeType) x);
+    private readonly pbc::RepeatedField<global::POGOProtos.Enums.BadgeType> badges_ = new pbc::RepeatedField<global::POGOProtos.Enums.BadgeType>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::POGOProtos.Enums.GymBadgeType> Badges {
+    public pbc::RepeatedField<global::POGOProtos.Enums.BadgeType> Badges {
       get { return badges_; }
     }
 

@@ -23,16 +23,18 @@ namespace POGOProtos.Inventory {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Ci5QT0dPUHJvdG9zL0ludmVudG9yeS9FeGNsdXNpdmVUaWNrZXRJbmZvLnBy",
-            "b3RvEhRQT0dPUHJvdG9zLkludmVudG9yeSLGAQoTRXhjbHVzaXZlVGlja2V0",
-            "SW5mbxIRCglyYWlkX3NlZWQYASABKAMSDwoHZm9ydF9pZBgCIAEoCRIVCg1z",
-            "dGFydF90aW1lX21zGAQgASgDEhMKC2VuZF90aW1lX21zGAUgASgDEhEKCWlt",
-            "YWdlX3VybBgGIAEoCRIQCghsYXRpdHVkZRgHIAEoARIRCglsb25naXR1ZGUY",
-            "CCABKAESEAoIZ3ltX25hbWUYCSABKAkSFQoNc3Bhd25fdGltZV9tcxgKIAEo",
-            "A2IGcHJvdG8z"));
+            "b3RvEhRQT0dPUHJvdG9zLkludmVudG9yeRohUE9HT1Byb3Rvcy9EYXRhL1Bv",
+            "a2Vtb25EYXRhLnByb3RvIpACChNFeGNsdXNpdmVUaWNrZXRJbmZvEhEKCXJh",
+            "aWRfc2VlZBgBIAEoAxIPCgdmb3J0X2lkGAIgASgJEhUKDXN0YXJ0X3RpbWVf",
+            "bXMYBCABKAMSEwoLZW5kX3RpbWVfbXMYBSABKAMSEQoJaW1hZ2VfdXJsGAYg",
+            "ASgJEhAKCGxhdGl0dWRlGAcgASgBEhEKCWxvbmdpdHVkZRgIIAEoARIQCghn",
+            "eW1fbmFtZRgJIAEoCRIVCg1zcGF3bl90aW1lX21zGAogASgDEhQKDGlzX2Nh",
+            "bmNlbGxlZBgLIAEoCBIyCgxyYWlkX3Bva2Vtb24YDCABKAsyHC5QT0dPUHJv",
+            "dG9zLkRhdGEuUG9rZW1vbkRhdGFiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { },
+          new pbr::FileDescriptor[] { global::POGOProtos.Data.PokemonDataReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Inventory.ExclusiveTicketInfo), global::POGOProtos.Inventory.ExclusiveTicketInfo.Parser, new[]{ "RaidSeed", "FortId", "StartTimeMs", "EndTimeMs", "ImageUrl", "Latitude", "Longitude", "GymName", "SpawnTimeMs" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Inventory.ExclusiveTicketInfo), global::POGOProtos.Inventory.ExclusiveTicketInfo.Parser, new[]{ "RaidSeed", "FortId", "StartTimeMs", "EndTimeMs", "ImageUrl", "Latitude", "Longitude", "GymName", "SpawnTimeMs", "IsCancelled", "RaidPokemon" }, null, null, null)
           }));
     }
     #endregion
@@ -72,6 +74,8 @@ namespace POGOProtos.Inventory {
       longitude_ = other.longitude_;
       gymName_ = other.gymName_;
       spawnTimeMs_ = other.spawnTimeMs_;
+      isCancelled_ = other.isCancelled_;
+      RaidPokemon = other.raidPokemon_ != null ? other.RaidPokemon.Clone() : null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -178,6 +182,28 @@ namespace POGOProtos.Inventory {
       }
     }
 
+    /// <summary>Field number for the "is_cancelled" field.</summary>
+    public const int IsCancelledFieldNumber = 11;
+    private bool isCancelled_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool IsCancelled {
+      get { return isCancelled_; }
+      set {
+        isCancelled_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "raid_pokemon" field.</summary>
+    public const int RaidPokemonFieldNumber = 12;
+    private global::POGOProtos.Data.PokemonData raidPokemon_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::POGOProtos.Data.PokemonData RaidPokemon {
+      get { return raidPokemon_; }
+      set {
+        raidPokemon_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as ExclusiveTicketInfo);
@@ -200,6 +226,8 @@ namespace POGOProtos.Inventory {
       if (Longitude != other.Longitude) return false;
       if (GymName != other.GymName) return false;
       if (SpawnTimeMs != other.SpawnTimeMs) return false;
+      if (IsCancelled != other.IsCancelled) return false;
+      if (!object.Equals(RaidPokemon, other.RaidPokemon)) return false;
       return true;
     }
 
@@ -215,6 +243,8 @@ namespace POGOProtos.Inventory {
       if (Longitude != 0D) hash ^= Longitude.GetHashCode();
       if (GymName.Length != 0) hash ^= GymName.GetHashCode();
       if (SpawnTimeMs != 0L) hash ^= SpawnTimeMs.GetHashCode();
+      if (IsCancelled != false) hash ^= IsCancelled.GetHashCode();
+      if (raidPokemon_ != null) hash ^= RaidPokemon.GetHashCode();
       return hash;
     }
 
@@ -261,6 +291,14 @@ namespace POGOProtos.Inventory {
         output.WriteRawTag(80);
         output.WriteInt64(SpawnTimeMs);
       }
+      if (IsCancelled != false) {
+        output.WriteRawTag(88);
+        output.WriteBool(IsCancelled);
+      }
+      if (raidPokemon_ != null) {
+        output.WriteRawTag(98);
+        output.WriteMessage(RaidPokemon);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -292,6 +330,12 @@ namespace POGOProtos.Inventory {
       }
       if (SpawnTimeMs != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(SpawnTimeMs);
+      }
+      if (IsCancelled != false) {
+        size += 1 + 1;
+      }
+      if (raidPokemon_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(RaidPokemon);
       }
       return size;
     }
@@ -327,6 +371,15 @@ namespace POGOProtos.Inventory {
       }
       if (other.SpawnTimeMs != 0L) {
         SpawnTimeMs = other.SpawnTimeMs;
+      }
+      if (other.IsCancelled != false) {
+        IsCancelled = other.IsCancelled;
+      }
+      if (other.raidPokemon_ != null) {
+        if (raidPokemon_ == null) {
+          raidPokemon_ = new global::POGOProtos.Data.PokemonData();
+        }
+        RaidPokemon.MergeFrom(other.RaidPokemon);
       }
     }
 
@@ -372,6 +425,17 @@ namespace POGOProtos.Inventory {
           }
           case 80: {
             SpawnTimeMs = input.ReadInt64();
+            break;
+          }
+          case 88: {
+            IsCancelled = input.ReadBool();
+            break;
+          }
+          case 98: {
+            if (raidPokemon_ == null) {
+              raidPokemon_ = new global::POGOProtos.Data.PokemonData();
+            }
+            input.ReadMessage(raidPokemon_);
             break;
           }
         }

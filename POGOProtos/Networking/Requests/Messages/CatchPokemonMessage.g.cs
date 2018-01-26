@@ -3,6 +3,7 @@
 #pragma warning disable 1591, 0612, 3021
 #region Designer generated code
 
+using System;
 using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
@@ -25,16 +26,19 @@ namespace POGOProtos.Networking.Requests.Messages {
             "CkFQT0dPUHJvdG9zL05ldHdvcmtpbmcvUmVxdWVzdHMvTWVzc2FnZXMvQ2F0",
             "Y2hQb2tlbW9uTWVzc2FnZS5wcm90bxInUE9HT1Byb3Rvcy5OZXR3b3JraW5n",
             "LlJlcXVlc3RzLk1lc3NhZ2VzGiZQT0dPUHJvdG9zL0ludmVudG9yeS9JdGVt",
-            "L0l0ZW1JZC5wcm90byLmAQoTQ2F0Y2hQb2tlbW9uTWVzc2FnZRIUCgxlbmNv",
+            "L0l0ZW1JZC5wcm90bxorUE9HT1Byb3Rvcy9EYXRhL0FSUGx1c0VuY291bnRl",
+            "clZhbHVlcy5wcm90byKmAgoTQ2F0Y2hQb2tlbW9uTWVzc2FnZRIUCgxlbmNv",
             "dW50ZXJfaWQYASABKAYSMwoIcG9rZWJhbGwYAiABKA4yIS5QT0dPUHJvdG9z",
             "LkludmVudG9yeS5JdGVtLkl0ZW1JZBIfChdub3JtYWxpemVkX3JldGljbGVf",
             "c2l6ZRgDIAEoARIWCg5zcGF3bl9wb2ludF9pZBgEIAEoCRITCgtoaXRfcG9r",
             "ZW1vbhgFIAEoCBIVCg1zcGluX21vZGlmaWVyGAYgASgBEh8KF25vcm1hbGl6",
-            "ZWRfaGl0X3Bvc2l0aW9uGAcgASgBYgZwcm90bzM="));
+            "ZWRfaGl0X3Bvc2l0aW9uGAcgASgBEj4KDmFyX3BsdXNfdmFsdWVzGAggASgL",
+            "MiYuUE9HT1Byb3Rvcy5EYXRhLkFSUGx1c0VuY291bnRlclZhbHVlc2IGcHJv",
+            "dG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::POGOProtos.Inventory.Item.ItemIdReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::POGOProtos.Inventory.Item.ItemIdReflection.Descriptor, global::POGOProtos.Data.ARPlusEncounterValuesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Requests.Messages.CatchPokemonMessage), global::POGOProtos.Networking.Requests.Messages.CatchPokemonMessage.Parser, new[]{ "EncounterId", "Pokeball", "NormalizedReticleSize", "SpawnPointId", "HitPokemon", "SpinModifier", "NormalizedHitPosition" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Requests.Messages.CatchPokemonMessage), global::POGOProtos.Networking.Requests.Messages.CatchPokemonMessage.Parser, new[]{ "EncounterId", "Pokeball", "NormalizedReticleSize", "SpawnPointId", "HitPokemon", "SpinModifier", "NormalizedHitPosition", "ArPlusValues" }, null, null, null)
           }));
     }
     #endregion
@@ -72,6 +76,8 @@ namespace POGOProtos.Networking.Requests.Messages {
       hitPokemon_ = other.hitPokemon_;
       spinModifier_ = other.spinModifier_;
       normalizedHitPosition_ = other.normalizedHitPosition_;
+      //ArPlusValues = other.arPlusValues_ != null ? other.ArPlusValues.Clone() : null;
+      
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -156,6 +162,17 @@ namespace POGOProtos.Networking.Requests.Messages {
       }
     }
 
+    /// <summary>Field number for the "ar_plus_values" field.</summary>
+    public const int ArPlusValuesFieldNumber = 8;
+    private global::POGOProtos.Data.ARPlusEncounterValues arPlusValues_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::POGOProtos.Data.ARPlusEncounterValues ArPlusValues {
+      get { return arPlusValues_; }
+      set {
+        arPlusValues_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as CatchPokemonMessage);
@@ -176,6 +193,7 @@ namespace POGOProtos.Networking.Requests.Messages {
       if (HitPokemon != other.HitPokemon) return false;
       if (SpinModifier != other.SpinModifier) return false;
       if (NormalizedHitPosition != other.NormalizedHitPosition) return false;
+      if (!object.Equals(ArPlusValues, other.ArPlusValues)) return false;
       return true;
     }
 
@@ -189,6 +207,7 @@ namespace POGOProtos.Networking.Requests.Messages {
       if (HitPokemon != false) hash ^= HitPokemon.GetHashCode();
       if (SpinModifier != 0D) hash ^= SpinModifier.GetHashCode();
       if (NormalizedHitPosition != 0D) hash ^= NormalizedHitPosition.GetHashCode();
+      if (arPlusValues_ != null) hash ^= ArPlusValues.GetHashCode();
       return hash;
     }
 
@@ -227,6 +246,10 @@ namespace POGOProtos.Networking.Requests.Messages {
         output.WriteRawTag(57);
         output.WriteDouble(NormalizedHitPosition);
       }
+      if (arPlusValues_ != null) {
+        output.WriteRawTag(66);
+        output.WriteMessage(ArPlusValues);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -252,6 +275,9 @@ namespace POGOProtos.Networking.Requests.Messages {
       }
       if (NormalizedHitPosition != 0D) {
         size += 1 + 8;
+      }
+      if (arPlusValues_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ArPlusValues);
       }
       return size;
     }
@@ -281,6 +307,12 @@ namespace POGOProtos.Networking.Requests.Messages {
       }
       if (other.NormalizedHitPosition != 0D) {
         NormalizedHitPosition = other.NormalizedHitPosition;
+      }
+      if (other.arPlusValues_ != null) {
+        if (arPlusValues_ == null) {
+          arPlusValues_ = new global::POGOProtos.Data.ARPlusEncounterValues();
+        }
+        ArPlusValues.MergeFrom(other.ArPlusValues);
       }
     }
 
@@ -318,6 +350,13 @@ namespace POGOProtos.Networking.Requests.Messages {
           }
           case 57: {
             NormalizedHitPosition = input.ReadDouble();
+            break;
+          }
+          case 66: {
+            if (arPlusValues_ == null) {
+              arPlusValues_ = new global::POGOProtos.Data.ARPlusEncounterValues();
+            }
+            input.ReadMessage(arPlusValues_);
             break;
           }
         }

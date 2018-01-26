@@ -34,30 +34,33 @@ namespace POGOProtos.Settings {
             "U2V0dGluZ3MvTm90aWZpY2F0aW9uU2V0dGluZ3MucHJvdG8aKlBPR09Qcm90",
             "b3MvU2V0dGluZ3MvUGFzc2NvZGVTZXR0aW5ncy5wcm90bxonUE9HT1Byb3Rv",
             "cy9TZXR0aW5ncy9TZmlkYVNldHRpbmdzLnByb3RvGi1QT0dPUHJvdG9zL1Nl",
-            "dHRpbmdzL1RyYW5zbGF0aW9uU2V0dGluZ3MucHJvdG8ivQYKDkdsb2JhbFNl",
-            "dHRpbmdzEjgKDWZvcnRfc2V0dGluZ3MYAiABKAsyIS5QT0dPUHJvdG9zLlNl",
-            "dHRpbmdzLkZvcnRTZXR0aW5ncxI2CgxtYXBfc2V0dGluZ3MYAyABKAsyIC5Q",
-            "T0dPUHJvdG9zLlNldHRpbmdzLk1hcFNldHRpbmdzEjoKDmxldmVsX3NldHRp",
-            "bmdzGAQgASgLMiIuUE9HT1Byb3Rvcy5TZXR0aW5ncy5MZXZlbFNldHRpbmdz",
-            "EkIKEmludmVudG9yeV9zZXR0aW5ncxgFIAEoCzImLlBPR09Qcm90b3MuU2V0",
-            "dGluZ3MuSW52ZW50b3J5U2V0dGluZ3MSHgoWbWluaW11bV9jbGllbnRfdmVy",
-            "c2lvbhgGIAEoCRI2CgxncHNfc2V0dGluZ3MYByABKAsyIC5QT0dPUHJvdG9z",
-            "LlNldHRpbmdzLkdwc1NldHRpbmdzEkAKEWZlc3RpdmFsX3NldHRpbmdzGAgg",
-            "ASgLMiUuUE9HT1Byb3Rvcy5TZXR0aW5ncy5GZXN0aXZhbFNldHRpbmdzEjoK",
-            "DmV2ZW50X3NldHRpbmdzGAkgASgLMiIuUE9HT1Byb3Rvcy5TZXR0aW5ncy5F",
-            "dmVudFNldHRpbmdzEhkKEW1heF9wb2tlbW9uX3R5cGVzGAogASgFEjoKDnNm",
-            "aWRhX3NldHRpbmdzGAsgASgLMiIuUE9HT1Byb3Rvcy5TZXR0aW5ncy5TZmlk",
-            "YVNldHRpbmdzEjgKDW5ld3Nfc2V0dGluZ3MYDCABKAsyIS5QT0dPUHJvdG9z",
-            "LlNldHRpbmdzLk5ld3NTZXR0aW5ncxJGChR0cmFuc2xhdGlvbl9zZXR0aW5n",
-            "cxgNIAEoCzIoLlBPR09Qcm90b3MuU2V0dGluZ3MuVHJhbnNsYXRpb25TZXR0",
-            "aW5ncxJAChFwYXNzY29kZV9zZXR0aW5ncxgOIAEoCzIlLlBPR09Qcm90b3Mu",
-            "U2V0dGluZ3MuUGFzc2NvZGVTZXR0aW5ncxJIChVub3RpZmljYXRpb25fc2V0",
-            "dGluZ3MYDyABKAsyKS5QT0dPUHJvdG9zLlNldHRpbmdzLk5vdGlmaWNhdGlv",
-            "blNldHRpbmdzYgZwcm90bzM="));
+            "dHRpbmdzL1RyYW5zbGF0aW9uU2V0dGluZ3MucHJvdG8aM1BPR09Qcm90b3Mv",
+            "U2V0dGluZ3MvQ2xpZW50UGVyZm9ybWFuY2VTZXR0aW5ncy5wcm90byKpBwoO",
+            "R2xvYmFsU2V0dGluZ3MSOAoNZm9ydF9zZXR0aW5ncxgCIAEoCzIhLlBPR09Q",
+            "cm90b3MuU2V0dGluZ3MuRm9ydFNldHRpbmdzEjYKDG1hcF9zZXR0aW5ncxgD",
+            "IAEoCzIgLlBPR09Qcm90b3MuU2V0dGluZ3MuTWFwU2V0dGluZ3MSOgoObGV2",
+            "ZWxfc2V0dGluZ3MYBCABKAsyIi5QT0dPUHJvdG9zLlNldHRpbmdzLkxldmVs",
+            "U2V0dGluZ3MSQgoSaW52ZW50b3J5X3NldHRpbmdzGAUgASgLMiYuUE9HT1By",
+            "b3Rvcy5TZXR0aW5ncy5JbnZlbnRvcnlTZXR0aW5ncxIeChZtaW5pbXVtX2Ns",
+            "aWVudF92ZXJzaW9uGAYgASgJEjYKDGdwc19zZXR0aW5ncxgHIAEoCzIgLlBP",
+            "R09Qcm90b3MuU2V0dGluZ3MuR3BzU2V0dGluZ3MSQAoRZmVzdGl2YWxfc2V0",
+            "dGluZ3MYCCABKAsyJS5QT0dPUHJvdG9zLlNldHRpbmdzLkZlc3RpdmFsU2V0",
+            "dGluZ3MSOgoOZXZlbnRfc2V0dGluZ3MYCSABKAsyIi5QT0dPUHJvdG9zLlNl",
+            "dHRpbmdzLkV2ZW50U2V0dGluZ3MSGQoRbWF4X3Bva2Vtb25fdHlwZXMYCiAB",
+            "KAUSOgoOc2ZpZGFfc2V0dGluZ3MYCyABKAsyIi5QT0dPUHJvdG9zLlNldHRp",
+            "bmdzLlNmaWRhU2V0dGluZ3MSOAoNbmV3c19zZXR0aW5ncxgMIAEoCzIhLlBP",
+            "R09Qcm90b3MuU2V0dGluZ3MuTmV3c1NldHRpbmdzEkYKFHRyYW5zbGF0aW9u",
+            "X3NldHRpbmdzGA0gASgLMiguUE9HT1Byb3Rvcy5TZXR0aW5ncy5UcmFuc2xh",
+            "dGlvblNldHRpbmdzEkAKEXBhc3Njb2RlX3NldHRpbmdzGA4gASgLMiUuUE9H",
+            "T1Byb3Rvcy5TZXR0aW5ncy5QYXNzY29kZVNldHRpbmdzEkgKFW5vdGlmaWNh",
+            "dGlvbl9zZXR0aW5ncxgPIAEoCzIpLlBPR09Qcm90b3MuU2V0dGluZ3MuTm90",
+            "aWZpY2F0aW9uU2V0dGluZ3MSHAoUY2xpZW50X2FwcF9ibGFja2xpc3QYECAD",
+            "KAkSTAoUY2xpZW50X3BlcmZfc2V0dGluZ3MYESABKAsyLi5QT0dPUHJvdG9z",
+            "LlNldHRpbmdzLkNsaWVudFBlcmZvcm1hbmNlU2V0dGluZ3NiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::POGOProtos.Settings.EventSettingsReflection.Descriptor, global::POGOProtos.Settings.FestivalSettingsReflection.Descriptor, global::POGOProtos.Settings.FortSettingsReflection.Descriptor, global::POGOProtos.Settings.GpsSettingsReflection.Descriptor, global::POGOProtos.Settings.InventorySettingsReflection.Descriptor, global::POGOProtos.Settings.LevelSettingsReflection.Descriptor, global::POGOProtos.Settings.MapSettingsReflection.Descriptor, global::POGOProtos.Settings.NewsSettingsReflection.Descriptor, global::POGOProtos.Settings.NotificationSettingsReflection.Descriptor, global::POGOProtos.Settings.PasscodeSettingsReflection.Descriptor, global::POGOProtos.Settings.SfidaSettingsReflection.Descriptor, global::POGOProtos.Settings.TranslationSettingsReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::POGOProtos.Settings.EventSettingsReflection.Descriptor, global::POGOProtos.Settings.FestivalSettingsReflection.Descriptor, global::POGOProtos.Settings.FortSettingsReflection.Descriptor, global::POGOProtos.Settings.GpsSettingsReflection.Descriptor, global::POGOProtos.Settings.InventorySettingsReflection.Descriptor, global::POGOProtos.Settings.LevelSettingsReflection.Descriptor, global::POGOProtos.Settings.MapSettingsReflection.Descriptor, global::POGOProtos.Settings.NewsSettingsReflection.Descriptor, global::POGOProtos.Settings.NotificationSettingsReflection.Descriptor, global::POGOProtos.Settings.PasscodeSettingsReflection.Descriptor, global::POGOProtos.Settings.SfidaSettingsReflection.Descriptor, global::POGOProtos.Settings.TranslationSettingsReflection.Descriptor, global::POGOProtos.Settings.ClientPerformanceSettingsReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Settings.GlobalSettings), global::POGOProtos.Settings.GlobalSettings.Parser, new[]{ "FortSettings", "MapSettings", "LevelSettings", "InventorySettings", "MinimumClientVersion", "GpsSettings", "FestivalSettings", "EventSettings", "MaxPokemonTypes", "SfidaSettings", "NewsSettings", "TranslationSettings", "PasscodeSettings", "NotificationSettings" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Settings.GlobalSettings), global::POGOProtos.Settings.GlobalSettings.Parser, new[]{ "FortSettings", "MapSettings", "LevelSettings", "InventorySettings", "MinimumClientVersion", "GpsSettings", "FestivalSettings", "EventSettings", "MaxPokemonTypes", "SfidaSettings", "NewsSettings", "TranslationSettings", "PasscodeSettings", "NotificationSettings", "ClientAppBlacklist", "ClientPerfSettings" }, null, null, null)
           }));
     }
     #endregion
@@ -102,6 +105,8 @@ namespace POGOProtos.Settings {
       TranslationSettings = other.translationSettings_ != null ? other.TranslationSettings.Clone() : null;
       PasscodeSettings = other.passcodeSettings_ != null ? other.PasscodeSettings.Clone() : null;
       NotificationSettings = other.notificationSettings_ != null ? other.NotificationSettings.Clone() : null;
+      clientAppBlacklist_ = other.clientAppBlacklist_.Clone();
+      ClientPerfSettings = other.clientPerfSettings_ != null ? other.ClientPerfSettings.Clone() : null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -263,6 +268,27 @@ namespace POGOProtos.Settings {
       }
     }
 
+    /// <summary>Field number for the "client_app_blacklist" field.</summary>
+    public const int ClientAppBlacklistFieldNumber = 16;
+    private static readonly pb::FieldCodec<string> _repeated_clientAppBlacklist_codec
+        = pb::FieldCodec.ForString(130);
+    private readonly pbc::RepeatedField<string> clientAppBlacklist_ = new pbc::RepeatedField<string>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<string> ClientAppBlacklist {
+      get { return clientAppBlacklist_; }
+    }
+
+    /// <summary>Field number for the "client_perf_settings" field.</summary>
+    public const int ClientPerfSettingsFieldNumber = 17;
+    private global::POGOProtos.Settings.ClientPerformanceSettings clientPerfSettings_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::POGOProtos.Settings.ClientPerformanceSettings ClientPerfSettings {
+      get { return clientPerfSettings_; }
+      set {
+        clientPerfSettings_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as GlobalSettings);
@@ -290,6 +316,8 @@ namespace POGOProtos.Settings {
       if (!object.Equals(TranslationSettings, other.TranslationSettings)) return false;
       if (!object.Equals(PasscodeSettings, other.PasscodeSettings)) return false;
       if (!object.Equals(NotificationSettings, other.NotificationSettings)) return false;
+      if(!clientAppBlacklist_.Equals(other.clientAppBlacklist_)) return false;
+      if (!object.Equals(ClientPerfSettings, other.ClientPerfSettings)) return false;
       return true;
     }
 
@@ -310,6 +338,8 @@ namespace POGOProtos.Settings {
       if (translationSettings_ != null) hash ^= TranslationSettings.GetHashCode();
       if (passcodeSettings_ != null) hash ^= PasscodeSettings.GetHashCode();
       if (notificationSettings_ != null) hash ^= NotificationSettings.GetHashCode();
+      hash ^= clientAppBlacklist_.GetHashCode();
+      if (clientPerfSettings_ != null) hash ^= ClientPerfSettings.GetHashCode();
       return hash;
     }
 
@@ -376,6 +406,11 @@ namespace POGOProtos.Settings {
         output.WriteRawTag(122);
         output.WriteMessage(NotificationSettings);
       }
+      clientAppBlacklist_.WriteTo(output, _repeated_clientAppBlacklist_codec);
+      if (clientPerfSettings_ != null) {
+        output.WriteRawTag(138, 1);
+        output.WriteMessage(ClientPerfSettings);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -422,6 +457,10 @@ namespace POGOProtos.Settings {
       }
       if (notificationSettings_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(NotificationSettings);
+      }
+      size += clientAppBlacklist_.CalculateSize(_repeated_clientAppBlacklist_codec);
+      if (clientPerfSettings_ != null) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(ClientPerfSettings);
       }
       return size;
     }
@@ -508,6 +547,13 @@ namespace POGOProtos.Settings {
           notificationSettings_ = new global::POGOProtos.Settings.NotificationSettings();
         }
         NotificationSettings.MergeFrom(other.NotificationSettings);
+      }
+      clientAppBlacklist_.Add(other.clientAppBlacklist_);
+      if (other.clientPerfSettings_ != null) {
+        if (clientPerfSettings_ == null) {
+          clientPerfSettings_ = new global::POGOProtos.Settings.ClientPerformanceSettings();
+        }
+        ClientPerfSettings.MergeFrom(other.ClientPerfSettings);
       }
     }
 
@@ -609,6 +655,17 @@ namespace POGOProtos.Settings {
               notificationSettings_ = new global::POGOProtos.Settings.NotificationSettings();
             }
             input.ReadMessage(notificationSettings_);
+            break;
+          }
+          case 130: {
+            clientAppBlacklist_.AddEntriesFrom(input, _repeated_clientAppBlacklist_codec);
+            break;
+          }
+          case 138: {
+            if (clientPerfSettings_ == null) {
+              clientPerfSettings_ = new global::POGOProtos.Settings.ClientPerformanceSettings();
+            }
+            input.ReadMessage(clientPerfSettings_);
             break;
           }
         }

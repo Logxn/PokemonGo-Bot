@@ -26,8 +26,9 @@ namespace POGOProtos.Networking.Responses {
             "ZXNwb25zZS5wcm90bxIfUE9HT1Byb3Rvcy5OZXR3b3JraW5nLlJlc3BvbnNl",
             "cxovUE9HT1Byb3Rvcy9EYXRhL0d5bS9HeW1TdGF0dXNBbmREZWZlbmRlcnMu",
             "cHJvdG8aK1BPR09Qcm90b3MvRGF0YS9CYWRnZS9Bd2FyZGVkR3ltQmFkZ2Uu",
-            "cHJvdG8aJFBPR09Qcm90b3MvRGF0YS9SYWlkL0V2ZW50SW5mby5wcm90byLa",
-            "AwoSR3ltR2V0SW5mb1Jlc3BvbnNlEkwKGGd5bV9zdGF0dXNfYW5kX2RlZmVu",
+            "cHJvdG8aJFBPR09Qcm90b3MvRGF0YS9SYWlkL0V2ZW50SW5mby5wcm90bxor",
+            "UE9HT1Byb3Rvcy9NYXAvV2VhdGhlci9EaXNwbGF5V2VhdGhlci5wcm90byKb",
+            "BAoSR3ltR2V0SW5mb1Jlc3BvbnNlEkwKGGd5bV9zdGF0dXNfYW5kX2RlZmVu",
             "ZGVycxgBIAEoCzIqLlBPR09Qcm90b3MuRGF0YS5HeW0uR3ltU3RhdHVzQW5k",
             "RGVmZW5kZXJzEgwKBG5hbWUYAiABKAkSCwoDdXJsGAMgASgJEkoKBnJlc3Vs",
             "dBgEIAEoDjI6LlBPR09Qcm90b3MuTmV0d29ya2luZy5SZXNwb25zZXMuR3lt",
@@ -35,13 +36,15 @@ namespace POGOProtos.Networking.Responses {
             "Cg1zZWNvbmRhcnlfdXJsGAYgASgJEkEKEWF3YXJkZWRfZ3ltX2JhZGdlGAcg",
             "ASgLMiYuUE9HT1Byb3Rvcy5EYXRhLkJhZGdlLkF3YXJkZWRHeW1CYWRnZRIZ",
             "ChFjaGVja2luX2ltYWdlX3VybBgIIAEoCRIzCgpldmVudF9pbmZvGAkgASgL",
-            "Mh8uUE9HT1Byb3Rvcy5EYXRhLlJhaWQuRXZlbnRJbmZvIlAKBlJlc3VsdBIJ",
-            "CgVVTlNFVBAAEgsKB1NVQ0NFU1MQARIWChJFUlJPUl9OT1RfSU5fUkFOR0UQ",
-            "AhIWChJFUlJPUl9HWU1fRElTQUJMRUQQA2IGcHJvdG8z"));
+            "Mh8uUE9HT1Byb3Rvcy5EYXRhLlJhaWQuRXZlbnRJbmZvEj8KD2Rpc3BsYXlf",
+            "d2VhdGhlchgKIAEoCzImLlBPR09Qcm90b3MuTWFwLldlYXRoZXIuRGlzcGxh",
+            "eVdlYXRoZXIiUAoGUmVzdWx0EgkKBVVOU0VUEAASCwoHU1VDQ0VTUxABEhYK",
+            "EkVSUk9SX05PVF9JTl9SQU5HRRACEhYKEkVSUk9SX0dZTV9ESVNBQkxFRBAD",
+            "YgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::POGOProtos.Data.Gym.GymStatusAndDefendersReflection.Descriptor, global::POGOProtos.Data.Badge.AwardedGymBadgeReflection.Descriptor, global::POGOProtos.Data.Raid.EventInfoReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::POGOProtos.Data.Gym.GymStatusAndDefendersReflection.Descriptor, global::POGOProtos.Data.Badge.AwardedGymBadgeReflection.Descriptor, global::POGOProtos.Data.Raid.EventInfoReflection.Descriptor, global::POGOProtos.Map.Weather.DisplayWeatherReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.GymGetInfoResponse), global::POGOProtos.Networking.Responses.GymGetInfoResponse.Parser, new[]{ "GymStatusAndDefenders", "Name", "Url", "Result", "Description", "SecondaryUrl", "AwardedGymBadge", "CheckinImageUrl", "EventInfo" }, null, new[]{ typeof(global::POGOProtos.Networking.Responses.GymGetInfoResponse.Types.Result) }, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.GymGetInfoResponse), global::POGOProtos.Networking.Responses.GymGetInfoResponse.Parser, new[]{ "GymStatusAndDefenders", "Name", "Url", "Result", "Description", "SecondaryUrl", "AwardedGymBadge", "CheckinImageUrl", "EventInfo", "DisplayWeather" }, null, new[]{ typeof(global::POGOProtos.Networking.Responses.GymGetInfoResponse.Types.Result) }, null)
           }));
     }
     #endregion
@@ -81,6 +84,7 @@ namespace POGOProtos.Networking.Responses {
       AwardedGymBadge = other.awardedGymBadge_ != null ? other.AwardedGymBadge.Clone() : null;
       checkinImageUrl_ = other.checkinImageUrl_;
       EventInfo = other.eventInfo_ != null ? other.EventInfo.Clone() : null;
+      DisplayWeather = other.displayWeather_ != null ? other.DisplayWeather.Clone() : null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -187,6 +191,17 @@ namespace POGOProtos.Networking.Responses {
       }
     }
 
+    /// <summary>Field number for the "display_weather" field.</summary>
+    public const int DisplayWeatherFieldNumber = 10;
+    private global::POGOProtos.Map.Weather.DisplayWeather displayWeather_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::POGOProtos.Map.Weather.DisplayWeather DisplayWeather {
+      get { return displayWeather_; }
+      set {
+        displayWeather_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as GymGetInfoResponse);
@@ -209,6 +224,7 @@ namespace POGOProtos.Networking.Responses {
       if (!object.Equals(AwardedGymBadge, other.AwardedGymBadge)) return false;
       if (CheckinImageUrl != other.CheckinImageUrl) return false;
       if (!object.Equals(EventInfo, other.EventInfo)) return false;
+      if (!object.Equals(DisplayWeather, other.DisplayWeather)) return false;
       return true;
     }
 
@@ -224,6 +240,7 @@ namespace POGOProtos.Networking.Responses {
       if (awardedGymBadge_ != null) hash ^= AwardedGymBadge.GetHashCode();
       if (CheckinImageUrl.Length != 0) hash ^= CheckinImageUrl.GetHashCode();
       if (eventInfo_ != null) hash ^= EventInfo.GetHashCode();
+      if (displayWeather_ != null) hash ^= DisplayWeather.GetHashCode();
       return hash;
     }
 
@@ -270,6 +287,10 @@ namespace POGOProtos.Networking.Responses {
         output.WriteRawTag(74);
         output.WriteMessage(EventInfo);
       }
+      if (displayWeather_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(DisplayWeather);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -301,6 +322,9 @@ namespace POGOProtos.Networking.Responses {
       }
       if (eventInfo_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(EventInfo);
+      }
+      if (displayWeather_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(DisplayWeather);
       }
       return size;
     }
@@ -345,6 +369,12 @@ namespace POGOProtos.Networking.Responses {
           eventInfo_ = new global::POGOProtos.Data.Raid.EventInfo();
         }
         EventInfo.MergeFrom(other.EventInfo);
+      }
+      if (other.displayWeather_ != null) {
+        if (displayWeather_ == null) {
+          displayWeather_ = new global::POGOProtos.Map.Weather.DisplayWeather();
+        }
+        DisplayWeather.MergeFrom(other.DisplayWeather);
       }
     }
 
@@ -399,6 +429,13 @@ namespace POGOProtos.Networking.Responses {
               eventInfo_ = new global::POGOProtos.Data.Raid.EventInfo();
             }
             input.ReadMessage(eventInfo_);
+            break;
+          }
+          case 82: {
+            if (displayWeather_ == null) {
+              displayWeather_ = new global::POGOProtos.Map.Weather.DisplayWeather();
+            }
+            input.ReadMessage(displayWeather_);
             break;
           }
         }

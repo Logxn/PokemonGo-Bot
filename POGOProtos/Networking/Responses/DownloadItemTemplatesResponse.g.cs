@@ -47,50 +47,59 @@ namespace POGOProtos.Networking.Responses {
             "bmdzL01hc3Rlci9UeXBlRWZmZWN0aXZlU2V0dGluZ3MucHJvdG8aL1BPR09Q",
             "cm90b3MvU2V0dGluZ3MvTWFzdGVyL0dlbmRlclNldHRpbmdzLnByb3RvGjRQ",
             "T0dPUHJvdG9zL1NldHRpbmdzL01hc3Rlci9HeW1CYWRnZUdtdFNldHRpbmdz",
-            "LnByb3RvIu8NCh1Eb3dubG9hZEl0ZW1UZW1wbGF0ZXNSZXNwb25zZRJVCgZy",
-            "ZXN1bHQYASABKA4yRS5QT0dPUHJvdG9zLk5ldHdvcmtpbmcuUmVzcG9uc2Vz",
-            "LkRvd25sb2FkSXRlbVRlbXBsYXRlc1Jlc3BvbnNlLlJlc3VsdBJjCg5pdGVt",
-            "X3RlbXBsYXRlcxgCIAMoCzJLLlBPR09Qcm90b3MuTmV0d29ya2luZy5SZXNw",
-            "b25zZXMuRG93bmxvYWRJdGVtVGVtcGxhdGVzUmVzcG9uc2UuSXRlbVRlbXBs",
-            "YXRlEhQKDHRpbWVzdGFtcF9tcxgDIAEoBBITCgtwYWdlX29mZnNldBgEIAEo",
-            "BRqvCwoMSXRlbVRlbXBsYXRlEhMKC3RlbXBsYXRlX2lkGAEgASgJEkUKEHBv",
-            "a2Vtb25fc2V0dGluZ3MYAiABKAsyKy5QT0dPUHJvdG9zLlNldHRpbmdzLk1h",
-            "c3Rlci5Qb2tlbW9uU2V0dGluZ3MSPwoNaXRlbV9zZXR0aW5ncxgDIAEoCzIo",
-            "LlBPR09Qcm90b3MuU2V0dGluZ3MuTWFzdGVyLkl0ZW1TZXR0aW5ncxI/Cg1t",
-            "b3ZlX3NldHRpbmdzGAQgASgLMiguUE9HT1Byb3Rvcy5TZXR0aW5ncy5NYXN0",
-            "ZXIuTW92ZVNldHRpbmdzElAKFm1vdmVfc2VxdWVuY2Vfc2V0dGluZ3MYBSAB",
-            "KAsyMC5QT0dPUHJvdG9zLlNldHRpbmdzLk1hc3Rlci5Nb3ZlU2VxdWVuY2VT",
-            "ZXR0aW5ncxJJCg50eXBlX2VmZmVjdGl2ZRgIIAEoCzIxLlBPR09Qcm90b3Mu",
-            "U2V0dGluZ3MuTWFzdGVyLlR5cGVFZmZlY3RpdmVTZXR0aW5ncxJBCg5iYWRn",
-            "ZV9zZXR0aW5ncxgKIAEoCzIpLlBPR09Qcm90b3MuU2V0dGluZ3MuTWFzdGVy",
-            "LkJhZGdlU2V0dGluZ3MSOgoGY2FtZXJhGAsgASgLMiouUE9HT1Byb3Rvcy5T",
-            "ZXR0aW5ncy5NYXN0ZXIuQ2FtZXJhU2V0dGluZ3MSRQoMcGxheWVyX2xldmVs",
-            "GAwgASgLMi8uUE9HT1Byb3Rvcy5TZXR0aW5ncy5NYXN0ZXIuUGxheWVyTGV2",
-            "ZWxTZXR0aW5ncxI/CglneW1fbGV2ZWwYDSABKAsyLC5QT0dPUHJvdG9zLlNl",
-            "dHRpbmdzLk1hc3Rlci5HeW1MZXZlbFNldHRpbmdzEkYKD2JhdHRsZV9zZXR0",
-            "aW5ncxgOIAEoCzItLlBPR09Qcm90b3MuU2V0dGluZ3MuTWFzdGVyLkd5bUJh",
-            "dHRsZVNldHRpbmdzEkkKEmVuY291bnRlcl9zZXR0aW5ncxgPIAEoCzItLlBP",
-            "R09Qcm90b3MuU2V0dGluZ3MuTWFzdGVyLkVuY291bnRlclNldHRpbmdzEkQK",
-            "EGlhcF9pdGVtX2Rpc3BsYXkYECABKAsyKi5QT0dPUHJvdG9zLlNldHRpbmdz",
-            "Lk1hc3Rlci5JYXBJdGVtRGlzcGxheRI9CgxpYXBfc2V0dGluZ3MYESABKAsy",
-            "Jy5QT0dPUHJvdG9zLlNldHRpbmdzLk1hc3Rlci5JYXBTZXR0aW5ncxJMChBw",
-            "b2tlbW9uX3VwZ3JhZGVzGBIgASgLMjIuUE9HT1Byb3Rvcy5TZXR0aW5ncy5N",
-            "YXN0ZXIuUG9rZW1vblVwZ3JhZGVTZXR0aW5ncxJKCg9lcXVpcHBlZF9iYWRn",
-            "ZXMYEyABKAsyMS5QT0dPUHJvdG9zLlNldHRpbmdzLk1hc3Rlci5FcXVpcHBl",
-            "ZEJhZGdlU2V0dGluZ3MSQQoOcXVlc3Rfc2V0dGluZ3MYFCABKAsyKS5QT0dP",
-            "UHJvdG9zLlNldHRpbmdzLk1hc3Rlci5RdWVzdFNldHRpbmdzElUKFGF2YXRh",
-            "cl9jdXN0b21pemF0aW9uGBUgASgLMjcuUE9HT1Byb3Rvcy5TZXR0aW5ncy5N",
-            "YXN0ZXIuQXZhdGFyQ3VzdG9taXphdGlvblNldHRpbmdzEj8KDWZvcm1fc2V0",
-            "dGluZ3MYFiABKAsyKC5QT0dPUHJvdG9zLlNldHRpbmdzLk1hc3Rlci5Gb3Jt",
-            "U2V0dGluZ3MSQwoPZ2VuZGVyX3NldHRpbmdzGBcgASgLMiouUE9HT1Byb3Rv",
-            "cy5TZXR0aW5ncy5NYXN0ZXIuR2VuZGVyU2V0dGluZ3MSSwoSZ3ltX2JhZGdl",
-            "X3NldHRpbmdzGBggASgLMi8uUE9HT1Byb3Rvcy5TZXR0aW5ncy5NYXN0ZXIu",
-            "R3ltQmFkZ2VHbXRTZXR0aW5ncyI1CgZSZXN1bHQSCQoFVU5TRVQQABILCgdT",
-            "VUNDRVNTEAESCAoEUEFHRRACEgkKBVJFVFJZEANiBnByb3RvMw=="));
+            "LnByb3RvGjBQT0dPUHJvdG9zL1NldHRpbmdzL01hc3Rlci9XZWF0aGVyQWZm",
+            "aW5pdHkucHJvdG8aLVBPR09Qcm90b3MvU2V0dGluZ3MvTWFzdGVyL1dlYXRo",
+            "ZXJCb251cy5wcm90bxo0UE9HT1Byb3Rvcy9TZXR0aW5ncy9NYXN0ZXIvUG9r",
+            "ZW1vblNjYWxlU2V0dGluZy5wcm90byLTDwodRG93bmxvYWRJdGVtVGVtcGxh",
+            "dGVzUmVzcG9uc2USVQoGcmVzdWx0GAEgASgOMkUuUE9HT1Byb3Rvcy5OZXR3",
+            "b3JraW5nLlJlc3BvbnNlcy5Eb3dubG9hZEl0ZW1UZW1wbGF0ZXNSZXNwb25z",
+            "ZS5SZXN1bHQSYwoOaXRlbV90ZW1wbGF0ZXMYAiADKAsySy5QT0dPUHJvdG9z",
+            "Lk5ldHdvcmtpbmcuUmVzcG9uc2VzLkRvd25sb2FkSXRlbVRlbXBsYXRlc1Jl",
+            "c3BvbnNlLkl0ZW1UZW1wbGF0ZRIUCgx0aW1lc3RhbXBfbXMYAyABKAQSEwoL",
+            "cGFnZV9vZmZzZXQYBCABKAUakw0KDEl0ZW1UZW1wbGF0ZRITCgt0ZW1wbGF0",
+            "ZV9pZBgBIAEoCRJFChBwb2tlbW9uX3NldHRpbmdzGAIgASgLMisuUE9HT1By",
+            "b3Rvcy5TZXR0aW5ncy5NYXN0ZXIuUG9rZW1vblNldHRpbmdzEj8KDWl0ZW1f",
+            "c2V0dGluZ3MYAyABKAsyKC5QT0dPUHJvdG9zLlNldHRpbmdzLk1hc3Rlci5J",
+            "dGVtU2V0dGluZ3MSPwoNbW92ZV9zZXR0aW5ncxgEIAEoCzIoLlBPR09Qcm90",
+            "b3MuU2V0dGluZ3MuTWFzdGVyLk1vdmVTZXR0aW5ncxJQChZtb3ZlX3NlcXVl",
+            "bmNlX3NldHRpbmdzGAUgASgLMjAuUE9HT1Byb3Rvcy5TZXR0aW5ncy5NYXN0",
+            "ZXIuTW92ZVNlcXVlbmNlU2V0dGluZ3MSSQoOdHlwZV9lZmZlY3RpdmUYCCAB",
+            "KAsyMS5QT0dPUHJvdG9zLlNldHRpbmdzLk1hc3Rlci5UeXBlRWZmZWN0aXZl",
+            "U2V0dGluZ3MSQQoOYmFkZ2Vfc2V0dGluZ3MYCiABKAsyKS5QT0dPUHJvdG9z",
+            "LlNldHRpbmdzLk1hc3Rlci5CYWRnZVNldHRpbmdzEjoKBmNhbWVyYRgLIAEo",
+            "CzIqLlBPR09Qcm90b3MuU2V0dGluZ3MuTWFzdGVyLkNhbWVyYVNldHRpbmdz",
+            "EkUKDHBsYXllcl9sZXZlbBgMIAEoCzIvLlBPR09Qcm90b3MuU2V0dGluZ3Mu",
+            "TWFzdGVyLlBsYXllckxldmVsU2V0dGluZ3MSPwoJZ3ltX2xldmVsGA0gASgL",
+            "MiwuUE9HT1Byb3Rvcy5TZXR0aW5ncy5NYXN0ZXIuR3ltTGV2ZWxTZXR0aW5n",
+            "cxJGCg9iYXR0bGVfc2V0dGluZ3MYDiABKAsyLS5QT0dPUHJvdG9zLlNldHRp",
+            "bmdzLk1hc3Rlci5HeW1CYXR0bGVTZXR0aW5ncxJJChJlbmNvdW50ZXJfc2V0",
+            "dGluZ3MYDyABKAsyLS5QT0dPUHJvdG9zLlNldHRpbmdzLk1hc3Rlci5FbmNv",
+            "dW50ZXJTZXR0aW5ncxJEChBpYXBfaXRlbV9kaXNwbGF5GBAgASgLMiouUE9H",
+            "T1Byb3Rvcy5TZXR0aW5ncy5NYXN0ZXIuSWFwSXRlbURpc3BsYXkSPQoMaWFw",
+            "X3NldHRpbmdzGBEgASgLMicuUE9HT1Byb3Rvcy5TZXR0aW5ncy5NYXN0ZXIu",
+            "SWFwU2V0dGluZ3MSTAoQcG9rZW1vbl91cGdyYWRlcxgSIAEoCzIyLlBPR09Q",
+            "cm90b3MuU2V0dGluZ3MuTWFzdGVyLlBva2Vtb25VcGdyYWRlU2V0dGluZ3MS",
+            "SgoPZXF1aXBwZWRfYmFkZ2VzGBMgASgLMjEuUE9HT1Byb3Rvcy5TZXR0aW5n",
+            "cy5NYXN0ZXIuRXF1aXBwZWRCYWRnZVNldHRpbmdzEkEKDnF1ZXN0X3NldHRp",
+            "bmdzGBQgASgLMikuUE9HT1Byb3Rvcy5TZXR0aW5ncy5NYXN0ZXIuUXVlc3RT",
+            "ZXR0aW5ncxJVChRhdmF0YXJfY3VzdG9taXphdGlvbhgVIAEoCzI3LlBPR09Q",
+            "cm90b3MuU2V0dGluZ3MuTWFzdGVyLkF2YXRhckN1c3RvbWl6YXRpb25TZXR0",
+            "aW5ncxI/Cg1mb3JtX3NldHRpbmdzGBYgASgLMiguUE9HT1Byb3Rvcy5TZXR0",
+            "aW5ncy5NYXN0ZXIuRm9ybVNldHRpbmdzEkMKD2dlbmRlcl9zZXR0aW5ncxgX",
+            "IAEoCzIqLlBPR09Qcm90b3MuU2V0dGluZ3MuTWFzdGVyLkdlbmRlclNldHRp",
+            "bmdzEksKEmd5bV9iYWRnZV9zZXR0aW5ncxgYIAEoCzIvLlBPR09Qcm90b3Mu",
+            "U2V0dGluZ3MuTWFzdGVyLkd5bUJhZGdlR210U2V0dGluZ3MSRwoSd2VhdGhl",
+            "cl9hZmZpbml0aWVzGBkgASgLMisuUE9HT1Byb3Rvcy5TZXR0aW5ncy5NYXN0",
+            "ZXIuV2VhdGhlckFmZmluaXR5EkgKFndlYXRoZXJfYm9udXNfc2V0dGluZ3MY",
+            "GiABKAsyKC5QT0dPUHJvdG9zLlNldHRpbmdzLk1hc3Rlci5XZWF0aGVyQm9u",
+            "dXMSTwoWcG9rZW1vbl9zY2FsZV9zZXR0aW5ncxgbIAEoCzIvLlBPR09Qcm90",
+            "b3MuU2V0dGluZ3MuTWFzdGVyLlBva2Vtb25TY2FsZVNldHRpbmciNQoGUmVz",
+            "dWx0EgkKBVVOU0VUEAASCwoHU1VDQ0VTUxABEggKBFBBR0UQAhIJCgVSRVRS",
+            "WRADYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::POGOProtos.Settings.Master.AvatarCustomizationSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.BadgeSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.CameraSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.EncounterSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.EquippedBadgeSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.FormSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.GymBattleSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.GymLevelSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.IapItemDisplayReflection.Descriptor, global::POGOProtos.Settings.Master.IapSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.ItemSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.MoveSequenceSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.MoveSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.PlayerLevelSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.PokemonSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.PokemonUpgradeSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.QuestSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.TypeEffectiveSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.GenderSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.GymBadgeGmtSettingsReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::POGOProtos.Settings.Master.AvatarCustomizationSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.BadgeSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.CameraSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.EncounterSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.EquippedBadgeSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.FormSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.GymBattleSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.GymLevelSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.IapItemDisplayReflection.Descriptor, global::POGOProtos.Settings.Master.IapSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.ItemSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.MoveSequenceSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.MoveSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.PlayerLevelSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.PokemonSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.PokemonUpgradeSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.QuestSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.TypeEffectiveSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.GenderSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.GymBadgeGmtSettingsReflection.Descriptor, global::POGOProtos.Settings.Master.WeatherAffinityReflection.Descriptor, global::POGOProtos.Settings.Master.WeatherBonusReflection.Descriptor, global::POGOProtos.Settings.Master.PokemonScaleSettingReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.DownloadItemTemplatesResponse), global::POGOProtos.Networking.Responses.DownloadItemTemplatesResponse.Parser, new[]{ "Result", "ItemTemplates", "TimestampMs", "PageOffset" }, null, new[]{ typeof(global::POGOProtos.Networking.Responses.DownloadItemTemplatesResponse.Types.Result) }, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.DownloadItemTemplatesResponse.Types.ItemTemplate), global::POGOProtos.Networking.Responses.DownloadItemTemplatesResponse.Types.ItemTemplate.Parser, new[]{ "TemplateId", "PokemonSettings", "ItemSettings", "MoveSettings", "MoveSequenceSettings", "TypeEffective", "BadgeSettings", "Camera", "PlayerLevel", "GymLevel", "BattleSettings", "EncounterSettings", "IapItemDisplay", "IapSettings", "PokemonUpgrades", "EquippedBadges", "QuestSettings", "AvatarCustomization", "FormSettings", "GenderSettings", "GymBadgeSettings" }, null, null, null)})
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.DownloadItemTemplatesResponse), global::POGOProtos.Networking.Responses.DownloadItemTemplatesResponse.Parser, new[]{ "Result", "ItemTemplates", "TimestampMs", "PageOffset" }, null, new[]{ typeof(global::POGOProtos.Networking.Responses.DownloadItemTemplatesResponse.Types.Result) }, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.DownloadItemTemplatesResponse.Types.ItemTemplate), global::POGOProtos.Networking.Responses.DownloadItemTemplatesResponse.Types.ItemTemplate.Parser, new[]{ "TemplateId", "PokemonSettings", "ItemSettings", "MoveSettings", "MoveSequenceSettings", "TypeEffective", "BadgeSettings", "Camera", "PlayerLevel", "GymLevel", "BattleSettings", "EncounterSettings", "IapItemDisplay", "IapSettings", "PokemonUpgrades", "EquippedBadges", "QuestSettings", "AvatarCustomization", "FormSettings", "GenderSettings", "GymBadgeSettings", "WeatherAffinities", "WeatherBonusSettings", "PokemonScaleSettings" }, null, null, null)})
           }));
     }
     #endregion
@@ -344,6 +353,9 @@ namespace POGOProtos.Networking.Responses {
           FormSettings = other.formSettings_ != null ? other.FormSettings.Clone() : null;
           GenderSettings = other.genderSettings_ != null ? other.GenderSettings.Clone() : null;
           GymBadgeSettings = other.gymBadgeSettings_ != null ? other.GymBadgeSettings.Clone() : null;
+          WeatherAffinities = other.weatherAffinities_ != null ? other.WeatherAffinities.Clone() : null;
+          WeatherBonusSettings = other.weatherBonusSettings_ != null ? other.WeatherBonusSettings.Clone() : null;
+          PokemonScaleSettings = other.pokemonScaleSettings_ != null ? other.PokemonScaleSettings.Clone() : null;
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -582,6 +594,39 @@ namespace POGOProtos.Networking.Responses {
           }
         }
 
+        /// <summary>Field number for the "weather_affinities" field.</summary>
+        public const int WeatherAffinitiesFieldNumber = 25;
+        private global::POGOProtos.Settings.Master.WeatherAffinity weatherAffinities_;
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public global::POGOProtos.Settings.Master.WeatherAffinity WeatherAffinities {
+          get { return weatherAffinities_; }
+          set {
+            weatherAffinities_ = value;
+          }
+        }
+
+        /// <summary>Field number for the "weather_bonus_settings" field.</summary>
+        public const int WeatherBonusSettingsFieldNumber = 26;
+        private global::POGOProtos.Settings.Master.WeatherBonus weatherBonusSettings_;
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public global::POGOProtos.Settings.Master.WeatherBonus WeatherBonusSettings {
+          get { return weatherBonusSettings_; }
+          set {
+            weatherBonusSettings_ = value;
+          }
+        }
+
+        /// <summary>Field number for the "pokemon_scale_settings" field.</summary>
+        public const int PokemonScaleSettingsFieldNumber = 27;
+        private global::POGOProtos.Settings.Master.PokemonScaleSetting pokemonScaleSettings_;
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public global::POGOProtos.Settings.Master.PokemonScaleSetting PokemonScaleSettings {
+          get { return pokemonScaleSettings_; }
+          set {
+            pokemonScaleSettings_ = value;
+          }
+        }
+
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public override bool Equals(object other) {
           return Equals(other as ItemTemplate);
@@ -616,6 +661,9 @@ namespace POGOProtos.Networking.Responses {
           if (!object.Equals(FormSettings, other.FormSettings)) return false;
           if (!object.Equals(GenderSettings, other.GenderSettings)) return false;
           if (!object.Equals(GymBadgeSettings, other.GymBadgeSettings)) return false;
+          if (!object.Equals(WeatherAffinities, other.WeatherAffinities)) return false;
+          if (!object.Equals(WeatherBonusSettings, other.WeatherBonusSettings)) return false;
+          if (!object.Equals(PokemonScaleSettings, other.PokemonScaleSettings)) return false;
           return true;
         }
 
@@ -643,6 +691,9 @@ namespace POGOProtos.Networking.Responses {
           if (formSettings_ != null) hash ^= FormSettings.GetHashCode();
           if (genderSettings_ != null) hash ^= GenderSettings.GetHashCode();
           if (gymBadgeSettings_ != null) hash ^= GymBadgeSettings.GetHashCode();
+          if (weatherAffinities_ != null) hash ^= WeatherAffinities.GetHashCode();
+          if (weatherBonusSettings_ != null) hash ^= WeatherBonusSettings.GetHashCode();
+          if (pokemonScaleSettings_ != null) hash ^= PokemonScaleSettings.GetHashCode();
           return hash;
         }
 
@@ -737,6 +788,18 @@ namespace POGOProtos.Networking.Responses {
             output.WriteRawTag(194, 1);
             output.WriteMessage(GymBadgeSettings);
           }
+          if (weatherAffinities_ != null) {
+            output.WriteRawTag(202, 1);
+            output.WriteMessage(WeatherAffinities);
+          }
+          if (weatherBonusSettings_ != null) {
+            output.WriteRawTag(210, 1);
+            output.WriteMessage(WeatherBonusSettings);
+          }
+          if (pokemonScaleSettings_ != null) {
+            output.WriteRawTag(218, 1);
+            output.WriteMessage(PokemonScaleSettings);
+          }
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -804,6 +867,15 @@ namespace POGOProtos.Networking.Responses {
           }
           if (gymBadgeSettings_ != null) {
             size += 2 + pb::CodedOutputStream.ComputeMessageSize(GymBadgeSettings);
+          }
+          if (weatherAffinities_ != null) {
+            size += 2 + pb::CodedOutputStream.ComputeMessageSize(WeatherAffinities);
+          }
+          if (weatherBonusSettings_ != null) {
+            size += 2 + pb::CodedOutputStream.ComputeMessageSize(WeatherBonusSettings);
+          }
+          if (pokemonScaleSettings_ != null) {
+            size += 2 + pb::CodedOutputStream.ComputeMessageSize(PokemonScaleSettings);
           }
           return size;
         }
@@ -935,6 +1007,24 @@ namespace POGOProtos.Networking.Responses {
               gymBadgeSettings_ = new global::POGOProtos.Settings.Master.GymBadgeGmtSettings();
             }
             GymBadgeSettings.MergeFrom(other.GymBadgeSettings);
+          }
+          if (other.weatherAffinities_ != null) {
+            if (weatherAffinities_ == null) {
+              weatherAffinities_ = new global::POGOProtos.Settings.Master.WeatherAffinity();
+            }
+            WeatherAffinities.MergeFrom(other.WeatherAffinities);
+          }
+          if (other.weatherBonusSettings_ != null) {
+            if (weatherBonusSettings_ == null) {
+              weatherBonusSettings_ = new global::POGOProtos.Settings.Master.WeatherBonus();
+            }
+            WeatherBonusSettings.MergeFrom(other.WeatherBonusSettings);
+          }
+          if (other.pokemonScaleSettings_ != null) {
+            if (pokemonScaleSettings_ == null) {
+              pokemonScaleSettings_ = new global::POGOProtos.Settings.Master.PokemonScaleSetting();
+            }
+            PokemonScaleSettings.MergeFrom(other.PokemonScaleSettings);
           }
         }
 
@@ -1088,6 +1178,27 @@ namespace POGOProtos.Networking.Responses {
                   gymBadgeSettings_ = new global::POGOProtos.Settings.Master.GymBadgeGmtSettings();
                 }
                 input.ReadMessage(gymBadgeSettings_);
+                break;
+              }
+              case 202: {
+                if (weatherAffinities_ == null) {
+                  weatherAffinities_ = new global::POGOProtos.Settings.Master.WeatherAffinity();
+                }
+                input.ReadMessage(weatherAffinities_);
+                break;
+              }
+              case 210: {
+                if (weatherBonusSettings_ == null) {
+                  weatherBonusSettings_ = new global::POGOProtos.Settings.Master.WeatherBonus();
+                }
+                input.ReadMessage(weatherBonusSettings_);
+                break;
+              }
+              case 218: {
+                if (pokemonScaleSettings_ == null) {
+                  pokemonScaleSettings_ = new global::POGOProtos.Settings.Master.PokemonScaleSetting();
+                }
+                input.ReadMessage(pokemonScaleSettings_);
                 break;
               }
             }
