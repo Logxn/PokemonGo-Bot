@@ -251,7 +251,7 @@ namespace PokemonGo.RocketAPI.Rpc
             var stat = Client.Inventory.GetPlayerStats().FirstOrDefault();
             var request = CommonRequest.LevelUpRewardsMessageRequest(stat.Level);
             
-            var requests = CommonRequest.FillRequest(request, Client, false, false);
+            var requests = CommonRequest.FillRequest(request, Client);
 
             var serverRequest = GetRequestBuilder().GetRequestEnvelope(requests);
             var serverResponse = await PostProto<Request>(serverRequest).ConfigureAwait(false);
@@ -269,7 +269,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 var levelUpRewardsResponse = new LevelUpRewardsResponse();
                 levelUpRewardsResponse.MergeFrom(responses[0]);
                 CommonRequest.ProcessLevelUpRewardsResponse( Client, levelUpRewardsResponse);
-                CommonRequest.ProcessCommonResponses( Client, responses, false, false);
+                CommonRequest.ProcessCommonResponses( Client, responses);
             }
         }
 

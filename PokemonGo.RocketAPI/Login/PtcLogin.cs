@@ -141,7 +141,7 @@ namespace PokemonGo.RocketAPI.Login
                     {"locale", LocaleInfo.Language + "_" + LocaleInfo.Country }
                 });
             builder.Port = -1; // Removes :443 on builder URI
-            builder.Query = query_content.ReadAsStringAsync().Result;
+            builder.Query = await query_content.ReadAsStringAsync();
 
             try
             {
@@ -172,7 +172,7 @@ namespace PokemonGo.RocketAPI.Login
                     {"service", Resources.UrlVar_Service }
                 });
             builder.Port = -1; // Removes :443 on builder URI
-            builder.Query = query_content.ReadAsStringAsync().Result;
+            builder.Query = await query_content.ReadAsStringAsync();
 
             if (username.Contains("@")) username = username.Substring(0, username.IndexOf("@"));
 
