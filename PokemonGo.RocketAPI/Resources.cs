@@ -82,7 +82,7 @@ namespace PokemonGo.RocketAPI
 
         public static Version BotVersion = new Version(Assembly.GetEntryAssembly().GetName().Version.ToString());
 
-        private static readonly APIVars LatestApi = new APIVars(unchecked((long)0xF522F8878F08FFD6), "0.89.1", 8900, "1.59.1", "api/v159_1/hash", InitialPTR8);
+        private static readonly APIVars LatestApi = new APIVars(unchecked((long)0xF522F8878F08FFD6), "0.91.0", 9100, "1.62.0", "api/v159_1/hash", InitialPTR8);
 
         public static APIVars Api = LatestApi;
 
