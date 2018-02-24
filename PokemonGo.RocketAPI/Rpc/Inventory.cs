@@ -199,7 +199,7 @@ namespace PokemonGo.RocketAPI.Rpc
             var pokemonToEvolve = new List<PokemonData>();
             foreach (var pokemon in pokemons)
             {
-                var settings = pokemonSettings.SingleOrDefault(x => x.PokemonId == pokemon.PokemonId);
+                var settings = pokemonSettings.FirstOrDefault(x => x.PokemonId == pokemon.PokemonId);
                 var familyCandy = pokemonFamilies.SingleOrDefault(x => settings.FamilyId == x.FamilyId);
 
                 //Don't evolve if we can't evolve it
