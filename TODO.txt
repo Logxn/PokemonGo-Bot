@@ -9,7 +9,7 @@
 
 5/10							Add version check every 30 minutes
 =========== NOTES =============
-CatchingLogic.cs	L109	Disabled DoLogin => May be we do not refresh pokemons, atttention
+CatchingLogic.cs	L109	Disabled DoLogin => May be we do not refresh pokemons, attention
 
 v1.3.8.9 Changes (by @Quarthy & @Xelwon)
 ----------------------------------------
