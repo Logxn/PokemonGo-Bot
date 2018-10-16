@@ -1,9 +1,17 @@
 ![headerimg](http://i.imgur.com/tyoivkz.png)
 
+ATTENTION
+------------
+> This bot is <b>NOT</b> active at the moment!<br>
+> Reason is: Bossland has not cracked the current API! (yet?)<br>
+> At this point <b>NO</b> bots work (<b>don't fall for people selling you bots!</b>)<br>
+> If the new API ever gets cracked we will think about reviving or re-inventing this project<br>
+> Stay safe. Greetings!<br>
+
 Donate
 ------------
 > If you want to donate for the Team, you can do it with Paypal or Paysafecard.<br>
-> Our Paypal Address: nrgneonreflexe@gmail.com<br>
+> Paypal Email: Removed due to inactive bot.<br>
 > We appreciate every donation, and we will split it with the whole team!<br>
 > Paysafecard donations should be sent via private message to "Logxn" in our Discord.<br>
 
